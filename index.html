@@ -1,1332 +1,1892 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Progress Tracker - MD TALHA IBN HAFIZ</title>
-  <!-- Chart.js Library -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Times New Roman', Times, serif;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Goal & Progress Tracker — Talha</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    body {
-      background: radial-gradient(circle at top, #141f28, #070a0d);
-      color: #e0e0e0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 12px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: rgba(20, 26, 31, 0.95);
-      backdrop-filter: blur(10px);
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(0, 255, 136, 0.15);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 255, 136, 0.05);
-      margin: 0 auto;
-      overflow: hidden;
-    }
-
-    .header {
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .header h2 {
-      color: #ffffff;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-      text-shadow: 0 0 8px rgba(255,255,255,0.1);
-    }
-
-    .creator-badge {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 600;
-      color: #00ff88;
-      background: rgba(0, 255, 136, 0.08);
-      padding: 3px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(0, 255, 136, 0.25);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Profile Bar */
-    .profile-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #18222c;
-      padding: 10px 14px;
-      border-radius: 10px;
-      margin-bottom: 14px;
-      border: 1px solid #233140;
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.05);
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-
-    .user-avatar-sm {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid #00ff88;
-      box-shadow: 0 0 8px rgba(0,255,136,0.3);
-    }
-
-    .user-info span {
-      font-size: 13px;
-      font-weight: 600;
-      color: #00ff88;
-    }
-
-    .btn-small {
-      background: rgba(0, 255, 136, 0.12);
-      color: #00ff88;
-      border: 1px solid rgba(0, 255, 136, 0.3);
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 10px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-small:hover { background: rgba(0, 255, 136, 0.25); }
-
-    .btn-logout {
-      background: transparent;
-      color: #ff5252;
-      border: 1px solid rgba(255, 82, 82, 0.3);
-      padding: 5px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
-      transition: all 0.2s;
-    }
-    .btn-logout:hover { background: rgba(255, 82, 82, 0.15); }
-
-    /* Tabs Navigation */
-    .nav-tabs {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 16px;
-      background: #10161c;
-      padding: 4px;
-      border-radius: 10px;
-      border: 1px solid #202d3a;
-    }
-
-    .tab-btn {
-      flex: 1;
-      background: transparent;
-      border: none;
-      color: #8fa0b0;
-      padding: 8px 2px;
-      font-size: 11px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 8px;
-      text-align: center;
-      transition: all 0.2s ease;
-    }
-
-    .tab-btn.active {
-      background: #00ff88;
-      color: #070a0d;
-      font-weight: 700;
-      box-shadow: 0 2px 10px rgba(0,255,136,0.25);
-    }
-
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-
-    /* Stats Grid */
-    .gamify-box {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .stat-card {
-      flex: 1;
-      background: #18222c;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #233140;
-      text-align: center;
-    }
-
-    .stat-card .label {
-      font-size: 10px;
-      color: #8fa0b0;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .stat-card .value {
-      font-size: 15px;
-      font-weight: 700;
-      color: #00ff88;
-      margin-top: 3px;
-    }
-
-    /* Titles & Cards */
-    .section-title {
-      font-size: 11px;
-      color: #00ff88;
-      text-transform: uppercase;
-      margin: 14px 0 8px 0;
-      letter-spacing: 0.8px;
-      font-weight: 700;
-      border-bottom: 1px solid #233140;
-      padding-bottom: 4px;
-    }
-
-    .date-box {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      background: #18222c;
-      padding: 10px 12px;
-      border-radius: 8px;
-      border: 1px solid #233140;
-    }
-
-    .date-box label { font-size: 12px; color: #8fa0b0; }
-
-    .date-box input[type="date"] {
-      background: #070a0d;
-      color: #00ff88;
-      border: 1px solid #00ff88;
-      padding: 4px 8px;
-      border-radius: 4px;
-      outline: none;
-      font-size: 12px;
-    }
-
-    /* Input Fields */
-    .input-wrapper { margin-bottom: 14px; }
-
-    .input-row {
-      display: flex;
-      gap: 6px;
-      width: 100%;
-    }
-
-    select.category-select {
-      background: #18222c;
-      border: 1px solid #233140;
-      color: #00ff88;
-      padding: 8px 6px;
-      border-radius: 8px;
-      font-size: 11px;
-      outline: none;
-    }
-
-    .input-row input {
-      flex: 1;
-      min-width: 0;
-      background: #18222c;
-      border: 1px solid #233140;
-      color: #ffffff;
-      padding: 8px 12px;
-      border-radius: 8px;
-      outline: none;
-      font-size: 12px;
-      transition: border 0.2s;
-    }
-    .input-row input:focus { border-color: #00ff88; }
-
-    .btn-add {
-      background: #00ff88;
-      color: #070a0d;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 12px;
-      transition: transform 0.1s;
-    }
-    .btn-add:active { transform: scale(0.96); }
-
-    /* Task Items */
-    ul { list-style: none; margin-bottom: 10px; max-height: 150px; overflow-y: auto; }
-
-    li {
-      background: #18222c;
-      padding: 8px 12px;
-      margin-bottom: 6px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border: 1px solid #233140;
-      font-size: 12px;
-    }
-
-    li.done { opacity: 0.45; }
-    li.done .task-text { text-decoration: line-through; color: #8fa0b0; }
-
-    .task-left { display: flex; align-items: center; gap: 8px; overflow: hidden; }
-    .task-left input[type="checkbox"] { accent-color: #00ff88; width: 14px; height: 14px; }
-
-    .tag-badge {
-      font-size: 8px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      text-transform: uppercase;
-    }
-
-    .tag-study { background: rgba(66, 133, 244, 0.2); color: #4285F4; border: 1px solid rgba(66, 133, 244, 0.3); }
-    .tag-workout { background: rgba(234, 67, 53, 0.2); color: #EA4335; border: 1px solid rgba(234, 67, 53, 0.3); }
-    .tag-coding { background: rgba(251, 188, 5, 0.2); color: #FBBC05; border: 1px solid rgba(251, 188, 5, 0.3); }
-    .tag-personal { background: rgba(52, 168, 83, 0.2); color: #34A853; border: 1px solid rgba(52, 168, 83, 0.3); }
-
-    .btn-del { background: transparent; color: #ff5252; border: none; font-size: 13px; cursor: pointer; }
-
-    /* Chart Card */
-    .chart-box {
-      background: #18222c;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #233140;
-      margin-top: 15px;
-    }
-
-    .chart-box h4 {
-      font-size: 11px;
-      color: #8fa0b0;
-      margin-bottom: 8px;
-      text-align: center;
-      letter-spacing: 0.5px;
-    }
-
-    .canvas-wrapper { position: relative; width: 100%; height: 160px; }
-
-    /* Timer Room */
-    .study-card {
-      background: #18222c;
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid #233140;
-      text-align: center;
-      margin-bottom: 14px;
-    }
-
-    .mode-btn {
-      background: #10161c;
-      border: 1px solid #233140;
-      color: #8fa0b0;
-      padding: 5px 12px;
-      border-radius: 6px;
-      font-size: 11px;
-      cursor: pointer;
-      margin: 0 3px;
-    }
-
-    .mode-btn.active { border-color: #00ff88; color: #00ff88; }
-
-    .timer-display {
-      font-size: 38px;
-      font-weight: 700;
-      color: #00ff88;
-      margin: 10px 0;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(0,255,136,0.2);
-    }
-
-    .bgm-controls {
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 11px;
-      color: #8fa0b0;
-    }
-
-    /* Chat Styling */
-    .chat-container {
-      background: #18222c;
-      border-radius: 12px;
-      border: 1px solid #233140;
-      display: flex;
-      flex-direction: column;
-      height: 380px;
-      padding: 12px;
-    }
-
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .chat-msg {
-      background: #10161c;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 12px;
-      border: 1px solid #202d3a;
-      max-width: 90%;
-    }
-
-    .chat-msg .sender-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-
-    .chat-msg .sender { color: #00ff88; font-weight: 700; font-size: 11px; cursor: pointer; }
-
-    .chat-action-btn { background: transparent; border: none; color: #8fa0b0; font-size: 10px; cursor: pointer; }
-    .chat-action-btn:hover { color: #00ff88; }
-
-    .reactions-bar { display: flex; gap: 4px; margin-top: 4px; }
-    .reaction-badge { background: #18222c; border: 1px solid #233140; padding: 1px 5px; border-radius: 10px; font-size: 9px; color: #00ff88; }
-
-    .chat-input-row { display: flex; gap: 6px; }
-
-    .chat-input-row input {
-      flex: 1;
-      background: #10161c;
-      border: 1px solid #202d3a;
-      color: #fff;
-      padding: 8px 10px;
-      border-radius: 8px;
-      font-size: 12px;
-      outline: none;
-    }
-
-    /* Friends UI */
-    .friends-container {
-      background: #18222c;
-      border-radius: 12px;
-      border: 1px solid #233140;
-      padding: 12px;
-      height: 380px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .friend-search-input {
-      background: #10161c;
-      border: 1px solid #202d3a;
-      color: #fff;
-      padding: 8px;
-      border-radius: 8px;
-      font-size: 12px;
-      outline: none;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    .friend-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px;
-      border-bottom: 1px solid #202d3a;
-      font-size: 12px;
-    }
-
-    /* Profile Card */
-    .profile-card-view {
-      background: #18222c;
-      padding: 22px;
-      border-radius: 12px;
-      border: 1px solid #233140;
-      text-align: center;
-    }
-
-    .profile-avatar-lg {
-      width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #00ff88;
-      box-shadow: 0 0 12px rgba(0,255,136,0.3);
-      margin-bottom: 10px;
-    }
-
-    .profile-details-list { text-align: left; font-size: 12px; border-top: 1px solid #233140; padding-top: 12px; margin-top: 12px; }
-    .profile-details-list div { margin-bottom: 8px; display: flex; justify-content: space-between; }
-
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      padding: 15px;
-    }
-
-    .modal-box {
-      background: #141a1f;
-      border: 1px solid #00ff88;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 440px;
-      width: 100%;
-      box-shadow: 0 0 20px rgba(0,255,136,0.2);
-    }
-
-    .hidden { display: none !important; }
-    .auth-section { text-align: center; padding: 30px 0; }
-    .btn-google { background: #00ff88; color: #070a0d; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; }
-  </style>
+<style>
+:root{--bg:#080d18;--panel:#111a2b;--panel2:#172239;--line:#293753;--text:#f2f5ff;--muted:#9aa9c4;--green:#46e6a5;--purple:#a78bfa;--blue:#70a5ff;--red:#ff7185;--amber:#f5c66a}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{margin:0;padding:24px;min-height:100vh;background:radial-gradient(ellipse at 10% 0%,#19304a 0,transparent 40%),radial-gradient(ellipse at 100% 15%,#251b49 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif}
+.container{width:100%;max-width:1240px;margin:auto;padding:clamp(14px,3vw,30px);background:rgba(15,23,42,.95);border:1px solid #293753;border-radius:24px;box-shadow:0 24px 80px #0006}
+.header{text-align:center;margin-bottom:22px}
+.header h1{font-size:clamp(23px,4vw,35px);margin:0 0 8px;letter-spacing:-.7px}
+.creator{display:inline-block;color:var(--green);background:#46e6a511;border:1px solid #46e6a544;border-radius:30px;padding:5px 12px;font-size:10px;letter-spacing:1px}
+.hidden{display:none!important}
+.auth{text-align:center;padding:35px 0}
+.profilebar,.stat,.card,.chatbox,.friendsbox,.profilecard{background:linear-gradient(145deg,#172239,#101827);border:1px solid var(--line);border-radius:16px}
+.profilebar{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;margin-bottom:16px;gap:10px}
+.user{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
+.avatar{width:36px;height:36px;object-fit:cover;border-radius:50%;border:2px solid var(--green);background:#293753}
+.user span{color:var(--green);font-weight:700;overflow-wrap:anywhere}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;background:#0a1120;border:1px solid var(--line);border-radius:14px;padding:6px;margin-bottom:22px}
+.tab{flex:1 1 100px;min-height:42px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-weight:700;font-size:11px;cursor:pointer}
+.tab.active{color:#07131b;background:linear-gradient(135deg,var(--green),#8df5ca)}
+.pane{display:none}
+.pane.active{display:block;animation:fade .2s ease}
+@keyframes fade{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.stat{padding:16px;text-align:center}
+.stat .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.stat .value{font-size:clamp(18px,3vw,27px);font-weight:800;color:var(--green);margin-top:8px}
+.section{color:var(--green);font-size:12px;font-weight:800;letter-spacing:.7px;margin:22px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.muted{color:var(--muted)}
+.row{display:flex;gap:8px;align-items:center}
+.row>*{min-width:0}
+.input,select,textarea{width:100%;min-height:42px;background:#0b1322;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:13px}
+.input:focus,select:focus,textarea:focus{outline:2px solid #46e6a544;border-color:var(--green)}
+button{font:inherit;cursor:pointer}
+.btn{border:0;border-radius:10px;padding:10px 15px;font-size:12px;font-weight:800;background:linear-gradient(135deg,var(--green),#9af5d1);color:#07131b;white-space:nowrap}
+.btn.secondary{background:#46e6a511;color:var(--green);border:1px solid #46e6a544}
+.btn.danger{background:#ff718511;color:var(--red);border:1px solid #ff718544}
+.btn.purple{background:#a78bfa18;color:var(--purple);border:1px solid #a78bfa55}
+.btn:active{transform:scale(.98)}
+.card{padding:14px;margin-bottom:15px}
+.table-scroll{overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch}
+.task-table{width:100%;min-width:520px;border-collapse:collapse;text-align:left;font-size:12px}
+.task-table th{background:#172239;color:var(--muted);padding:12px 10px;white-space:nowrap}
+.task-table td{padding:11px 10px;border-bottom:1px solid #29375399;vertical-align:middle}
+.task-table tr:last-child td{border-bottom:0}
+.task-table input[type=checkbox]{accent-color:var(--green);width:16px;height:16px}
+.task-table .done{opacity:.55}
+.task-table .done .tasktext{text-decoration:line-through}
+.tasktext{overflow-wrap:anywhere;line-height:1.5}
+.tag{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;border-radius:5px;padding:4px 6px;background:#70a5ff18;color:var(--blue)}
+.tag-Workout{color:var(--red);background:#ff718515}
+.tag-Coding{color:var(--amber);background:#f5c66a15}
+.tag-Personal{color:var(--green);background:#46e6a515}
+.inlineform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
+.dateheading{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.dateheading h3{font-size:14px;color:var(--purple);margin:0}
+.empty{text-align:center;padding:16px;color:var(--muted);font-size:12px}
+.chartbox{height:220px}
+.studycard{text-align:center;padding:22px}
+.timer{font-size:clamp(36px,7vw,56px);font-weight:800;color:var(--green);letter-spacing:2px;margin:15px 0}
+.mode{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#0b1322;color:var(--muted)}
+.mode.active{color:var(--green);border-color:var(--green)}
+.chatbox,.friendsbox{padding:12px;display:flex;flex-direction:column;min-height:370px}
+.messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:9px;max-height:450px;margin-bottom:12px}
+.message{background:#0b1322;border:1px solid var(--line);padding:10px;border-radius:11px;font-size:12px;overflow-wrap:anywhere}
+.msghead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
+.sender{color:var(--green);font-weight:800}
+.chatinput{display:flex;gap:7px}
+.chatinput input{flex:1;min-width:0}
+.frienditem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line);font-size:12px}
+.profilecard{text-align:center;padding:24px}
+.profilebig{width:82px;height:82px;border-radius:50%;border:2px solid var(--green);object-fit:cover;margin-bottom:10px}
+.details{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);text-align:left;font-size:12px}
+.details div{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
+.details strong{text-align:right;overflow-wrap:anywhere}
+.modal{position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:99;padding:16px}
+.modalbox{max-width:550px;width:100%;max-height:90vh;overflow:auto;background:#111a2b;border:1px solid var(--green);border-radius:18px;padding:22px;box-shadow:0 20px 70px #0008}
+.modalbox h2{color:var(--green);text-align:center;font-size:20px}
+.modalbox h3{color:var(--purple);font-size:14px;margin:15px 0 6px}
+.modalbox li{margin:5px 0;font-size:12px;line-height:1.6}
+.musicframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
+.feedback{font-size:12px;margin-top:10px;min-height:18px}
+.reactions{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.reaction{font-size:10px;border:1px solid var(--line);border-radius:20px;padding:3px 7px;color:var(--green)}
+@media(min-width:950px){.widegrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:18px;align-items:start}}
+@media(max-width:620px){
+body{padding:8px}
+.container{padding:13px;border-radius:17px}
+.header h1{font-size:22px}
+.tabs{gap:4px}
+.tab{flex:1 1 28%;min-width:0;font-size:10px;padding:8px 3px}
+.stats{gap:7px}
+.stat{padding:12px 6px}
+.stat .label{font-size:9px}
+.profilebar{padding:10px}
+.row.mobile-stack{display:grid;grid-template-columns:1fr 1fr}
+.row.mobile-stack>*{width:100%}
+.chatinput{flex-wrap:wrap}
+.chatinput input{flex-basis:100%}
+.details div{align-items:flex-start}
+.details strong{max-width:60%}
+.inlineform{grid-template-columns:minmax(0,1fr) auto}
+.table-scroll{overflow-x:auto}
+}
+</style>
 </head>
+
 <body>
+<div class="container">
+<header class="header">
+<h1>GOAL & PROGRESS TRACKER</h1>
+<span class="creator">CREATED BY MD TALHA IBN HAFIZ</span>
+<div><button class="btn secondary" style="margin-top:12px" id="fullscreenBtn">⛶ Fullscreen</button></div>
+</header>
 
-  <!-- Modal Guide -->
-  <div id="guideModal" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h3 style="color:#00ff88; text-align:center; font-size:16px; margin-bottom:10px;">USER GUIDE / ব্যবহার নির্দেশিকা</h3>
-      <div style="font-size:12px; color:#e0e0e0; line-height:1.5;">
-        <p style="color:#00ff88; font-weight:bold; margin-bottom:4px;">উদ্দেশ্য ও উপকারিতা (Bangla):</p>
-        <ul style="padding-left:15px; margin-bottom:10px;">
-          <li>• প্রতিটি ইউজারের নিজস্ব To-Do List সম্পূর্ণ প্রাইভেট ও সুরক্ষিত।</li>
-          <li>• বন্ধুদের সাথে আলাদা প্রাইভেট মেসেঞ্জারে ১-অন-১ চ্যাট করার সুবিধা।</li>
-          <li>• গ্লোবাল চ্যাটে শুধু নিজের মেসেজই আনসেন্ড (Delete) করা যাবে।</li>
-        </ul>
-        <hr style="border-color:#202d3a; margin:8px 0;">
-        <p style="color:#00ff88; font-weight:bold; margin-bottom:4px;">Overview (English):</p>
-        <ul style="padding-left:15px;">
-          <li>• Individual user tasks are private to your personal account.</li>
-          <li>• Dedicated 1-on-1 private Messenger chat with added friends.</li>
-          <li>• Unsend option is strictly restricted to your own messages.</li>
-        </ul>
+<div id="loginBox" class="auth">
+<p class="muted" style="margin-bottom:16px">Sign in to access your personal dashboard.</p>
+<button class="btn" id="loginBtn">Sign in with Google</button>
+<p class="muted" style="font-size:11px;margin-top:12px">Your tasks are stored in your Firebase account.</p>
+</div>
+
+<main id="appBox" class="hidden">
+<div class="profilebar">
+<div class="user" id="profileShortcut">
+<img id="navAvatar" class="avatar" alt="Avatar">
+<span id="userHandle">@user</span>
+</div>
+<button class="btn danger" id="logoutBtn">Logout</button>
+</div>
+
+<nav class="tabs">
+<button class="tab active" data-tab="tracker">TRACKER</button>
+<button class="tab" data-tab="study">STUDY ROOM</button>
+<button class="tab" data-tab="chat">PUBLIC CHAT</button>
+<button class="tab" data-tab="friends">FRIENDS / DM</button>
+<button class="tab" data-tab="profile">PROFILE</button>
+</nav>
+
+<section id="pane-tracker" class="pane active">
+<div class="stats">
+<div class="stat"><div class="label">Current Streak</div><div class="value" id="streakVal">0 days</div></div>
+<div class="stat"><div class="label">Achievement</div><div class="value" id="badgeVal">Bronze</div></div>
+<div class="stat"><div class="label">Tasks Completed</div><div class="value" id="completedVal">0</div></div>
+</div>
+
+<div class="section">QUICK ADD / দ্রুত কাজ যোগ করো</div>
+<form id="quickTaskForm" class="row mobile-stack">
+<select id="taskCategory" style="flex:0 0 140px">
+<option>Study</option><option>Workout</option><option>Coding</option><option>Personal</option>
+</select>
+<input class="input" id="taskInput" maxlength="200" placeholder="What do you need to do?" required>
+<select id="taskTargetDate" style="flex:0 0 130px">
+<option value="today">Today</option><option value="tomorrow">Tomorrow</option>
+</select>
+<button class="btn">+ Add</button>
+  </form>
+
+  <div class="section">TODAY'S TASKS / আজকের কাজ</div>
+<div class="card" id="todayTableHost"></div>
+
+<div class="section">TOMORROW / আগামীকালের কাজ</div>
+<div class="card" id="tomorrowTableHost"></div>
+
+<div class="section">ADD FUTURE DATE & TASK / ভবিষ্যতের কাজ</div>
+<form id="futureTaskForm" class="row mobile-stack">
+  <input class="input" type="date" id="futureDate" required>
+  <input class="input" id="futureTask" maxlength="200"
+    placeholder="Task for this date" required>
+  <select id="futureCategory">
+    <option>Study</option>
+    <option>Workout</option>
+    <option>Coding</option>
+    <option>Personal</option>
+  </select>
+  <button class="btn">Add Future Task</button>
+</form>
+
+<p class="muted" style="font-size:12px;line-height:1.6;margin:10px 0">
+  প্রতিটি তারিখের জন্য আলাদা table তৈরি হবে। নিচে সব অতিরিক্ত তারিখের table দেখা যাবে।
+</p>
+<div id="allDateTables"></div>
+
+<div class="section">WEEKLY PROGRESS / সাপ্তাহিক অগ্রগতি</div>
+<div class="card chartbox">
+  <canvas id="progressChart"></canvas>
+</div>
+</section>
+
+<section id="pane-study" class="pane">
+  <div class="widegrid">
+    <div>
+      <div class="card studycard">
+        <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
+          <button class="mode active" data-mode="stopwatch">Stopwatch</button>
+          <button class="mode" data-mode="pomo25">Pomodoro 25m</button>
+        </div>
+
+        <div class="timer" id="timerDisplay">00:00:00</div>
+
+        <div class="row" style="justify-content:center;flex-wrap:wrap">
+          <button class="btn" id="startTimer">Start</button>
+          <button class="btn danger" id="stopTimer">Stop & Save</button>
+          <button class="btn secondary" id="resetTimer">Reset</button>
+        </div>
+
+        <label class="muted" style="display:block;margin-top:16px;font-size:12px">
+          <input type="checkbox" id="rainToggle"> Rain focus sound
+        </label>
       </div>
-      <button class="btn-add" style="width:100%; margin-top:15px;" onclick="closeGuideModal()">Got It / বুঝলাম</button>
+
+      <div class="card">
+        <div class="section" style="margin-top:0">MUSIC FOCUS ROOM / গান শুনে পড়াশোনা</div>
+        <p class="muted" style="font-size:12px;line-height:1.6;margin-bottom:10px">
+          Search YouTube for music or paste a supported video link. Some videos do not allow embedding.
+        </p>
+
+        <form id="musicSearchForm" class="row">
+          <input class="input" id="musicSearch"
+            placeholder="Lo-fi, instrumental, artist..." required>
+          <button class="btn">Search</button>
+        </form>
+
+        <form id="musicPlayForm" class="row" style="margin-top:8px">
+          <input class="input" type="url" id="musicUrl"
+            placeholder="Paste YouTube video URL" required>
+          <button class="btn secondary">Play</button>
+        </form>
+
+        <div id="musicPlayerBox" class="hidden" style="margin-top:12px">
+          <iframe id="musicPlayer" class="musicframe"
+            title="Study music player"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="section" style="margin-top:0">MATH PRACTICE / অঙ্ক অনুশীলন</div>
+
+        <div class="row">
+          <select id="mathDifficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+          <button class="btn" id="newMath">New Question</button>
+        </div>
+
+        <h2 id="mathQuestion"
+          style="font-size:25px;color:var(--purple);margin:20px 0">
+          Press New Question
+        </h2>
+
+        <form id="mathForm" class="row">
+          <input class="input" id="mathAnswer" type="number" step="1"
+            placeholder="Your answer" required>
+          <button class="btn">Check</button>
+        </form>
+
+        <p id="mathFeedback" class="feedback muted" aria-live="polite"></p>
+      </div>
+
+      <div class="card">
+        <div class="section" style="margin-top:0">TODAY'S STUDY LEADERBOARD</div>
+        <div id="leaderboardList" class="muted" style="font-size:12px">
+          Open Study Room to load leaderboard.
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <div class="container">
-    <div class="header">
-      <h2>GOAL & PROGRESS TRACKER</h2>
-      <div class="creator-badge">Created by MD TALHA IBN HAFIZ</div>
+<section id="pane-chat" class="pane">
+  <div class="chatbox">
+    <div id="chatMessages" class="messages">
+      <div class="empty">Open this tab to load recent messages.</div>
     </div>
 
-    <!-- Login Area -->
-    <div id="login-box" class="auth-section">
-      <p style="color:#8fa0b0; font-size:13px; margin-bottom:15px;">Please sign in to access your dashboard</p>
-      <button class="btn-google" onclick="loginWithGoogle()">Sign in with Google</button>
+    <form id="chatForm" class="chatinput">
+      <input class="input" id="chatInput" maxlength="1000"
+        placeholder="Type a public message..." required>
+      <button class="btn">Send</button>
+    </form>
+
+    <p class="muted" style="font-size:10px;margin-top:8px">
+      Public messages can be seen by users allowed by your Firestore rules.
+    </p>
+  </div>
+</section>
+
+<section id="pane-friends" class="pane">
+  <div id="friendsMainView" class="friendsbox">
+    <div class="section" style="margin-top:0">YOUR FRIENDS / তোমার বন্ধু</div>
+
+    <div id="friendsListArea" style="flex:1">
+      <p class="empty">Loading friends...</p>
     </div>
 
-    <!-- Main Container -->
-    <div id="app-box" class="hidden">
-      <div class="profile-bar">
-        <div class="user-info" onclick="switchTab('profile', document.querySelectorAll('.tab-btn')[4])">
-          <img id="nav-avatar" class="user-avatar-sm" src="" alt="">
-          <span><strong id="user-handle">@user</strong></span>
-        </div>
-        <button class="btn-logout" onclick="logout()">Logout</button>
+    <div class="section">FIND USERS</div>
+    <input class="input" id="friendSearch"
+      placeholder="Search username..." style="margin-bottom:8px">
+    <div id="allUsersArea" style="max-height:220px;overflow:auto"></div>
+  </div>
+
+  <div id="privateRoom" class="friendsbox hidden">
+    <div class="msghead">
+      <strong id="privateTitle" class="sender">Private chat</strong>
+      <button id="backFriends" class="btn secondary">Back</button>
+    </div>
+
+    <div id="privateMessages" class="messages"></div>
+
+    <form id="privateForm" class="chatinput">
+      <input class="input" id="privateInput" maxlength="1000"
+        placeholder="Private message..." required>
+      <button class="btn">Send</button>
+    </form>
+  </div>
+</section>
+
+<section id="pane-profile" class="pane">
+  <div class="profilecard">
+    <img id="profileAvatar" class="profilebig" alt="Profile avatar">
+    <h2 id="profileName">User</h2>
+    <p id="profileHandle" class="muted" style="font-size:12px;margin:6px 0 14px">@user</p>
+
+    <button class="btn secondary" id="changeHandle">Change Username</button>
+
+    <div class="details">
+      <div><span>Email</span><strong id="profileEmail">—</strong></div>
+      <div>
+        <span>Total Tasks Completed</span>
+        <strong id="profileTasks" style="color:var(--green)">0</strong>
       </div>
-
-      <!-- Navigation Tabs -->
-      <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('tracker', this)">TRACKER</button>
-        <button class="tab-btn" onclick="switchTab('study', this)">STUDY</button>
-        <button class="tab-btn" onclick="switchTab('chat', this)">CHAT</button>
-        <button class="tab-btn" onclick="switchTab('friends', this)">FRIENDS</button>
-        <button class="tab-btn" onclick="switchTab('profile', this)">PROFILE</button>
+      <div>
+        <span>Total Study Minutes</span>
+        <strong id="profileMinutes" style="color:var(--green)">0</strong>
       </div>
-
-      <!-- Tab 1: Tracker -->
-      <div id="tab-tracker" class="tab-content active">
-        <div class="gamify-box">
-          <div class="stat-card">
-            <div class="label">Streak</div>
-            <div class="value" id="streakVal">0 Days</div>
-          </div>
-          <div class="stat-card">
-            <div class="label">Badge</div>
-            <div class="value" id="badgeVal">Bronze</div>
-          </div>
-        </div>
-
-        <div class="input-wrapper">
-          <div class="input-row">
-            <select id="taskCategory" class="category-select">
-              <option value="Study">Study</option>
-              <option value="Workout">Workout</option>
-              <option value="Coding">Coding</option>
-              <option value="Personal">Personal</option>
-            </select>
-            <input type="text" id="taskInput" placeholder="Enter task...">
-            <select id="taskTargetDate" class="category-select" style="max-width:85px;">
-              <option value="today">Today</option>
-              <option value="tomorrow">Tomorrow</option>
-            </select>
-            <button class="btn-add" onclick="addTask()">Add</button>
-          </div>
-        </div>
-
-        <div class="section-title">Today's Tasks (<span id="todayDateStr"></span>)</div>
-        <ul id="todayTaskList"></ul>
-
-        <div class="section-title">Tomorrow's Tasks (<span id="tomorrowDateStr"></span>)</div>
-        <ul id="tomorrowTaskList"></ul>
-
-        <div class="date-box" style="margin-top:12px;">
-          <label for="taskDate">View Other Date:</label>
-          <input type="date" id="taskDate" onchange="loadOtherDateTasks()">
-        </div>
-        <div id="otherDateSection" class="hidden">
-          <div class="section-title">Tasks for <span id="otherDateTitle"></span></div>
-          <ul id="otherTaskList"></ul>
-        </div>
-
-        <div class="chart-box">
-          <h4>WEEKLY COMPLETION TREND (%)</h4>
-          <div class="canvas-wrapper">
-            <canvas id="progressChart"></canvas>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tab 2: Study Room -->
-      <div id="tab-study" class="tab-content">
-        <div class="study-card">
-          <div class="mode-select" style="margin-bottom:10px;">
-            <button class="mode-btn active" onclick="setTimerMode('stopwatch', this)">Stopwatch</button>
-            <button class="mode-btn" onclick="setTimerMode('pomo25', this)">Pomodoro (25m)</button>
-          </div>
-
-          <div class="timer-display" id="timerDisplay">00:00:00</div>
-
-          <div style="display:flex; justify-content:center; gap:8px;">
-            <button class="btn-add" onclick="startTimer()">Start</button>
-            <button class="btn-logout" style="color:#ff5252; border-color:#ff5252;" onclick="stopTimer()">Stop & Save</button>
-          </div>
-
-          <div class="bgm-controls">
-            <span>Rain Focus Sound:</span>
-            <input type="checkbox" id="bgmToggle" onchange="toggleBGM(this)">
-          </div>
-        </div>
-
-        <div style="background:#18222c; padding:12px; border-radius:10px; border:1px solid #233140;">
-          <h4 style="font-size:11px; color:#8fa0b0; text-align:center; margin-bottom:6px;">TODAY'S STUDY LEADERBOARD</h4>
-          <div id="leaderboardList">
-            <div class="friend-item"><span>Loading...</span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tab 3: Community Chat -->
-      <div id="tab-chat" class="tab-content">
-        <div class="chat-container">
-          <div class="chat-messages" id="chatMessages"></div>
-          <div class="chat-input-row">
-            <input type="text" id="chatInput" placeholder="Type message... (@username)" onkeypress="handleChatKey(event)">
-            <button class="btn-small" onclick="triggerImgUpload()" style="padding:6px 10px;">Img</button>
-            <button class="btn-add" onclick="sendChatMessage()">Send</button>
-          </div>
-          <input type="file" id="imgFileInput" accept="image/*" class="hidden" onchange="uploadImage(event)">
-        </div>
-      </div>
-
-      <!-- Tab 4: Friends & Direct Messenger -->
-      <div id="tab-friends" class="tab-content">
-        <div class="friends-container" id="friendsMainView">
-          <div class="section-title" style="margin-top:0;">Friends (Direct Messenger)</div>
-          <div id="friendsListArea" style="flex:1; overflow-y:auto; margin-bottom:10px;">
-            <p style="color:#8fa0b0; font-size:12px; text-align:center;">Loading friends...</p>
-          </div>
-          <div class="section-title">Add Friends from Platform</div>
-          <input type="text" class="friend-search-input" id="friendSearchBox" placeholder="Search username..." oninput="filterPlatformUsers()">
-          <div id="allPlatformUsers" style="max-height:110px; overflow-y:auto;">
-            <p style="color:#8fa0b0; font-size:12px; text-align:center;">Loading users...</p>
-          </div>
-        </div>
-
-        <!-- Dedicated Private DM Chat Box -->
-        <div class="friends-container hidden" id="privateChatRoomView">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #233140; padding-bottom:6px; margin-bottom:8px;">
-            <span style="font-weight:700; color:#00ff88;" id="activePrivateFriendTitle">Chatting with @user</span>
-            <button class="btn-small" onclick="closePrivateChat()">Back</button>
-          </div>
-          <div class="chat-messages" id="privateChatMessages" style="flex:1;"></div>
-          <div class="chat-input-row">
-            <input type="text" id="privateChatInput" placeholder="Type private message..." onkeypress="handlePrivateChatKey(event)">
-            <button class="btn-add" onclick="sendPrivateMessage()">Send</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tab 5: Profile Details -->
-      <div id="tab-profile" class="tab-content">
-        <div class="profile-card-view">
-          <img id="profileAvatar" class="profile-avatar-lg" src="" alt="Avatar">
-          <h3 id="profileNameDisplay" style="color:#fff; font-size:16px;">User</h3>
-          <p id="profileHandleDisplay" style="color:#8fa0b0; font-size:12px; margin-bottom:12px;">@handle</p>
-          <button class="btn-small" onclick="changeUsername()" style="margin-bottom:12px;">Change Username</button>
-          
-          <div class="profile-details-list">
-            <div><span>Email:</span> <strong id="profileEmail" style="color:#fff;">-</strong></div>
-            <div><span>Total Tasks Completed:</span> <strong id="profileTotalTasks" style="color:#00ff88;">0</strong></div>
-            <div><span>Total Study Minutes:</span> <strong id="profileStudyMins" style="color:#00ff88;">0 mins</strong></div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
+</section>
+</main>
+</div>
+
+<div id="guideModal" class="modal hidden" role="dialog"
+  aria-modal="true" aria-labelledby="guideTitle">
+  <div class="modalbox">
+    <h2 id="guideTitle">Welcome to Goal & Progress Tracker</h2>
+    <p class="muted" style="text-align:center;font-size:12px">
+      Your productivity and study companion
+    </p>
+
+    <h3>🇧🇩 উদ্দেশ্য ও ফিচার</h3>
+    <ul>
+      <li>আজ, আগামীকাল ও ভবিষ্যতের প্রতিটি তারিখের জন্য আলাদা To-Do table।</li>
+      <li>Task completion, streak, achievement ও weekly progress tracking।</li>
+      <li>Stopwatch, Pomodoro timer, study leaderboard ও rain sound।</li>
+      <li>YouTube music search এবং arithmetic Math Practice।</li>
+      <li>Friends, public chat ও private direct messaging।</li>
+      <li>নিজের profile ও username পরিচালনা।</li>
+    </ul>
+
+    <h3>🇬🇧 Purpose & Features</h3>
+    <ul>
+      <li>Manage tasks in separate tables for today and any future date.</li>
+      <li>Track completed tasks, streaks, badges and weekly progress.</li>
+      <li>Use a stopwatch, Pomodoro timer, leaderboard and rain sound.</li>
+      <li>Search YouTube for study music and practise arithmetic.</li>
+      <li>Connect with friends using public and private chat.</li>
+      <li>Manage your profile and username.</li>
+    </ul>
+
+    <button class="btn" id="closeGuide" style="width:100%;margin-top:12px">
+      Let's Start / শুরু করি
+    </button>
+  </div>
+</div>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, getDocs, deleteDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from
+  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyA7K42WBzWBAKRfWdZPJ2W_i4smbVtN9T0",
-      authDomain: "my-project-tracker-3e7ca.firebaseapp.com",
-      projectId: "my-project-tracker-3e7ca",
-      storageBucket: "my-project-tracker-3e7ca.firebasestorage.app",
-      messagingSenderId: "1090393183788",
-      appId: "1:1090393183788:web:ec609592f8f2061fdee389",
-      measurementId: "G-629WCSP2TT"
-    };
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  limit,
+  where,
+  onSnapshot,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    let currentUser = null;
-    let customHandle = "";
-    let userTasks = {};
-    let myChart = null;
-    let cachedUsersList = [];
-    let cachedFriendsList = [];
-    let activePrivateFriend = null;
+/* =========================================
+   1. FIREBASE CONFIGURATION
+   Replace these placeholders with your
+   existing Firebase project's config.
+========================================= */
 
-    let timerInterval = null;
-    let secondsElapsed = 0;
-    let isTimerRunning = false;
-    let timerMode = 'stopwatch';
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
-    const rainAudio = new Audio('https://www.soundjay.com/nature/rain-01.mp3');
-    rainAudio.loop = true;
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const googleProvider = new GoogleAuthProvider();
 
-    const todayObj = new Date();
-    const todayStr = todayObj.toISOString().split('T')[0];
-    const tomorrowObj = new Date();
-    tomorrowObj.setDate(todayObj.getDate() + 1);
-    const tomorrowStr = tomorrowObj.toISOString().split('T')[0];
+/* =========================================
+   2. HELPERS AND APP STATE
+========================================= */
 
-    document.getElementById('todayDateStr').innerText = todayStr;
-    document.getElementById('tomorrowDateStr').innerText = tomorrowStr;
+const $ = id => document.getElementById(id);
 
-    window.loginWithGoogle = () => { signInWithPopup(auth, provider).catch(e => alert(e.message)); };
-    window.logout = () => { signOut(auth); };
+let currentUser = null;
+let currentUsername = "";
+let tasks = [];
+let extraDates = new Set();
+let chart = null;
+let activeTab = "tracker";
+let taskUnsubscribe = null;
+let publicChatUnsubscribe = null;
+let privateChatUnsubscribe = null;
+let friendUnsubscribe = null;
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let timerMode = "stopwatch";
+let timerEndAt = null;
+let mathCorrectAnswer = null;
+let currentChatUser = null;
 
-    window.closeGuideModal = () => {
-      document.getElementById('guideModal').classList.add('hidden');
-    };
+const todayKey = () => dateKey(new Date());
 
-    window.switchTab = (tabName, btn) => {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById('tab-' + tabName).classList.add('active');
-      btn.classList.add('active');
-      if(tabName === 'study') loadLeaderboard();
-      if(tabName === 'chat') loadChatMessages();
-      if(tabName === 'friends') loadFriendsAndUsers();
-      if(tabName === 'profile') loadProfileDetails();
-    };
+function dateKey(date) {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
-        document.getElementById('login-box').classList.add('hidden');
-        document.getElementById('app-box').classList.remove('hidden');
-        document.getElementById('guideModal').classList.remove('hidden');
-        await fetchUserData();
-        loadAllTasks();
-      } else {
-        currentUser = null;
-        document.getElementById('login-box').classList.remove('hidden');
-        document.getElementById('app-box').classList.add('hidden');
-        document.getElementById('guideModal').classList.add('hidden');
+function shiftDate(days) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return dateKey(d);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function showFeedback(id, message, color = "var(--muted)") {
+  const element = $(id);
+  if (!element) return;
+  element.textContent = message;
+  element.style.color = color;
+}
+
+function userDoc(uid = currentUser?.uid) {
+  return doc(db, "users", uid);
+}
+
+function tasksCollection() {
+  return collection(db, "users", currentUser.uid, "tasks");
+}
+
+function taskDateLabel(key) {
+  const d = new Date(`${key}T12:00:00`);
+  return d.toLocaleDateString(undefined, {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+}
+
+/* =========================================
+   3. SIGN-IN AND SIGN-OUT
+========================================= */
+
+$("loginBtn").addEventListener("click", async () => {
+  try {
+    await signInWithPopup(auth, googleProvider);
+  } catch (error) {
+    alert("Login failed: " + error.message);
+  }
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    alert("Logout failed: " + error.message);
+  }
+});
+
+onAuthStateChanged(auth, async user => {
+  currentUser = user;
+
+  if (!user) {
+    $("loginBox").classList.remove("hidden");
+    $("appBox").classList.add("hidden");
+
+    if (taskUnsubscribe) taskUnsubscribe();
+    if (publicChatUnsubscribe) publicChatUnsubscribe();
+    if (privateChatUnsubscribe) privateChatUnsubscribe();
+    if (friendUnsubscribe) friendUnsubscribe();
+
+    stopTimerInterval();
+    return;
+  }
+
+  $("loginBox").classList.add("hidden");
+  $("appBox").classList.remove("hidden");
+
+  try {
+    await loadUserProfile();
+    listenToTasks();
+    await loadFriends();
+    await loadUsers();
+    updateProfileUI();
+    renderStats();
+    renderAllTaskTables();
+    updateChart();
+    showGuideOnce();
+  } catch (error) {
+    console.error(error);
+    alert("Could not load your dashboard. Check Firebase settings and rules.");
+  }
+});
+
+/* =========================================
+   4. USER PROFILE
+========================================= */
+
+async function loadUserProfile() {
+  const ref = userDoc();
+  const snap = await getDoc(ref);
+
+  if (!snap.exists()) {
+    currentUsername =
+      (currentUser.displayName || "student")
+        .toLowerCase()
+        .replace(/[^a-z0-9_]/g, "")
+        .slice(0, 20) || "student";
+
+    await setDoc(ref, {
+      uid: currentUser.uid,
+      username: currentUsername,
+      displayName: currentUser.displayName || "Student",
+      email: currentUser.email || "",
+      photoURL: currentUser.photoURL || "",
+      studySeconds: 0,
+      createdAt: serverTimestamp()
+    });
+  } else {
+    currentUsername =
+      snap.data().username ||
+      currentUser.displayName ||
+      "student";
+  }
+}
+
+function updateProfileUI() {
+  const name = currentUser?.displayName || "Student";
+  const photo = currentUser?.photoURL || "";
+  const handle = "@" + currentUsername;
+
+  $("userHandle").textContent = handle;
+  $("navAvatar").src = photo;
+  $("profileAvatar").src = photo;
+  $("profileName").textContent = name;
+  $("profileHandle").textContent = handle;
+  $("profileEmail").textContent = currentUser?.email || "—";
+}
+
+$("profileShortcut").addEventListener("click", () => switchTab("profile"));
+
+$("changeHandle").addEventListener("click", async () => {
+  const answer = prompt("Choose a username (letters, numbers, underscore):",
+    currentUsername);
+
+  if (answer === null) return;
+
+  const username = answer.trim().toLowerCase();
+
+  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+    alert("Username must be 3–20 characters: letters, numbers or underscore.");
+    return;
+  }
+
+  try {
+    const usersSnap = await getDocs(
+      query(collection(db, "users"), where("username", "==", username))
+    );
+
+    const taken = usersSnap.docs.some(d => d.id !== currentUser.uid);
+
+    if (taken) {
+      alert("That username is already in use.");
+      return;
+    }
+
+    await updateDoc(userDoc(), { username });
+    currentUsername = username;
+    updateProfileUI();
+    await loadUsers();
+  } catch (error) {
+    alert("Could not change username: " + error.message);
+  }
+});
+
+/* =========================================
+   5. TAB NAVIGATION
+========================================= */
+
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click", () => switchTab(button.dataset.tab));
+});
+
+function switchTab(tab) {
+  activeTab = tab;
+
+  document.querySelectorAll(".tab").forEach(button => {
+    button.classList.toggle("active", button.dataset.tab === tab);
+  });
+
+  document.querySelectorAll(".pane").forEach(pane => {
+    pane.classList.toggle("active", pane.id === `pane-${tab}`);
+  });
+
+  if (tab === "chat") listenToPublicChat();
+  if (tab === "friends") {
+    loadFriends();
+    loadUsers();
+  }
+  if (tab === "study") loadLeaderboard();
+  if (tab === "profile") updateProfileUI();
+}
+
+/* =========================================
+   6. TASK DATA
+========================================= */
+
+function listenToTasks() {
+  if (taskUnsubscribe) taskUnsubscribe();
+
+  taskUnsubscribe = onSnapshot(
+    query(tasksCollection(), orderBy("date", "asc")),
+    snapshot => {
+      tasks = snapshot.docs.map(d => ({
+        id: d.id,
+        ...d.data()
+      }));
+
+      extraDates = new Set(
+        tasks
+          .map(task => task.date)
+          .filter(date => date && date !== todayKey() &&
+            date !== shiftDate(1))
+      );
+
+      renderAllTaskTables();
+      renderStats();
+      updateChart();
+      updateProfileUI();
+    },
+    error => {
+      console.error("Task listener:", error);
+      alert("Could not load tasks. Check Firestore rules.");
+    }
+  );
+}
+
+async function addTask(title, category, date) {
+  if (!currentUser) return;
+
+  title = title.trim();
+
+  if (!title || !date) return;
+
+  try {
+    await addDoc(tasksCollection(), {
+      title,
+      category,
+      date,
+      completed: false,
+      createdAt: serverTimestamp(),
+      completedAt: null
+    });
+  } catch (error) {
+    alert("Could not add task: " + error.message);
+  }
+}
+
+async function toggleTask(task, completed) {
+  try {
+    await updateDoc(
+      doc(db, "users", currentUser.uid, "tasks", task.id),
+      {
+        completed,
+        completedAt: completed ? serverTimestamp() : null
+      }
+    );
+  } catch (error) {
+    alert("Could not update task: " + error.message);
+  }
+}
+
+async function removeTask(task) {
+  if (!confirm(`Delete "${task.title}"?`)) return;
+
+  try {
+    await deleteDoc(
+      doc(db, "users", currentUser.uid, "tasks", task.id)
+    );
+  } catch (error) {
+    alert("Could not delete task: " + error.message);
+  }
+}
+
+/* =========================================
+   7. QUICK ADD TASK FORM
+========================================= */
+
+$("quickTaskForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const title = $("taskInput").value;
+  const category = $("taskCategory").value;
+  const target = $("taskTargetDate").value;
+  const date = target === "tomorrow" ? shiftDate(1) : todayKey();
+
+  await addTask(title, category, date);
+  $("taskInput").value = "";
+});
+
+/* =========================================
+   8. FUTURE DATE FORM
+========================================= */
+
+$("futureDate").min = todayKey();
+
+$("futureTaskForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const date = $("futureDate").value;
+  const title = $("futureTask").value;
+  const category = $("futureCategory").value;
+
+  if (date < todayKey()) {
+    alert("Please select today or a future date.");
+    return;
+  }
+
+  await addTask(title, category, date);
+
+  $("futureTask").value = "";
+  $("futureDate").value = "";
+});
+
+/* =========================================
+   9. RENDER SEPARATE TABLES FOR EACH DATE
+========================================= */
+
+function renderAllTaskTables() {
+  renderTaskTable("todayTableHost", todayKey(), "Today's Tasks");
+  renderTaskTable("tomorrowTableHost", shiftDate(1), "Tomorrow's Tasks");
+
+  const host = $("allDateTables");
+  host.replaceChildren();
+
+  const dates = [...extraDates]
+    .filter(date => date !== todayKey() && date !== shiftDate(1))
+    .sort();
+
+  if (!dates.length) {
+    host.innerHTML = '<div class="empty">No extra dates yet. Add a future task above.</div>';
+    return;
+  }
+
+  dates.forEach(date => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "card";
+
+    const heading = document.createElement("div");
+    heading.className = "dateheading";
+
+    const title = document.createElement("h3");
+    title.textContent = taskDateLabel(date);
+
+    const removeDateButton = document.createElement("button");
+    removeDateButton.className = "btn danger";
+    removeDateButton.textContent = "Remove Date";
+    removeDateButton.addEventListener("click", async () => {
+      const dateTasks = tasks.filter(task => task.date === date);
+
+      if (!dateTasks.length) {
+        extraDates.delete(date);
+        renderAllTaskTables();
+        return;
+      }
+
+      if (!confirm(`Delete all ${dateTasks.length} tasks for ${date}?`)) {
+        return;
+      }
+
+      for (const task of dateTasks) {
+        await deleteDoc(
+          doc(db, "users", currentUser.uid, "tasks", task.id)
+        );
       }
     });
 
-    async function fetchUserData() {
-      if(!currentUser) return;
-      const userRef = doc(db, "users", currentUser.uid);
-      const docSnap = await getDoc(userRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        userTasks = data.tasks || {};
-        customHandle = data.handle || currentUser.displayName.replace(/\s+/g, '').toLowerCase();
-        
-        const allUsersSnap = await getDocs(collection(db, "users"));
-        let exists = false;
-        allUsersSnap.forEach(d => {
-          if(d.id !== currentUser.uid && d.data().handle === customHandle) exists = true;
-        });
-        if(exists) customHandle = customHandle + Math.floor(Math.random() * 100);
-      } else {
-        customHandle = currentUser.displayName.replace(/\s+/g, '').toLowerCase();
-        await setDoc(userRef, { handle: customHandle, tasks: {}, friends: [] }, { merge: true });
-      }
-      
-      const photoURL = currentUser.photoURL || '';
-      document.getElementById('user-handle').innerText = `@${customHandle}`;
-      if(photoURL) document.getElementById('nav-avatar').src = photoURL;
-    }
+    heading.append(title, removeDateButton);
 
-    window.changeUsername = async () => {
-      const newHandle = prompt("Enter unique username (without spaces):", customHandle);
-      if(newHandle && newHandle.trim() !== '') {
-        const cleanHandle = newHandle.trim().replace(/\s+/g, '').toLowerCase();
-        
-        const allUsersSnap = await getDocs(collection(db, "users"));
-        let taken = false;
-        allUsersSnap.forEach(d => {
-          if(d.id !== currentUser.uid && d.data().handle === cleanHandle) taken = true;
-        });
+    const tableHost = document.createElement("div");
+    tableHost.id = "table-" + date;
 
-        if(taken) {
-          alert("This username is already taken. Choose another.");
-          return;
+    wrapper.append(heading, tableHost);
+    host.append(wrapper);
+
+    renderTaskTable(tableHost.id, date, "");
+  });
+}
+
+function renderTaskTable(hostId, date, headingText) {
+  const host = $(hostId);
+  if (!host) return;
+
+  const dateTasks = tasks.filter(task => task.date === date);
+
+  host.replaceChildren();
+
+  if (headingText) {
+    const heading = document.createElement("div");
+    heading.className = "dateheading";
+
+    const title = document.createElement("h3");
+    title.textContent = headingText;
+    heading.append(title);
+    host.append(heading);
+  }
+
+  const form = document.createElement("form");
+  form.className = "inlineform";
+  form.style.marginBottom = "12px";
+
+  const input = document.createElement("input");
+  input.className = "input";
+  input.maxLength = 200;
+  input.required = true;
+  input.placeholder = "Add a task to this date...";
+
+  const button = document.createElement("button");
+  button.className = "btn";
+  button.textContent = "+ Add";
+
+  form.append(input, button);
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    await addTask(input.value, "Study", date);
+  });
+
+  host.append(form);
+
+  if (!dateTasks.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "No tasks for this date yet.";
+    host.append(empty);
+    return;
+  }
+
+  const scroll = document.createElement("div");
+  scroll.className = "table-scroll";
+
+  const table = document.createElement("table");
+  table.className = "task-table";
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Done</th>
+        <th>Task</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody></tbody>`;
+
+  const tbody = table.querySelector("tbody");
+
+  dateTasks.forEach(task => {
+    const tr = document.createElement("tr");
+    if (task.completed) tr.classList.add("done");
+
+    const checkboxCell = document.createElement("td");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = !!task.completed;
+    checkbox.setAttribute("aria-label", "Mark task complete");
+    checkbox.addEventListener("change", () => toggleTask(task, checkbox.checked));
+    checkboxCell.append(checkbox);
+
+    const taskCell = document.createElement("td");
+    taskCell.className = "tasktext";
+    taskCell.textContent = task.title || "";
+
+    const categoryCell = document.createElement("td");
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = task.category || "Study";
+    categoryCell.append(tag);
+
+    const actionCell = document.createElement("td");
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn danger";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => removeTask(task));
+    actionCell.append(deleteButton);
+
+    tr.append(checkboxCell, taskCell, categoryCell, actionCell);
+    tbody.append(tr);
+  });
+
+  scroll.append(table);
+  host.append(scroll);
+}
+
+/* =========================================
+   10. STREAK, BADGES AND PROGRESS STATS
+========================================= */
+
+function renderStats() {
+  const completed = tasks.filter(task => task.completed);
+
+  $("completedVal").textContent = completed.length;
+
+  let badge = "Bronze";
+  if (completed.length >= 50) badge = "Diamond";
+  else if (completed.length >= 25) badge = "Gold";
+  else if (completed.length >= 10) badge = "Silver";
+
+  $("badgeVal").textContent = badge;
+
+  const completedDays = new Set(
+    completed
+      .filter(task => task.completedAt)
+      .map(task => {
+        const stamp = task.completedAt?.toDate?.();
+        return stamp ? dateKey(stamp) : task.date;
+      })
+  );
+
+  let streak = 0;
+  const d = new Date();
+
+  if (!completedDays.has(dateKey(d))) {
+    d.setDate(d.getDate() - 1);
+  }
+
+  while (completedDays.has(dateKey(d))) {
+    streak++;
+    d.setDate(d.getDate() - 1);
+  }
+
+  $("streakVal").textContent = `${streak} day${streak === 1 ? "" : "s"}`;
+
+  $("profileTasks").textContent = completed.length;
+  updateProfileUI();
+}
+
+function updateChart() {
+  const canvas = $("progressChart");
+  if (!canvas || typeof Chart === "undefined") return;
+
+  const labels = [];
+  const counts = [];
+
+  for (let offset = 6; offset >= 0; offset--) {
+    const date = shiftDate(-offset);
+    labels.push(new Date(`${date}T12:00:00`).toLocaleDateString(undefined, {
+      weekday: "short"
+    }));
+
+    counts.push(tasks.filter(task =>
+      task.date === date && task.completed
+    ).length);
+  }
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(canvas, {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Completed tasks",
+        data: counts,
+        backgroundColor: "#46e6a5",
+        borderRadius: 7
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: "#9aa9c4" }
         }
-
-        customHandle = cleanHandle;
-        document.getElementById('user-handle').innerText = `@${customHandle}`;
-        await setDoc(doc(db, "users", currentUser.uid), { handle: customHandle }, { merge: true });
-        alert("Username updated successfully.");
-        loadProfileDetails();
-      }
-    };
-
-    async function saveUserData() {
-      if(!currentUser) return;
-      await setDoc(doc(db, "users", currentUser.uid), { tasks: userTasks }, { merge: true });
-    }
-
-    window.loadAllTasks = () => {
-      renderTaskList(todayStr, 'todayTaskList');
-      renderTaskList(tomorrowStr, 'tomorrowTaskList');
-      updateStreakAndBadges();
-      renderAnalyticsChart();
-    };
-
-    function renderTaskList(dateKey, elementId) {
-      const tasks = userTasks[dateKey] || [];
-      const list = document.getElementById(elementId);
-      list.innerHTML = '';
-
-      if (tasks.length === 0) {
-        list.innerHTML = '<li style="color:#8fa0b0; justify-content:center; font-size:11px;">No tasks added</li>';
-        return;
-      }
-
-      tasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        if(task.completed) li.classList.add('done');
-        const tagClass = `tag-${(task.category || 'personal').toLowerCase()}`;
-        li.innerHTML = `
-          <div class="task-left">
-            <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask('${dateKey}', ${index})">
-            <span class="tag-badge ${tagClass}">${task.category || 'Personal'}</span>
-            <span class="task-text">${task.text}</span>
-          </div>
-          <button class="btn-del" onclick="deleteTask('${dateKey}', ${index})">✕</button>
-        `;
-        list.appendChild(li);
-      });
-    }
-
-    window.addTask = async () => {
-      const input = document.getElementById('taskInput');
-      const category = document.getElementById('taskCategory').value;
-      const targetOpt = document.getElementById('taskTargetDate').value;
-      if(input.value.trim() === '') return;
-
-      const targetDate = targetOpt === 'today' ? todayStr : tomorrowStr;
-      if(!userTasks[targetDate]) userTasks[targetDate] = [];
-      userTasks[targetDate].push({ text: input.value, category: category, completed: false });
-      input.value = '';
-      loadAllTasks();
-      await saveUserData();
-    };
-
-    window.toggleTask = async (dateKey, index) => {
-      userTasks[dateKey][index].completed = !userTasks[dateKey][index].completed;
-      loadAllTasks();
-      await saveUserData();
-    };
-
-    window.deleteTask = async (dateKey, index) => {
-      userTasks[dateKey].splice(index, 1);
-      loadAllTasks();
-      await saveUserData();
-    };
-
-    window.loadOtherDateTasks = () => {
-      const selectedDate = document.getElementById('taskDate').value;
-      if(!selectedDate) return;
-      document.getElementById('otherDateSection').classList.remove('hidden');
-      document.getElementById('otherDateTitle').innerText = selectedDate;
-      renderTaskList(selectedDate, 'otherTaskList');
-    };
-
-    function updateStreakAndBadges() {
-      let streak = 0;
-      let totalCompletedDays = 0;
-      const dates = Object.keys(userTasks).sort();
-      dates.forEach(d => {
-        const dayTasks = userTasks[d];
-        if (dayTasks && dayTasks.length > 0 && dayTasks.every(t => t.completed)) {
-          streak++;
-          totalCompletedDays++;
-        } else if (dayTasks && dayTasks.length > 0) {
-          streak = 0;
-        }
-      });
-      document.getElementById('streakVal').innerText = `${streak} Days`;
-      let badge = "Bronze";
-      if (totalCompletedDays >= 30) badge = "Diamond";
-      else if (totalCompletedDays >= 15) badge = "Gold";
-      else if (totalCompletedDays >= 7) badge = "Silver";
-      document.getElementById('badgeVal').innerText = badge;
-    }
-
-    function renderAnalyticsChart() {
-      const ctx = document.getElementById('progressChart').getContext('2d');
-      const last7Days = [];
-      const percents = [];
-
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        const dateStr = d.toISOString().split('T')[0];
-        last7Days.push(dateStr.slice(5));
-
-        const tasks = userTasks[dateStr] || [];
-        if (tasks.length === 0) percents.push(0);
-        else percents.push(Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100));
-      }
-
-      if (myChart) myChart.destroy();
-
-      myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: last7Days,
-          datasets: [{
-            label: 'Completion %',
-            data: percents,
-            borderColor: '#00ff88',
-            backgroundColor: 'rgba(0, 255, 136, 0.08)',
-            fill: true,
-            tension: 0.3
-          }]
+      },
+      scales: {
+        x: {
+          ticks: { color: "#9aa9c4" },
+          grid: { color: "#29375355" }
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: { min: 0, max: 100, ticks: { color: '#8fa0b0', font: { family: 'Times New Roman', size: 10 } }, grid: { color: '#202d3a' } },
-            x: { ticks: { color: '#8fa0b0', font: { family: 'Times New Roman', size: 10 } }, grid: { color: '#202d3a' } }
-          },
-          plugins: { legend: { display: false } }
+        y: {
+          beginAtZero: true,
+          ticks: { color: "#9aa9c4", precision: 0 },
+          grid: { color: "#29375355" }
         }
-      });
-    }
-
-    // Study Timer
-    window.setTimerMode = (mode, btn) => {
-      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      timerMode = mode;
-      clearInterval(timerInterval);
-      isTimerRunning = false;
-      secondsElapsed = mode === 'pomo25' ? 1500 : 0;
-      updateTimerDisplay();
-    };
-
-    function updateTimerDisplay() {
-      let hrs = Math.floor(secondsElapsed / 3600).toString().padStart(2, '0');
-      let mins = Math.floor((secondsElapsed % 3600) / 60).toString().padStart(2, '0');
-      let secs = (secondsElapsed % 60).toString().padStart(2, '0');
-      document.getElementById('timerDisplay').innerText = `${hrs}:${mins}:${secs}`;
-    }
-
-    window.startTimer = () => {
-      if(isTimerRunning) return;
-      isTimerRunning = true;
-      timerInterval = setInterval(() => {
-        if(timerMode === 'pomo25') {
-          if(secondsElapsed > 0) secondsElapsed--;
-          else { clearInterval(timerInterval); alert("Pomodoro Finished!"); }
-        } else {
-          secondsElapsed++;
-        }
-        updateTimerDisplay();
-      }, 1000);
-    };
-
-    window.stopTimer = async () => {
-      if(!isTimerRunning) return;
-      clearInterval(timerInterval);
-      isTimerRunning = false;
-      const minsStudied = timerMode === 'pomo25' ? 25 : Math.round(secondsElapsed / 60);
-      secondsElapsed = 0;
-      updateTimerDisplay();
-
-      if(minsStudied > 0 && currentUser) {
-        const lbRef = doc(db, "leaderboard", currentUser.uid);
-        const snap = await getDoc(lbRef);
-        let existing = snap.exists() ? (snap.data().minutes || 0) : 0;
-        await setDoc(lbRef, { handle: customHandle, minutes: existing + minsStudied });
-        alert(`${minsStudied} mins saved!`);
-        loadLeaderboard();
       }
-    };
+    }
+  });
+}
 
-    window.toggleBGM = (cb) => {
-      if(cb.checked) rainAudio.play();
-      else rainAudio.pause();
-    };
+/* =========================================
+   11. FULLSCREEN
+========================================= */
 
-    async function loadLeaderboard() {
-      const el = document.getElementById('leaderboardList');
-      el.innerHTML = '<div class="friend-item"><span>Loading...</span></div>';
-      try {
-        const q = query(collection(db, "leaderboard"), orderBy("minutes", "desc"), limit(10));
-        const snap = await getDocs(q);
-        el.innerHTML = '';
-        if(snap.empty) { el.innerHTML = '<div class="friend-item"><span>No records yet.</span></div>'; return; }
-        snap.forEach(d => {
-          const data = d.data();
-          el.innerHTML += `
-            <div class="friend-item">
-              <span style="color:#00ff88; cursor:pointer;" onclick="mentionUser('${data.handle}')">@${data.handle || 'user'}</span>
-              <strong style="color:#00ff88;">${data.minutes} mins</strong>
-            </div>`;
-        });
-      } catch(e) { el.innerHTML = '<div class="friend-item"><span>Error loading</span></div>'; }
+$("fullscreenBtn").addEventListener("click", async () => {
+  try {
+    if (!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+      $("fullscreenBtn").textContent = "⛶ Exit Fullscreen";
+    } else {
+      await document.exitFullscreen();
+      $("fullscreenBtn").textContent = "⛶ Fullscreen";
+    }
+  } catch {
+    alert("Fullscreen is not supported in this browser.");
+  }
+});
+
+document.addEventListener("fullscreenchange", () => {
+  $("fullscreenBtn").textContent =
+    document.fullscreenElement ? "⛶ Exit Fullscreen" : "⛶ Fullscreen";
+});
+
+/* =========================================
+   12. GUIDE MODAL
+========================================= */
+
+function showGuideOnce() {
+  if (!sessionStorage.getItem("goalTrackerGuideSeen")) {
+    $("guideModal").classList.remove("hidden");
+  }
+}
+
+$("closeGuide").addEventListener("click", () => {
+  $("guideModal").classList.add("hidden");
+  sessionStorage.setItem("goalTrackerGuideSeen", "yes");
+});
+
+/* =========================================
+   END OF PART 3
+   Part 4 will add timer, music, math,
+   public chat, friends and private messages.
+========================================= */
+
+    <script>
+/* =========================================
+   13. STOPWATCH AND POMODORO TIMER
+========================================= */
+
+function formatTime(totalSeconds) {
+  totalSeconds = Math.max(0, Math.floor(totalSeconds));
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return [hours, minutes, seconds]
+    .map(number => String(number).padStart(2, "0"))
+    .join(":");
+}
+
+function renderTimer() {
+  $("timerDisplay").textContent = formatTime(timerSeconds);
+}
+
+function stopTimerInterval() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  timerRunning = false;
+}
+
+function startTimer() {
+  if (timerRunning) return;
+
+  timerRunning = true;
+
+  timerInterval = setInterval(() => {
+    if (timerMode === "pomo25") {
+      timerSeconds = Math.max(0, timerSeconds - 1);
+
+      if (timerSeconds === 0) {
+        stopTimerInterval();
+        playTimerAlert();
+        alert("Pomodoro session complete! Take a short break.");
+      }
+    } else {
+      timerSeconds++;
     }
 
-    window.mentionUser = (handle) => {
-      switchTab('chat', document.querySelectorAll('.tab-btn')[2]);
-      const input = document.getElementById('chatInput');
-      input.value = `@${handle} `;
-      input.focus();
-    };
+    renderTimer();
+  }, 1000);
+}
 
-    // Global Public Chat
-    window.handleChatKey = (e) => { if(e.key === 'Enter') sendChatMessage(); };
-    window.triggerImgUpload = () => { document.getElementById('imgFileInput').click(); };
+function playTimerAlert() {
+  try {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
 
-    window.uploadImage = (event) => {
-      const file = event.target.files[0];
-      if(!file) return;
-      const reader = new FileReader();
-      reader.onload = async function(e) {
-        await addDoc(collection(db, "chats"), {
-          sender: customHandle,
-          uid: currentUser.uid,
-          image: e.target.result,
-          text: '',
-          reactions: {},
-          timestamp: serverTimestamp()
-        });
-        loadChatMessages();
-      };
-      reader.readAsDataURL(file);
-    };
+    if (!AudioContextClass) return;
 
-    window.sendChatMessage = async () => {
-      const input = document.getElementById('chatInput');
-      const text = input.value.trim();
-      if(text === '' || !currentUser) return;
+    const context = new AudioContextClass();
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
 
-      await addDoc(collection(db, "chats"), {
-        sender: customHandle,
-        uid: currentUser.uid,
-        text: text,
-        reactions: {},
-        timestamp: serverTimestamp()
-      });
-      input.value = '';
-      loadChatMessages();
-    };
+    oscillator.type = "sine";
+    oscillator.frequency.value = 880;
+    gain.gain.value = 0.12;
 
-    window.unsendMsg = async (msgId, ownerUid) => {
-      if(ownerUid !== currentUser.uid) {
-        alert("You can only unsend your own messages!");
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+
+    oscillator.start();
+    oscillator.stop(context.currentTime + 0.5);
+    oscillator.onended = () => context.close();
+  } catch (error) {
+    console.warn("Timer alert unavailable:", error);
+  }
+}
+
+document.querySelectorAll(".mode").forEach(button => {
+  button.addEventListener("click", () => {
+    stopTimerInterval();
+
+    document.querySelectorAll(".mode").forEach(item =>
+      item.classList.remove("active")
+    );
+
+    button.classList.add("active");
+    timerMode = button.dataset.mode;
+    timerSeconds = timerMode === "pomo25" ? 25 * 60 : 0;
+
+    renderTimer();
+  });
+});
+
+$("startTimer").addEventListener("click", startTimer);
+
+$("stopTimer").addEventListener("click", async () => {
+  stopTimerInterval();
+
+  const secondsToSave =
+    timerMode === "pomo25" ? 25 * 60 - timerSeconds : timerSeconds;
+
+  if (secondsToSave > 0 && currentUser) {
+    try {
+      const profileRef = userDoc();
+      const snap = await getDoc(profileRef);
+      const oldSeconds = snap.exists()
+        ? Number(snap.data().studySeconds || 0)
+        : 0;
+
+      await setDoc(profileRef, {
+        studySeconds: oldSeconds + secondsToSave
+      }, { merge: true });
+
+      $("profileMinutes").textContent =
+        Math.floor((oldSeconds + secondsToSave) / 60);
+
+      await loadLeaderboard();
+    } catch (error) {
+      console.error("Study time save failed:", error);
+      alert("Timer stopped, but study time could not be saved.");
+    }
+  }
+
+  timerSeconds = 0;
+  renderTimer();
+});
+
+$("resetTimer").addEventListener("click", () => {
+  stopTimerInterval();
+  timerSeconds = timerMode === "pomo25" ? 25 * 60 : 0;
+  renderTimer();
+});
+
+/* =========================================
+   14. RAIN FOCUS SOUND
+========================================= */
+
+let rainContext = null;
+let rainSource = null;
+let rainGain = null;
+
+async function startRain() {
+  try {
+    const AudioContextClass =
+      window.AudioContext || window.webkitAudioContext;
+
+    if (!AudioContextClass) {
+      alert("Your browser does not support audio playback.");
+      $("rainToggle").checked = false;
+      return;
+    }
+
+    rainContext = new AudioContextClass();
+
+    if (rainContext.state === "suspended") {
+      await rainContext.resume();
+    }
+
+    const bufferSize = 2 * rainContext.sampleRate;
+    const buffer = rainContext.createBuffer(
+      1, bufferSize, rainContext.sampleRate
+    );
+
+    const data = buffer.getChannelData(0);
+
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+
+    rainSource = rainContext.createBufferSource();
+    rainSource.buffer = buffer;
+    rainSource.loop = true;
+
+    const filter = rainContext.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = 1100;
+
+    rainGain = rainContext.createGain();
+    rainGain.gain.value = 0.035;
+
+    rainSource.connect(filter);
+    filter.connect(rainGain);
+    rainGain.connect(rainContext.destination);
+    rainSource.start();
+  } catch (error) {
+    console.error("Rain sound failed:", error);
+    $("rainToggle").checked = false;
+  }
+}
+
+async function stopRain() {
+  try {
+    if (rainSource) rainSource.stop();
+    if (rainContext) await rainContext.close();
+  } catch (error) {
+    console.warn(error);
+  }
+
+  rainSource = null;
+  rainContext = null;
+  rainGain = null;
+}
+
+$("rainToggle").addEventListener("change", async () => {
+  if ($("rainToggle").checked) {
+    await startRain();
+  } else {
+    await stopRain();
+  }
+});
+
+/* =========================================
+   15. YOUTUBE STUDY MUSIC
+========================================= */
+
+$("musicSearchForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const term = $("musicSearch").value.trim();
+  if (!term) return;
+
+  const url = "https://www.youtube.com/results?search_query=" +
+    encodeURIComponent(term + " study music");
+
+  window.open(url, "_blank", "noopener,noreferrer");
+});
+
+function getYouTubeId(input) {
+  try {
+    const url = new URL(input);
+    const host = url.hostname.replace(/^www\./, "");
+
+    if (host === "youtu.be") {
+      return url.pathname.slice(1).split("/")[0];
+    }
+
+    if (
+      host === "youtube.com" ||
+      host === "m.youtube.com" ||
+      host === "music.youtube.com"
+    ) {
+      if (url.pathname === "/watch") {
+        return url.searchParams.get("v");
+      }
+
+      const match = url.pathname.match(
+        /^\/(?:embed|shorts)\/([A-Za-z0-9_-]+)/
+      );
+
+      return match ? match[1] : null;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+$("musicPlayForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const id = getYouTubeId($("musicUrl").value.trim());
+
+  if (!id || !/^[A-Za-z0-9_-]{6,20}$/.test(id)) {
+    alert("Please enter a valid YouTube video URL.");
+    return;
+  }
+
+  $("musicPlayer").src =
+    "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(id) +
+    "?autoplay=1&rel=0";
+
+  $("musicPlayerBox").classList.remove("hidden");
+});
+
+/* =========================================
+   16. MATH PRACTICE
+========================================= */
+
+function makeMathQuestion() {
+  const difficulty = $("mathDifficulty").value;
+
+  let a, b, operator;
+
+  if (difficulty === "easy") {
+    a = Math.floor(Math.random() * 20) + 1;
+    b = Math.floor(Math.random() * 20) + 1;
+    operator = Math.random() < 0.5 ? "+" : "-";
+  } else if (difficulty === "medium") {
+    a = Math.floor(Math.random() * 50) + 10;
+    b = Math.floor(Math.random() * 30) + 1;
+    operator = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+  } else {
+    a = Math.floor(Math.random() * 90) + 10;
+    b = Math.floor(Math.random() * 20) + 2;
+    operator = ["+", "-", "*"][Math.floor(Math.random() * 3)];
+  }
+
+  if (operator === "-" && b > a) {
+    [a, b] = [b, a];
+  }
+
+  mathCorrectAnswer =
+    operator === "+" ? a + b :
+    operator === "-" ? a - b :
+    a * b;
+
+  $("mathQuestion").textContent = `${a} ${operator} ${b} = ?`;
+  $("mathAnswer").value = "";
+  $("mathFeedback").textContent = "";
+  $("mathAnswer").focus();
+}
+
+$("newMath").addEventListener("click", makeMathQuestion);
+
+$("mathForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (mathCorrectAnswer === null) {
+    makeMathQuestion();
+    return;
+  }
+
+  const answer = Number($("mathAnswer").value);
+
+  if (answer === mathCorrectAnswer) {
+    showFeedback("mathFeedback", "Correct! Great work! 🎉", "var(--green)");
+  } else {
+    showFeedback(
+      "mathFeedback",
+      "Not quite. Try again!",
+      "var(--red)"
+    );
+  }
+});
+
+/* =========================================
+   17. PUBLIC CHAT
+========================================= */
+
+function listenToPublicChat() {
+  if (publicChatUnsubscribe) return;
+
+  const chatRef = collection(db, "publicMessages");
+
+  publicChatUnsubscribe = onSnapshot(
+    query(chatRef, orderBy("createdAt", "desc"), limit(50)),
+    snapshot => {
+      const messages = snapshot.docs
+        .map(item => ({ id: item.id, ...item.data() }))
+        .reverse();
+
+      const host = $("chatMessages");
+      host.replaceChildren();
+
+      if (!messages.length) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No messages yet. Say hello!";
+        host.append(empty);
         return;
       }
-      if(confirm("Delete this message?")) {
-        await deleteDoc(doc(db, "chats", msgId));
-        loadChatMessages();
-      }
-    };
 
-    window.addReaction = async (msgId, emojiType, currentReactions) => {
-      const reactions = currentReactions || {};
-      reactions[customHandle] = emojiType;
-      await updateDoc(doc(db, "chats", msgId), { reactions: reactions });
-      loadChatMessages();
-    };
+      messages.forEach(message => {
+        const item = document.createElement("div");
+        item.className = "message";
 
-    async function loadChatMessages() {
-      const box = document.getElementById('chatMessages');
-      box.innerHTML = '<div class="chat-msg">Loading...</div>';
-      try {
-        const q = query(collection(db, "chats"), orderBy("timestamp", "desc"), limit(25));
-        const snap = await getDocs(q);
-        box.innerHTML = '';
-        const docs = [];
-        snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
-        docs.reverse();
+        const head = document.createElement("div");
+        head.className = "msghead";
 
-        if(docs.length === 0) {
-          box.innerHTML = '<div class="chat-msg" style="text-align:center; color:#8fa0b0;">No messages yet.</div>';
+        const sender = document.createElement("span");
+        sender.className = "sender";
+        sender.textContent = message.username || "Student";
+
+        const time = document.createElement("span");
+        time.className = "muted";
+        time.style.fontSize = "10px";
+
+        const timestamp = message.createdAt?.toDate?.();
+        time.textContent = timestamp
+          ? timestamp.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit"
+            })
+          : "";
+
+        const body = document.createElement("div");
+        body.style.whiteSpace = "pre-wrap";
+        body.textContent = message.text || "";
+
+        head.append(sender, time);
+        item.append(head, body);
+        host.append(item);
+      });
+
+      host.scrollTop = host.scrollHeight;
+    },
+    error => {
+      console.error("Public chat listener:", error);
+      $("chatMessages").textContent =
+        "Chat could not load. Check Firestore rules and indexes.";
+    }
+  );
+}
+
+$("chatForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentUser) return;
+
+  const input = $("chatInput");
+  const textValue = input.value.trim();
+
+  if (!textValue) return;
+
+  try {
+    await addDoc(collection(db, "publicMessages"), {
+      uid: currentUser.uid,
+      username: currentUsername,
+      text: textValue,
+      createdAt: serverTimestamp()
+    });
+
+    input.value = "";
+  } catch (error) {
+    alert("Message could not be sent: " + error.message);
+  }
+});
+
+/* =========================================
+   18. FRIENDS
+========================================= */
+
+function friendsCollection() {
+  return collection(db, "users", currentUser.uid, "friends");
+}
+
+async function loadFriends() {
+  if (!currentUser) return;
+
+  try {
+    if (friendUnsubscribe) friendUnsubscribe();
+
+    friendUnsubscribe = onSnapshot(
+      friendsCollection(),
+      async snapshot => {
+        const host = $("friendsListArea");
+        host.replaceChildren();
+
+        if (snapshot.empty) {
+          const empty = document.createElement("p");
+          empty.className = "empty";
+          empty.textContent = "No friends added yet. Search for users below.";
+          host.append(empty);
           return;
         }
 
-        docs.forEach(msg => {
-          let textHTML = msg.text || '';
-          textHTML = textHTML.replace(/(@\w+)/g, '<span style="color:#4285F4; font-weight:600;">$1</span>');
+        for (const friendDoc of snapshot.docs) {
+          const friendId = friendDoc.id;
 
-          const isOwner = msg.uid === currentUser.uid;
-          const reactions = msg.reactions || {};
-          let reactionHtml = '';
-          Object.keys(reactions).forEach(user => {
-            reactionHtml += `<span class="reaction-badge">${reactions[user]} (${user})</span>`;
-          });
+          try {
+            const profileSnap = await getDoc(doc(db, "users", friendId));
+            if (!profileSnap.exists()) continue;
 
-          const div = document.createElement('div');
-          div.className = 'chat-msg';
-          div.innerHTML = `
-            <div class="sender-row">
-              <span class="sender" onclick="mentionUser('${msg.sender}')">@${msg.sender}</span>
-              <div style="display:flex; gap:6px;">
-                <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Love', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Love</button>
-                <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Haha', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Haha</button>
-                ${isOwner ? `<button class="chat-action-btn" style="color:#ff5252;" onclick="unsendMsg('${msg.id}', '${msg.uid}')">Unsend</button>` : ''}
-              </div>
-            </div>
-            ${textHTML ? `<div>${textHTML}</div>` : ''}
-            ${msg.image ? `<img src="${msg.image}" style="max-width:120px; border-radius:6px; margin-top:4px;">` : ''}
-            <div class="reactions-bar">${reactionHtml}</div>
-          `;
-          box.appendChild(div);
-        });
-        box.scrollTop = box.scrollHeight;
-      } catch(e) { box.innerHTML = '<div class="chat-msg">Error loading chat</div>'; }
-    }
+            const profile = profileSnap.data();
 
-    // Private Direct DM System
-    window.loadFriendsAndUsers = async () => {
-      const friendsListArea = document.getElementById('friendsListArea');
-      friendsListArea.innerHTML = '<p style="color:#8fa0b0; font-size:12px; text-align:center;">Loading...</p>';
+            const row = document.createElement("div");
+            row.className = "frienditem";
 
-      const userDocRef = doc(db, "users", currentUser.uid);
-      const userSnap = await getDoc(userDocRef);
-      cachedFriendsList = userSnap.exists() ? (userSnap.data().friends || []) : [];
+            const name = document.createElement("span");
+            name.textContent = "@" + (profile.username || "student");
 
-      if(cachedFriendsList.length === 0) {
-        friendsListArea.innerHTML = '<p style="color:#8fa0b0; font-size:11px; text-align:center;">No friends added yet. Search below.</p>';
-      } else {
-        friendsListArea.innerHTML = '';
-        cachedFriendsList.forEach(fHandle => {
-          friendsListArea.innerHTML += `
-            <div class="friend-item">
-              <span>@${fHandle}</span>
-              <button class="btn-small" onclick="openPrivateChat('${fHandle}')">Messenger Chat</button>
-            </div>`;
-        });
-      }
+            const buttons = document.createElement("div");
+            buttons.className = "row";
 
-      const allUsersSnap = await getDocs(collection(db, "users"));
-      cachedUsersList = [];
-      allUsersSnap.forEach(d => {
-        if(d.id !== currentUser.uid) {
-          cachedUsersList.push(d.data().handle || '');
-        }
-      });
+            const chatButton = document.createElement("button");
+            chatButton.className = "btn secondary";
+            chatButton.textContent = "Message";
+            chatButton.addEventListener("click", () => {
+              openPrivateChat(friendId, profile.username || "student");
+            });
 
-      filterPlatformUsers();
-    };
+            const removeButton = document.createElement("button");
+            removeButton.className = "btn danger";
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener("click", async () => {
+              if (!confirm("Remove this friend?")) return;
 
-    window.filterPlatformUsers = () => {
-      const searchVal = document.getElementById('friendSearchBox').value.trim().toLowerCase();
-      const allPlatformUsers = document.getElementById('allPlatformUsers');
-      allPlatformUsers.innerHTML = '';
+              try {
+                await deleteDoc(
+                  doc(db, "users", currentUser.uid, "friends", friendId)
+                );
+                await deleteDoc(
+                  doc(db, "users", friendId, "friends", currentUser.uid)
+                );
+              } catch (error) {
+                alert("Could not remove friend: " + error.message);
+              }
+            });
 
-      const filtered = cachedUsersList.filter(handle => handle.toLowerCase().includes(searchVal));
-
-      if(filtered.length === 0) {
-        allPlatformUsers.innerHTML = '<p style="color:#8fa0b0; font-size:11px; text-align:center;">No user found</p>';
-        return;
-      }
-
-      filtered.forEach(handle => {
-        const isFriend = cachedFriendsList.includes(handle);
-        allPlatformUsers.innerHTML += `
-          <div class="friend-item">
-            <span>@${handle}</span>
-            ${isFriend ? '<span style="font-size:10px; color:#00ff88;">Friend</span>' : `<button class="btn-small" onclick="addFriend('${handle}')">Add Friend</button>`}
-          </div>`;
-      });
-    };
-
-    window.addFriend = async (friendHandle) => {
-      const userDocRef = doc(db, "users", currentUser.uid);
-      const userSnap = await getDoc(userDocRef);
-      let friends = userSnap.exists() ? (userSnap.data().friends || []) : [];
-      if(!friends.includes(friendHandle)) {
-        friends.push(friendHandle);
-        await updateDoc(userDocRef, { friends: friends });
-        alert(`@${friendHandle} added as friend!`);
-        loadFriendsAndUsers();
-      }
-    };
-
-    function getPrivateChatRoomId(userA, userB) {
-      return [userA, userB].sort().join('_DM_');
-    }
-
-    window.openPrivateChat = (friendHandle) => {
-      activePrivateFriend = friendHandle;
-      document.getElementById('friendsMainView').classList.add('hidden');
-      document.getElementById('privateChatRoomView').classList.remove('hidden');
-      document.getElementById('activePrivateFriendTitle').innerText = `Chatting with @${friendHandle}`;
-      loadPrivateMessages();
-    };
-
-    window.closePrivateChat = () => {
-      activePrivateFriend = null;
-      document.getElementById('privateChatRoomView').classList.add('hidden');
-      document.getElementById('friendsMainView').classList.remove('hidden');
-    };
-
-    window.handlePrivateChatKey = (e) => { if(e.key === 'Enter') sendPrivateMessage(); };
-
-    window.sendPrivateMessage = async () => {
-      const input = document.getElementById('privateChatInput');
-      const text = input.value.trim();
-      if(text === '' || !activePrivateFriend || !currentUser) return;
-
-      const roomId = getPrivateChatRoomId(customHandle, activePrivateFriend);
-      await addDoc(collection(db, "private_messages"), {
-        roomId: roomId,
-        sender: customHandle,
-        uid: currentUser.uid,
-        text: text,
-        timestamp: serverTimestamp()
-      });
-      input.value = '';
-      loadPrivateMessages();
-    };
-
-    window.unsendPrivateMsg = async (msgId, ownerUid) => {
-      if(ownerUid !== currentUser.uid) {
-        alert("You can only unsend your own messages!");
-        return;
-      }
-      if(confirm("Delete this private message?")) {
-        await deleteDoc(doc(db, "private_messages", msgId));
-        loadPrivateMessages();
-      }
-    };
-
-    async function loadPrivateMessages() {
-      if(!activePrivateFriend || !currentUser) return;
-      const box = document.getElementById('privateChatMessages');
-      box.innerHTML = '<div class="chat-msg">Loading private chat...</div>';
-
-      const roomId = getPrivateChatRoomId(customHandle, activePrivateFriend);
-      try {
-        const q = query(collection(db, "private_messages"), orderBy("timestamp", "desc"), limit(30));
-        const snap = await getDocs(q);
-        box.innerHTML = '';
-        const docs = [];
-        snap.forEach(d => {
-          const data = d.data();
-          if(data.roomId === roomId) {
-            docs.push({ id: d.id, ...data });
+            buttons.append(chatButton, removeButton);
+            row.append(name, buttons);
+            host.append(row);
+          } catch (error) {
+            console.warn("Could not load friend profile:", error);
           }
-        });
-        docs.reverse();
-
-        if(docs.length === 0) {
-          box.innerHTML = '<div class="chat-msg" style="text-align:center; color:#8fa0b0;">No private messages yet. Say hi!</div>';
-          return;
         }
+      },
+      error => {
+        console.error(error);
+        $("friendsListArea").textContent =
+          "Could not load friends. Check Firestore rules.";
+      }
+    );
+  } catch (error) {
+    console.error("Friends listener:", error);
+  }
+}
 
-        docs.forEach(msg => {
-          const isOwner = msg.uid === currentUser.uid;
-          const div = document.createElement('div');
-          div.className = 'chat-msg';
-          div.innerHTML = `
-            <div class="sender-row">
-              <span class="sender">@${msg.sender}</span>
-              ${isOwner ? `<button class="chat-action-btn" style="color:#ff5252;" onclick="unsendPrivateMsg('${msg.id}', '${msg.uid}')">Unsend</button>` : ''}
-            </div>
-            <div>${msg.text}</div>
-          `;
-          box.appendChild(div);
-        });
-        box.scrollTop = box.scrollHeight;
-      } catch(e) { box.innerHTML = '<div class="chat-msg">Error loading private chat</div>'; }
+async function loadUsers() {
+  if (!currentUser) return;
+
+  const host = $("allUsersArea");
+  host.textContent = "Loading users...";
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, "users"), limit(100))
+    );
+
+    host.replaceChildren();
+
+    const search = $("friendSearch").value.trim().toLowerCase();
+
+    const users = snapshot.docs
+      .filter(item => item.id !== currentUser.uid)
+      .map(item => ({ id: item.id, ...item.data() }))
+      .filter(user =>
+        (user.username || "").toLowerCase().includes(search)
+      );
+
+    if (!users.length) {
+      host.textContent = "No users found.";
+      return;
     }
 
-    // Profile Details
-    async function loadProfileDetails() {
-      if(!currentUser) return;
-      document.getElementById('profileAvatar').src = currentUser.photoURL || '';
-      document.getElementById('profileNameDisplay').innerText = currentUser.displayName || 'User';
-      document.getElementById('profileHandleDisplay').innerText = `@${customHandle}`;
-      document.getElementById('profileEmail').innerText = currentUser.email || 'N/A';
+    for (const user of users) {
+      const row = document.createElement("div");
+      row.className = "frienditem";
 
-      let totalCompleted = 0;
-      Object.keys(userTasks).forEach(d => {
-        const tasks = userTasks[d] || [];
-        totalCompleted += tasks.filter(t => t.completed).length;
+      const name = document.createElement("span");
+      name.textContent = "@" + (user.username || "student");
+
+      const addButton = document.createElement("button");
+      addButton.className = "btn secondary";
+      addButton.textContent = "Add Friend";
+
+      const existing = await getDoc(
+        doc(db, "users", currentUser.uid, "friends", user.id)
+      );
+
+      if (existing.exists()) {
+        addButton.textContent = "Added";
+        addButton.disabled = true;
+      }
+
+      addButton.addEventListener("click", async () => {
+        try {
+          await setDoc(
+            doc(db, "users", currentUser.uid, "friends", user.id),
+            {
+              uid: user.id,
+              username: user.username || "student",
+              createdAt: serverTimestamp()
+            }
+          );
+
+          await setDoc(
+            doc(db, "users", user.id, "friends", currentUser.uid),
+            {
+              uid: currentUser.uid,
+              username: currentUsername,
+              createdAt: serverTimestamp()
+            }
+          );
+
+          addButton.textContent = "Added";
+          addButton.disabled = true;
+        } catch (error) {
+          alert("Could not add friend: " + error.message);
+        }
       });
-      document.getElementById('profileTotalTasks').innerText = totalCompleted;
 
-      const lbSnap = await getDoc(doc(db, "leaderboard", currentUser.uid));
-      const mins = lbSnap.exists() ? (lbSnap.data().minutes || 0) : 0;
-      document.getElementById('profileStudyMins').innerText = `${mins} mins`;
+      row.append(name, addButton);
+      host.append(row);
     }
-  </script>
+  } catch (error) {
+    console.error("User search:", error);
+    host.textContent =
+      "Could not load users. Check Firestore rules.";
+  }
+}
+
+$("friendSearch").addEventListener("input", () => {
+  clearTimeout(window.friendSearchDelay);
+  window.friendSearchDelay = setTimeout(loadUsers, 250);
+});
+
+/* =========================================
+   19. PRIVATE DIRECT MESSAGES
+========================================= */
+
+function privateChatId(uid1, uid2) {
+  return [uid1, uid2].sort().join("_");
+}
+
+function privateMessagesCollection(friendId) {
+  const chatId = privateChatId(currentUser.uid, friendId);
+
+  return collection(db, "privateChats", chatId, "messages");
+}
+
+async function openPrivateChat(friendId, username) {
+  currentChatUser = friendId;
+
+  $("friendsMainView").classList.add("hidden");
+  $("privateRoom").classList.remove("hidden");
+  $("privateTitle").textContent = "@" + username;
+  $("privateMessages").replaceChildren();
+
+  if (privateChatUnsubscribe) {
+    privateChatUnsubscribe();
+    privateChatUnsubscribe = null;
+  }
+
+  try {
+    const messagesRef = privateMessagesCollection(friendId);
+
+    privateChatUnsubscribe = onSnapshot(
+      query(messagesRef, orderBy("createdAt", "asc"), limit(100)),
+      snapshot => {
+        const host = $("privateMessages");
+        host.replaceChildren();
+
+        snapshot.docs.forEach(item => {
+          const message = item.data();
+
+          const box = document.createElement("div");
+          box.className = "message";
+
+          const head = document.createElement("div");
+          head.className = "msghead";
+
+          const sender = document.createElement("span");
+          sender.className = "sender";
+          sender.textContent = message.username || "Student";
+
+          const body = document.createElement("div");
+          body.style.whiteSpace = "pre-wrap";
+          body.textContent = message.text || "";
+
+          head.append(sender);
+          box.append(head, body);
+          host.append(box);
+        });
+
+        host.scrollTop = host.scrollHeight;
+      },
+      error => {
+        console.error("Private chat listener:", error);
+        $("privateMessages").textContent =
+          "Private messages could not load. Check Firestore rules.";
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    alert("Could not open private chat.");
+  }
+}
+
+$("backFriends").addEventListener("click", () => {
+  if (privateChatUnsubscribe) privateChatUnsubscribe();
+
+  privateChatUnsubscribe = null;
+  currentChatUser = null;
+
+  $("privateRoom").classList.add("hidden");
+  $("friendsMainView").classList.remove("hidden");
+});
+
+$("privateForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  if (!currentUser || !currentChatUser) return;
+
+  const input = $("privateInput");
+  const textValue = input.value.trim();
+
+  if (!textValue) return;
+
+  try {
+    await addDoc(privateMessagesCollection(currentChatUser), {
+      uid: currentUser.uid,
+      username: currentUsername,
+      text: textValue,
+      createdAt: serverTimestamp()
+    });
+
+    input.value = "";
+  } catch (error) {
+    alert("Private message could not be sent: " + error.message);
+  }
+});
+
+/* =========================================
+   20. STUDY LEADERBOARD
+========================================= */
+
+async function loadLeaderboard() {
+  if (!currentUser) return;
+
+  const host = $("leaderboardList");
+  host.textContent = "Loading leaderboard...";
+
+  try {
+    const snapshot = await getDocs(
+      query(collection(db, "users"), limit(100))
+    );
+
+    const users = snapshot.docs.map(item => {
+      const data = item.data();
+
+      return {
+        uid: item.id,
+        username: data.username || "student",
+        seconds: Number(data.studySeconds || 0)
+      };
+    });
+
+    users.sort((a, b) => b.seconds - a.seconds);
+
+    host.replaceChildren();
+
+    if (!users.length) {
+      host.textContent = "No study records yet.";
+      return;
+    }
+
+    users.slice(0, 10).forEach((user, index) => {
+      const row = document.createElement("div");
+      row.className = "frienditem";
+
+      const name = document.createElement("span");
+      name.textContent =
+        `${index + 1}. @${user.username}` +
+        (user.uid === currentUser.uid ? " (You)" : "");
+
+      const time = document.createElement("strong");
+      time.style.color = "var(--green)";
+      time.textContent = `${Math.floor(user.seconds / 60)} min`;
+
+      row.append(name, time);
+      host.append(row);
+    });
+  } catch (error) {
+    console.error("Leaderboard:", error);
+    host.textContent =
+      "Could not load leaderboard. Check Firestore rules.";
+  }
+}
+
+/* =========================================
+   21. STARTUP DEFAULTS
+========================================= */
+
+renderTimer();
+
+$("futureDate").min = todayKey();
+
+console.log("Goal & Progress Tracker initialized.");
+</script>
+
 </body>
-  </html>
+</html>
