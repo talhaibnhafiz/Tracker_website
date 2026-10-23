@@ -80,6 +80,7 @@
       align-items: center;
       gap: 8px;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .user-avatar-sm {
@@ -122,7 +123,7 @@
     /* Tabs Navigation */
     .nav-tabs {
       display: flex;
-      gap: 4px;
+      gap: 3px;
       margin-bottom: 14px;
       background: #1c252e;
       padding: 4px;
@@ -135,8 +136,8 @@
       background: transparent;
       border: none;
       color: #9aa5b1;
-      padding: 8px 4px;
-      font-size: 11px;
+      padding: 8px 2px;
+      font-size: 10px;
       font-weight: 600;
       cursor: pointer;
       border-radius: 6px;
@@ -182,7 +183,7 @@
       margin-top: 2px;
     }
 
-    /* Dual Tables Section (Today & Tomorrow) */
+    /* Dual Tables Section */
     .section-title {
       font-size: 12px;
       color: #00ff88;
@@ -440,14 +441,14 @@
       color: #00ff88;
     }
 
-    /* Larger Chat Styling */
+    /* Chat Styling */
     .chat-container {
       background: #1c252e;
       border-radius: 8px;
       border: 1px solid #283543;
       display: flex;
       flex-direction: column;
-      height: 420px;
+      height: 400px;
       padding: 10px;
     }
 
@@ -564,6 +565,26 @@
       font-weight: 600;
     }
 
+    /* Friends Tab Style */
+    .friends-container {
+      background: #1c252e;
+      border-radius: 8px;
+      border: 1px solid #283543;
+      padding: 10px;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .friend-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #283543;
+      font-size: 12px;
+    }
+
     /* Profile Tab Styling */
     .profile-card-view {
       background: #1c252e;
@@ -582,17 +603,8 @@
       margin-bottom: 10px;
     }
 
-    .profile-card-view h3 {
-      color: #fff;
-      font-size: 16px;
-      margin-bottom: 4px;
-    }
-
-    .profile-card-view p {
-      color: #9aa5b1;
-      font-size: 12px;
-      margin-bottom: 15px;
-    }
+    .profile-card-view h3 { color: #fff; font-size: 16px; margin-bottom: 4px; }
+    .profile-card-view p { color: #9aa5b1; font-size: 12px; margin-bottom: 15px; }
 
     .profile-details-list {
       text-align: left;
@@ -607,6 +619,33 @@
       justify-content: space-between;
     }
 
+    /* Guide Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 15px;
+    }
+
+    .modal-box {
+      background: #141a1f;
+      border: 1px solid #00ff88;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .modal-box h3 { color: #00ff88; margin-bottom: 10px; font-size: 16px; text-align: center; }
+    .modal-box ul { padding-left: 15px; font-size: 12px; margin-bottom: 10px; max-height: none; }
+    .modal-box li { background: transparent; border: none; padding: 2px 0; margin-bottom: 4px; }
+
     .hidden { display: none !important; }
     .auth-section { text-align: center; padding: 30px 0; }
     .btn-google { background: #00ff88; color: #0b0f12; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; }
@@ -614,13 +653,36 @@
 </head>
 <body>
 
+  <!-- User Guide Popup Modal -->
+  <div id="guideModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>USER GUIDE / ব্যবহার নির্দেশিকা</h3>
+      <div style="font-size:12px; color:#e0e0e0; line-height:1.4;">
+        <p style="color:#00ff88; font-weight:bold; margin-bottom:6px;">উদ্দেশ্য ও উপকারিতা (Purpose & Benefits):</p>
+        <ul>
+          <li>• প্রতিদিনের ও আগামীকালের টাস্ক ট্র্যাক করে প্রোডাক্টিভিটি বাড়াতে সাহায্য করে।</li>
+          <li>• স্টাডি রুম ও টাইমার ব্যবহার করে ফোকাস ধরে রাখা এবং লিডারবোর্ডে নিজের অবস্থান দেখা যায়।</li>
+          <li>• বন্ধুদের সাথে সরাসরি চ্যাট, কমিউনিটি ডিসকাশন এবং স্টাডি প্রোগ্রেস শেয়ার করা যায়।</li>
+        </ul>
+        <hr style="border-color:#283543; margin:10px 0;">
+        <p style="color:#00ff88; font-weight:bold; margin-bottom:6px;">Overview (English):</p>
+        <ul>
+          <li>• Track daily and upcoming tasks to boost personal productivity.</li>
+          <li>• Use the focus timer in the study room and compete on the leaderboard.</li>
+          <li>• Connect with peers via direct messaging and community chat.</li>
+        </ul>
+      </div>
+      <button class="btn-add" style="width:100%; margin-top:15px;" onclick="closeGuideModal()">Got It / বুঝলাম</button>
+    </div>
+  </div>
+
   <div class="container">
     <div class="header">
       <h2>GOAL & PROGRESS TRACKER</h2>
       <div class="creator-badge">Created by MD TALHA IBN HAFIZ</div>
     </div>
 
-    <!-- Login Area (Mandatory First) -->
+    <!-- Login Area -->
     <div id="login-box" class="auth-section">
       <p style="color:#9aa5b1; font-size:13px; margin-bottom:15px;">Please sign in to access your dashboard</p>
       <button class="btn-google" onclick="loginWithGoogle()">Sign in with Google</button>
@@ -630,7 +692,7 @@
     <div id="app-box" class="hidden">
       <!-- Profile Bar -->
       <div class="profile-bar">
-        <div class="user-info" onclick="switchTab('profile', document.querySelectorAll('.tab-btn')[3])" style="cursor:pointer;">
+        <div class="user-info" onclick="switchTab('profile', document.querySelectorAll('.tab-btn')[4])">
           <img id="nav-avatar" class="user-avatar-sm" src="" alt="">
           <span><strong id="user-handle">@user</strong></span>
         </div>
@@ -640,12 +702,13 @@
       <!-- Navigation Tabs -->
       <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('tracker', this)">TRACKER</button>
-        <button class="tab-btn" onclick="switchTab('study', this)">STUDY ROOM</button>
+        <button class="tab-btn" onclick="switchTab('study', this)">STUDY</button>
         <button class="tab-btn" onclick="switchTab('chat', this)">CHAT</button>
+        <button class="tab-btn" onclick="switchTab('friends', this)">FRIENDS</button>
         <button class="tab-btn" onclick="switchTab('profile', this)">PROFILE</button>
       </div>
 
-      <!-- Tab 1: Tracker (Today & Tomorrow Default + Date Selector) -->
+      <!-- Tab 1: Tracker -->
       <div id="tab-tracker" class="tab-content active">
         <div class="gamify-box">
           <div class="stat-card">
@@ -658,7 +721,6 @@
           </div>
         </div>
 
-        <!-- Add Task Input -->
         <div class="input-wrapper">
           <div class="input-row">
             <select id="taskCategory" class="category-select">
@@ -676,15 +738,12 @@
           </div>
         </div>
 
-        <!-- Today Table -->
         <div class="section-title">Today's Tasks (<span id="todayDateStr"></span>)</div>
         <ul id="todayTaskList"></ul>
 
-        <!-- Tomorrow Table -->
         <div class="section-title">Tomorrow's Tasks (<span id="tomorrowDateStr"></span>)</div>
         <ul id="tomorrowTaskList"></ul>
 
-        <!-- Other Date Selector Section -->
         <div class="date-box" style="margin-top:12px;">
           <label for="taskDate">View Other Date:</label>
           <input type="date" id="taskDate" onchange="loadOtherDateTasks()">
@@ -694,7 +753,6 @@
           <ul id="otherTaskList"></ul>
         </div>
 
-        <!-- Performance / Analytics Chart -->
         <div class="chart-box">
           <h4>WEEKLY COMPLETION TREND (%)</h4>
           <div class="canvas-wrapper">
@@ -725,14 +783,14 @@
         </div>
 
         <div class="leaderboard-box">
-          <h4>TODAY'S STUDY LEADERBOARD (Click user to message)</h4>
+          <h4>TODAY'S STUDY LEADERBOARD</h4>
           <div id="leaderboardList">
             <div class="leaderboard-item"><span>Loading...</span></div>
           </div>
         </div>
       </div>
 
-      <!-- Tab 3: Community Chat (Larger Box, Image Thumbnails, Unsend, Reactions) -->
+      <!-- Tab 3: Community Chat -->
       <div id="tab-chat" class="tab-content">
         <div class="chat-container">
           <div class="chat-messages" id="chatMessages"></div>
@@ -747,7 +805,21 @@
         </div>
       </div>
 
-      <!-- Tab 4: Profile Details -->
+      <!-- Tab 4: Friends & Direct Messages -->
+      <div id="tab-friends" class="tab-content">
+        <div class="friends-container" id="friendsViewContainer">
+          <div class="section-title" style="margin-top:0;">Messenger / Direct Messages</div>
+          <div id="friendsListArea" style="flex:1; overflow-y:auto; margin-bottom:10px;">
+            <p style="color:#7b8895; font-size:12px; text-align:center;">Loading friends...</p>
+          </div>
+          <div class="section-title">Add Friends from Platform</div>
+          <div id="allPlatformUsers" style="max-height:130px; overflow-y:auto;">
+            <p style="color:#7b8895; font-size:12px; text-align:center;">Loading users...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Profile Details -->
       <div id="tab-profile" class="tab-content">
         <div class="profile-card-view">
           <img id="profileAvatar" class="profile-avatar-lg" src="" alt="Avatar">
@@ -791,7 +863,6 @@
     let userTasks = {};
     let myChart = null;
 
-    // Timer vars
     let timerInterval = null;
     let secondsElapsed = 0;
     let isTimerRunning = false;
@@ -812,6 +883,10 @@
     window.loginWithGoogle = () => { signInWithPopup(auth, provider).catch(e => alert(e.message)); };
     window.logout = () => { signOut(auth); };
 
+    window.closeGuideModal = () => {
+      document.getElementById('guideModal').classList.add('hidden');
+    };
+
     window.switchTab = (tabName, btn) => {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -819,6 +894,7 @@
       btn.classList.add('active');
       if(tabName === 'study') loadLeaderboard();
       if(tabName === 'chat') loadChatMessages();
+      if(tabName === 'friends') loadFriendsAndUsers();
       if(tabName === 'profile') loadProfileDetails();
     };
 
@@ -827,12 +903,14 @@
         currentUser = user;
         document.getElementById('login-box').classList.add('hidden');
         document.getElementById('app-box').classList.remove('hidden');
+        document.getElementById('guideModal').classList.remove('hidden'); // Show guide popup on login
         await fetchUserData();
         loadAllTasks();
       } else {
         currentUser = null;
         document.getElementById('login-box').classList.remove('hidden');
         document.getElementById('app-box').classList.add('hidden');
+        document.getElementById('guideModal').classList.add('hidden');
       }
     });
 
@@ -845,7 +923,6 @@
         userTasks = data.tasks || {};
         customHandle = data.handle || currentUser.displayName.replace(/\s+/g, '').toLowerCase();
         
-        // Ensure uniqueness check if handle is new
         const allUsersSnap = await getDocs(collection(db, "users"));
         let exists = false;
         allUsersSnap.forEach(d => {
@@ -854,14 +931,12 @@
         if(exists) customHandle = customHandle + Math.floor(Math.random() * 100);
       } else {
         customHandle = currentUser.displayName.replace(/\s+/g, '').toLowerCase();
-        await setDoc(userRef, { handle: customHandle, tasks: {} }, { merge: true });
+        await setDoc(userRef, { handle: customHandle, tasks: {}, friends: [] }, { merge: true });
       }
       
       const photoURL = currentUser.photoURL || '';
       document.getElementById('user-handle').innerText = `@${customHandle}`;
-      if(photoURL) {
-        document.getElementById('nav-avatar').src = photoURL;
-      }
+      if(photoURL) document.getElementById('nav-avatar').src = photoURL;
     }
 
     window.changeUsername = async () => {
@@ -869,7 +944,6 @@
       if(newHandle && newHandle.trim() !== '') {
         const cleanHandle = newHandle.trim().replace(/\s+/g, '').toLowerCase();
         
-        // Verify uniqueness
         const allUsersSnap = await getDocs(collection(db, "users"));
         let taken = false;
         allUsersSnap.forEach(d => {
@@ -1025,7 +1099,7 @@
       });
     }
 
-    // Study Room & Leaderboard DM Trigger
+    // Study Room Timer
     window.setTimerMode = (mode, btn) => {
       document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -1106,7 +1180,7 @@
       input.focus();
     };
 
-    // Chat Functions (Smaller Image, Reactions, Unsend)
+    // Chat Functions (Love & Haha Reactions, Unsend)
     window.handleChatKey = (e) => { if(e.key === 'Enter') sendChatMessage(); };
     window.triggerImgUpload = () => { document.getElementById('imgFileInput').click(); };
 
@@ -1191,8 +1265,8 @@
             <div class="sender-row">
               <span class="sender" onclick="mentionUser('${msg.sender}')">@${msg.sender}</span>
               <div class="chat-msg-actions">
-                <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Like', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Like</button>
-                <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Helpful', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Helpful</button>
+                <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Love', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Love</button>
+                <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Haha', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Haha</button>
                 ${isOwner ? `<button class="chat-action-btn" style="color:#ff5252;" onclick="unsendMsg('${msg.id}')">Unsend</button>` : ''}
               </div>
             </div>
@@ -1205,6 +1279,66 @@
         box.scrollTop = box.scrollHeight;
       } catch(e) { box.innerHTML = '<div class="chat-msg">Error loading chat</div>'; }
     }
+
+    // Friends & Messenger-style DM System
+    window.loadFriendsAndUsers = async () => {
+      const friendsListArea = document.getElementById('friendsListArea');
+      const allPlatformUsers = document.getElementById('allPlatformUsers');
+      friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:12px; text-align:center;">Loading...</p>';
+      allPlatformUsers.innerHTML = '<p style="color:#7b8895; font-size:12px; text-align:center;">Loading...</p>';
+
+      const userDocRef = doc(db, "users", currentUser.uid);
+      const userSnap = await getDoc(userDocRef);
+      const friends = userSnap.exists() ? (userSnap.data().friends || []) : [];
+
+      // Render friends list for DM
+      if(friends.length === 0) {
+        friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:11px; text-align:center;">No friends added yet. Add from below.</p>';
+      } else {
+        friendsListArea.innerHTML = '';
+        friends.forEach(fHandle => {
+          friendsListArea.innerHTML += `
+            <div class="friend-item">
+              <span>@${fHandle}</span>
+              <button class="btn-small" onclick="openDirectMessage('${fHandle}')">Message</button>
+            </div>`;
+        });
+      }
+
+      // Render all platform users to add as friend
+      const allUsersSnap = await getDocs(collection(db, "users"));
+      allPlatformUsers.innerHTML = '';
+      allUsersSnap.forEach(d => {
+        const data = d.data();
+        if(d.id !== currentUser.uid) {
+          const isFriend = friends.includes(data.handle);
+          allPlatformUsers.innerHTML += `
+            <div class="friend-item">
+              <span>@${data.handle}</span>
+              ${isFriend ? '<span style="font-size:10px; color:#00ff88;">Friend</span>' : `<button class="btn-small" onclick="addFriend('${data.handle}')">Add Friend</button>`}
+            </div>`;
+        }
+      });
+    };
+
+    window.addFriend = async (friendHandle) => {
+      const userDocRef = doc(db, "users", currentUser.uid);
+      const userSnap = await getDoc(userDocRef);
+      let friends = userSnap.exists() ? (userSnap.data().friends || []) : [];
+      if(!friends.includes(friendHandle)) {
+        friends.push(friendHandle);
+        await updateDoc(userDocRef, { friends: friends });
+        alert(`@${friendHandle} added as friend!`);
+        loadFriendsAndUsers();
+      }
+    };
+
+    window.openDirectMessage = (friendHandle) => {
+      switchTab('chat', document.querySelectorAll('.tab-btn')[2]);
+      const input = document.getElementById('chatInput');
+      input.value = `@${friendHandle} [DM] `;
+      input.focus();
+    };
 
     // Profile Details Loader
     async function loadProfileDetails() {
