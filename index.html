@@ -2191,7 +2191,7 @@ onAuthStateChanged(auth, async (user) => {
   if (gfPrivateSearchInput) gfPrivateSearchInput.value = "";
 
   if (gfChatSection) {
-    gfChatSection.hidden = !user;
+    gfChatSection.hidden = false;
   }
 
   if (!user) {
