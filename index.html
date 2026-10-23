@@ -565,7 +565,7 @@
       font-weight: 600;
     }
 
-    /* Friends Tab Style */
+    /* Friends Tab Style & Search Box */
     .friends-container {
       background: #1c252e;
       border-radius: 8px;
@@ -574,6 +574,18 @@
       height: 400px;
       display: flex;
       flex-direction: column;
+    }
+
+    .friend-search-input {
+      background: #141a1f;
+      border: 1px solid #283543;
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      outline: none;
+      width: 100%;
+      margin-bottom: 8px;
     }
 
     .friend-item {
@@ -805,7 +817,7 @@
         </div>
       </div>
 
-      <!-- Tab 4: Friends & Direct Messages -->
+      <!-- Tab 4: Friends & Direct Messages (With Username Search) -->
       <div id="tab-friends" class="tab-content">
         <div class="friends-container" id="friendsViewContainer">
           <div class="section-title" style="margin-top:0;">Messenger / Direct Messages</div>
@@ -813,7 +825,8 @@
             <p style="color:#7b8895; font-size:12px; text-align:center;">Loading friends...</p>
           </div>
           <div class="section-title">Add Friends from Platform</div>
-          <div id="allPlatformUsers" style="max-height:130px; overflow-y:auto;">
+          <input type="text" class="friend-search-input" id="friendSearchBox" placeholder="Search username..." oninput="filterPlatformUsers()">
+          <div id="allPlatformUsers" style="max-height:110px; overflow-y:auto;">
             <p style="color:#7b8895; font-size:12px; text-align:center;">Loading users...</p>
           </div>
         </div>
@@ -862,6 +875,8 @@
     let customHandle = "";
     let userTasks = {};
     let myChart = null;
+    let cachedUsersList = [];
+    let cachedFriendsList = [];
 
     let timerInterval = null;
     let secondsElapsed = 0;
@@ -903,7 +918,7 @@
         currentUser = user;
         document.getElementById('login-box').classList.add('hidden');
         document.getElementById('app-box').classList.remove('hidden');
-        document.getElementById('guideModal').classList.remove('hidden'); // Show guide popup on login
+        document.getElementById('guideModal').classList.remove('hidden');
         await fetchUserData();
         loadAllTasks();
       } else {
@@ -1180,7 +1195,7 @@
       input.focus();
     };
 
-    // Chat Functions (Love & Haha Reactions, Unsend)
+    // Chat Functions
     window.handleChatKey = (e) => { if(e.key === 'Enter') sendChatMessage(); };
     window.triggerImgUpload = () => { document.getElementById('imgFileInput').click(); };
 
@@ -1280,23 +1295,20 @@
       } catch(e) { box.innerHTML = '<div class="chat-msg">Error loading chat</div>'; }
     }
 
-    // Friends & Messenger-style DM System
+    // Friends & Messenger-style DM System + Live Search
     window.loadFriendsAndUsers = async () => {
       const friendsListArea = document.getElementById('friendsListArea');
-      const allPlatformUsers = document.getElementById('allPlatformUsers');
       friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:12px; text-align:center;">Loading...</p>';
-      allPlatformUsers.innerHTML = '<p style="color:#7b8895; font-size:12px; text-align:center;">Loading...</p>';
 
       const userDocRef = doc(db, "users", currentUser.uid);
       const userSnap = await getDoc(userDocRef);
-      const friends = userSnap.exists() ? (userSnap.data().friends || []) : [];
+      cachedFriendsList = userSnap.exists() ? (userSnap.data().friends || []) : [];
 
-      // Render friends list for DM
-      if(friends.length === 0) {
-        friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:11px; text-align:center;">No friends added yet. Add from below.</p>';
+      if(cachedFriendsList.length === 0) {
+        friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:11px; text-align:center;">No friends added yet. Search below.</p>';
       } else {
         friendsListArea.innerHTML = '';
-        friends.forEach(fHandle => {
+        cachedFriendsList.forEach(fHandle => {
           friendsListArea.innerHTML += `
             <div class="friend-item">
               <span>@${fHandle}</span>
@@ -1305,19 +1317,37 @@
         });
       }
 
-      // Render all platform users to add as friend
+      // Cache all platform users
       const allUsersSnap = await getDocs(collection(db, "users"));
-      allPlatformUsers.innerHTML = '';
+      cachedUsersList = [];
       allUsersSnap.forEach(d => {
-        const data = d.data();
         if(d.id !== currentUser.uid) {
-          const isFriend = friends.includes(data.handle);
-          allPlatformUsers.innerHTML += `
-            <div class="friend-item">
-              <span>@${data.handle}</span>
-              ${isFriend ? '<span style="font-size:10px; color:#00ff88;">Friend</span>' : `<button class="btn-small" onclick="addFriend('${data.handle}')">Add Friend</button>`}
-            </div>`;
+          cachedUsersList.push(d.data().handle || '');
         }
+      });
+
+      filterPlatformUsers();
+    };
+
+    window.filterPlatformUsers = () => {
+      const searchVal = document.getElementById('friendSearchBox').value.trim().toLowerCase();
+      const allPlatformUsers = document.getElementById('allPlatformUsers');
+      allPlatformUsers.innerHTML = '';
+
+      const filtered = cachedUsersList.filter(handle => handle.toLowerCase().includes(searchVal));
+
+      if(filtered.length === 0) {
+        allPlatformUsers.innerHTML = '<p style="color:#7b8895; font-size:11px; text-align:center;">No user found</p>';
+        return;
+      }
+
+      filtered.forEach(handle => {
+        const isFriend = cachedFriendsList.includes(handle);
+        allPlatformUsers.innerHTML += `
+          <div class="friend-item">
+            <span>@${handle}</span>
+            ${isFriend ? '<span style="font-size:10px; color:#00ff88;">Friend</span>' : `<button class="btn-small" onclick="addFriend('${handle}')">Add Friend</button>`}
+          </div>`;
       });
     };
 
@@ -1361,4 +1391,4 @@
     }
   </script>
 </body>
-</html>
+              </html>
