@@ -47,31 +47,6 @@
       outline: 2px solid var(--primary-2);
       outline-offset: 3px;
     }
-<!-- GoalFlow Chat Section -->
-<section id="goalflow-chat" class="gf-chat" hidden>
-  <div class="gf-chat-grid">
-
-    <!-- World Chat -->
-    <section class="gf-chat-card">
-      <h2>🌍 World Chat</h2>
-      <p class="gf-muted">Chat with signed-in GoalFlow users.</p>
-
-      <div id="worldChatMessages"
-           class="gf-messages"
-           aria-live="polite"></div>
-
-      <form id="worldChatForm" class="gf-chat-form">
-        <input
-          id="worldChatInput"
-          type="text"
-          maxlength="1000"
-          placeholder="Write a message..."
-          autocomplete="off"
-          required
-        />
-        <button type="submit">Send</button>
-      </form>
-    </section>
 
     <!-- Private Chat -->
     <section class="gf-chat-card">
@@ -1339,7 +1314,92 @@ onAuthStateChanged(auth, async (user) => {
     Your personal productivity workspace.
   </footer>
 </div>
+<!-- GoalFlow Chat Section -->
+<section id="goalflow-chat" class="gf-chat" hidden>
+  <div class="gf-chat-grid">
 
+    <!-- World Chat -->
+    <section class="gf-chat-card">
+      <h2>🌍 World Chat</h2>
+      <p class="gf-muted">
+        Chat with signed-in GoalFlow users.
+      </p>
+
+      <div
+        id="worldChatMessages"
+        class="gf-messages"
+        aria-live="polite"
+      ></div>
+
+      <form id="worldChatForm" class="gf-chat-form">
+        <input
+          id="worldChatInput"
+          type="text"
+          maxlength="1000"
+          placeholder="Write a message..."
+          autocomplete="off"
+          required
+        />
+
+        <button type="submit">Send</button>
+      </form>
+    </section>
+
+    <!-- Private Chat -->
+    <section class="gf-chat-card">
+      <h2>🔒 Private Chat</h2>
+      <p class="gf-muted">
+        Find a user by their username.
+      </p>
+
+      <form id="privateUserSearchForm" class="gf-chat-form">
+        <input
+          id="privateUserSearch"
+          type="text"
+          maxlength="30"
+          placeholder="Enter username"
+          autocomplete="off"
+          required
+        />
+
+        <button type="submit">Search</button>
+      </form>
+
+      <p
+        id="privateSearchStatus"
+        class="gf-status"
+        aria-live="polite"
+      ></p>
+
+      <div id="privateChatPanel" hidden>
+        <h3 id="privateChatTitle">Private conversation</h3>
+
+        <div
+          id="privateChatMessages"
+          class="gf-messages"
+          aria-live="polite"
+        ></div>
+
+        <form id="privateChatForm" class="gf-chat-form">
+          <input
+            id="privateChatInput"
+            type="text"
+            maxlength="1000"
+            placeholder="Write a private message..."
+            autocomplete="off"
+            required
+          />
+
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<!-- Guide modal -->
+<div class="modal-backdrop" id="guideModal"
 <!-- Guide modal -->
 <div class="modal-backdrop" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
   <div class="modal">
