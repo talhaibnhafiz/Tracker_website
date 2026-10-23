@@ -380,7 +380,385 @@
       background: rgba(124,131,255,.14);
       font-size: 17px;
     }
+// GoalFlow Chat integration
+// Requires existing initialized Firebase objects: auth and db.
 
+const gfChat = document.getElementById("goalflow-chat");
+const worldMessagesEl = document.getElementById("worldChatMessages");
+const worldInput = document.getElementById("worldChatInput");
+const worldForm = document.getElementById("worldChatForm");
+
+const privateSearchForm = document.getElementById("privateUserSearchForm");
+const privateSearchInput = document.getElementById("privateUserSearch");
+const privateSearchStatus = document.getElementById("privateSearchStatus");
+const privatePanel = document.getElementById("privateChatPanel");
+const privateTitle = document.getElementById("privateChatTitle");
+const privateMessagesEl = document.getElementById("privateChatMessages");
+const privateInput = document.getElementById("privateChatInput");
+const privateForm = document.getElementById("privateChatForm");
+
+let gfCurrentUser = null;
+let gfUsername = "";
+let gfPrivateTarget = null;
+let gfConversationId = null;
+let gfStopWorld = null;
+let gfStopPrivate = null;
+
+// Use textContent, not HTML strings, to safely display user messages.
+function gfRenderMessages(container, docs) {
+  container.replaceChildren();
+
+  if (!docs.length) {
+    const empty = document.createElement("p");
+    empty.textContent = "No messages yet. Start the conversation!";
+    container.appendChild(empty);
+    return;
+  }
+
+  docs.forEach((messageDoc) => {
+    const data = messageDoc.data();
+
+    const article = document.createElement("article");
+    article.className = "gf-message";
+
+    const sender = document.createElement("strong");
+    sender.textContent = data.username || "GoalFlow user";
+
+    const body = document.createElement("p");
+    body.textContent = data.text || "";
+
+    article.append(sender, body);
+    container.appendChild(article);
+  });
+
+  container.scrollTop = container.scrollHeight;
+}
+
+function gfStopPrivateListener() {
+  if (gfStopPrivate) {
+    gfStopPrivate();
+    gfStopPrivate = null;
+  }
+}
+
+function gfStopWorldListener() {
+  if (gfStopWorld) {
+    gfStopWorld();
+    gfStopWorld = null;
+  }
+}
+
+// Reserve a username in usernames/{usernameLower}.
+// Existing users/{uid}.handle is used when available.
+async function gfEnsureUsername(user) {
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+  const oldProfile = userSnap.exists() ? userSnap.data() : {};
+
+  let candidate = String(
+    oldProfile.handle || oldProfile.username || ""
+  ).trim();
+
+  while (true) {
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(candidate)) {
+      candidate = prompt(
+        "Choose a username (3–20 letters, numbers or underscores):",
+        candidate || ""
+      );
+
+      if (candidate === null) {
+        throw new Error("A username is required to use chat.");
+      }
+
+      candidate = candidate.trim();
+      continue;
+    }
+
+    const usernameLower = candidate.toLowerCase();
+    const usernameRef = doc(db, "usernames", usernameLower);
+
+    const reservation = await runTransaction(db, async (tx) => {
+      const usernameSnap = await tx.get(usernameRef);
+
+      if (usernameSnap.exists()) {
+        return usernameSnap.data().uid === user.uid;
+      }
+
+      tx.set(usernameRef, { uid: user.uid });
+      return true;
+    });
+
+    if (!reservation) {
+      candidate = prompt(
+        "That username is already taken. Choose another username:",
+        ""
+      );
+
+      if (candidate === null) {
+        throw new Error("Username selection cancelled.");
+      }
+
+      candidate = candidate.trim();
+      continue;
+    }
+
+    await setDoc(
+      doc(db, "publicProfiles", user.uid),
+      {
+        uid: user.uid,
+        username: candidate,
+        usernameLower,
+        displayName: user.displayName || candidate,
+        createdAt: serverTimestamp()
+      },
+      { merge: true }
+    );
+
+    // Preserve existing user fields such as tasks, handle and friends.
+    await setDoc(
+      userRef,
+      { handle: candidate },
+      { merge: true }
+    );
+
+    return candidate;
+  }
+}
+
+function gfStartWorldListener() {
+  gfStopWorldListener();
+
+  const worldQuery = query(
+    collection(db, "worldMessages"),
+    orderBy("createdAt", "desc"),
+    limit(50)
+  );
+
+  gfStopWorld = onSnapshot(
+    worldQuery,
+    (snapshot) => {
+      const latestFirst = snapshot.docs;
+      gfRenderMessages(worldMessagesEl, [...latestFirst].reverse());
+    },
+    (error) => {
+      console.error("World Chat listener:", error);
+      privateSearchStatus.textContent =
+        "World Chat could not load. Check Firestore Rules.";
+    }
+  );
+}
+
+async function gfSendMessage(collectionPath, input) {
+  if (!gfCurrentUser || !gfUsername) {
+    throw new Error("Please sign in before sending a message.");
+  }
+
+  const text = input.value.trim();
+  if (!text) return;
+
+  if (text.length > 1000) {
+    throw new Error("Messages must be 1000 characters or fewer.");
+  }
+
+  await addDoc(collection(db, ...collectionPath), {
+    senderUid: gfCurrentUser.uid,
+    username: gfUsername,
+    text,
+    createdAt: serverTimestamp()
+  });
+
+  input.value = "";
+}
+
+worldForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  try {
+    await gfSendMessage(["worldMessages"], worldInput);
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Could not send the world message.");
+  }
+});
+
+// Search by username, not by email.
+privateSearchForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!gfCurrentUser) return;
+
+  privateSearchStatus.textContent = "Searching...";
+  privatePanel.hidden = true;
+  gfStopPrivateListener();
+
+  try {
+    const usernameLower = privateSearchInput.value.trim().toLowerCase();
+
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(usernameLower)) {
+      throw new Error("Enter a valid username (3–20 letters, numbers or underscores).");
+    }
+
+    const usernameSnap = await getDoc(
+      doc(db, "usernames", usernameLower)
+    );
+
+    if (!usernameSnap.exists()) {
+      privateSearchStatus.textContent = "Username not found.";
+      return;
+    }
+
+    const targetUid = usernameSnap.data().uid;
+
+    if (!targetUid || targetUid === gfCurrentUser.uid) {
+      privateSearchStatus.textContent =
+        targetUid === gfCurrentUser.uid
+          ? "You cannot start a chat with yourself."
+          : "Invalid username record.";
+      return;
+    }
+
+    const targetProfileSnap = await getDoc(
+      doc(db, "publicProfiles", targetUid)
+    );
+
+    if (!targetProfileSnap.exists()) {
+      privateSearchStatus.textContent =
+        "This user's public profile is not ready yet.";
+      return;
+    }
+
+    const targetProfile = targetProfileSnap.data();
+
+    await gfOpenPrivateChat(
+      targetUid,
+      targetProfile.username || usernameLower
+    );
+
+    privateSearchStatus.textContent = "";
+  } catch (error) {
+    console.error(error);
+    privateSearchStatus.textContent =
+      error.message || "Search failed. Check Firestore Rules.";
+  }
+});
+
+async function gfOpenPrivateChat(targetUid, targetUsername) {
+  const memberUids = [gfCurrentUser.uid, targetUid].sort();
+
+  // Stable ID means both users open the same conversation.
+  const conversationId = `${memberUids[0]}_${memberUids[1]}`;
+  const conversationRef = doc(db, "conversations", conversationId);
+
+  await runTransaction(db, async (tx) => {
+    const conversationSnap = await tx.get(conversationRef);
+
+    if (!conversationSnap.exists()) {
+      tx.set(conversationRef, {
+        memberUids,
+        createdAt: serverTimestamp()
+      });
+    } else {
+      const existingMembers = conversationSnap.data().memberUids || [];
+
+      if (
+        existingMembers.length !== 2 ||
+        !existingMembers.includes(gfCurrentUser.uid) ||
+        !existingMembers.includes(targetUid)
+      ) {
+        throw new Error("This conversation is not available to you.");
+      }
+    }
+  });
+
+  gfPrivateTarget = {
+    uid: targetUid,
+    username: targetUsername
+  };
+
+  gfConversationId = conversationId;
+  privateTitle.textContent = `Chat with ${targetUsername}`;
+  privatePanel.hidden = false;
+  gfStopPrivateListener();
+
+  const messagesQuery = query(
+    collection(
+      db,
+      "conversations",
+      conversationId,
+      "messages"
+    ),
+    orderBy("createdAt", "desc"),
+    limit(50)
+  );
+
+  gfStopPrivate = onSnapshot(
+    messagesQuery,
+    (snapshot) => {
+      gfRenderMessages(
+        privateMessagesEl,
+        [...snapshot.docs].reverse()
+      );
+    },
+    (error) => {
+      console.error("Private Chat listener:", error);
+      privateSearchStatus.textContent =
+        "Private messages could not load. Check Firestore Rules.";
+    }
+  );
+}
+
+privateForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!gfPrivateTarget || !gfConversationId) {
+    alert("Search for a user first.");
+    return;
+  }
+
+  try {
+    await gfSendMessage(
+      [
+        "conversations",
+        gfConversationId,
+        "messages"
+      ],
+      privateInput
+    );
+  } catch (error) {
+    console.error(error);
+    alert(error.message || "Could not send the private message.");
+  }
+});
+
+// Keep this observer separate from your existing sign-in/task observer.
+// It does not replace or modify Google sign-in.
+onAuthStateChanged(auth, async (user) => {
+  gfCurrentUser = user || null;
+  gfUsername = "";
+  gfPrivateTarget = null;
+  gfConversationId = null;
+
+  gfStopWorldListener();
+  gfStopPrivateListener();
+
+  privatePanel.hidden = true;
+  privateSearchStatus.textContent = "";
+  worldMessagesEl.replaceChildren();
+  privateMessagesEl.replaceChildren();
+
+  gfChat.hidden = !user;
+
+  if (!user) return;
+
+  try {
+    gfUsername = await gfEnsureUsername(user);
+    gfStartWorldListener();
+  } catch (error) {
+    console.error("GoalFlow chat setup:", error);
+    privateSearchStatus.textContent =
+      error.message || "Chat setup failed.";
+  }
+});
     .stat-value {
       margin-top: 15px;
       font-size: clamp(23px, 3vw, 30px);
