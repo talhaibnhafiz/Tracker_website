@@ -15,38 +15,40 @@
     }
 
     body {
-      background-color: #0b0f12;
+      background: radial-gradient(circle at top, #141f28, #070a0d);
       color: #e0e0e0;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 10px;
+      padding: 12px;
     }
 
     .container {
       width: 100%;
-      max-width: 520px;
-      background: #141a1f;
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid #1f2933;
-      box-shadow: 0 10px 30px rgba(0, 255, 136, 0.05);
+      max-width: 500px;
+      background: rgba(20, 26, 31, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 255, 136, 0.15);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 255, 136, 0.05);
       margin: 0 auto;
       overflow: hidden;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .header h2 {
       color: #ffffff;
       font-size: 22px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       margin-bottom: 4px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.1);
     }
 
     .creator-badge {
@@ -55,9 +57,9 @@
       font-weight: 600;
       color: #00ff88;
       background: rgba(0, 255, 136, 0.08);
-      padding: 3px 10px;
-      border-radius: 4px;
-      border: 1px solid rgba(0, 255, 136, 0.2);
+      padding: 3px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 255, 136, 0.25);
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -67,132 +69,136 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #1c252e;
-      padding: 8px 12px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      border: 1px solid #283543;
-      gap: 8px;
+      background: #18222c;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      border: 1px solid #233140;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.05);
     }
 
     .user-info {
       display: flex;
       align-items: center;
-      gap: 8px;
-      overflow: hidden;
+      gap: 10px;
       cursor: pointer;
     }
 
     .user-avatar-sm {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid #00ff88;
+      border: 1.5px solid #00ff88;
+      box-shadow: 0 0 8px rgba(0,255,136,0.3);
     }
 
     .user-info span {
       font-size: 13px;
       font-weight: 600;
       color: #00ff88;
-      white-space: nowrap;
     }
 
     .btn-small {
       background: rgba(0, 255, 136, 0.12);
       color: #00ff88;
       border: 1px solid rgba(0, 255, 136, 0.3);
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
       font-size: 10px;
       cursor: pointer;
+      transition: all 0.2s;
     }
+    .btn-small:hover { background: rgba(0, 255, 136, 0.25); }
 
     .btn-logout {
       background: transparent;
       color: #ff5252;
       border: 1px solid rgba(255, 82, 82, 0.3);
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 11px;
       font-weight: 600;
-      white-space: nowrap;
+      transition: all 0.2s;
     }
+    .btn-logout:hover { background: rgba(255, 82, 82, 0.15); }
 
     /* Tabs Navigation */
     .nav-tabs {
       display: flex;
-      gap: 3px;
-      margin-bottom: 14px;
-      background: #1c252e;
+      gap: 4px;
+      margin-bottom: 16px;
+      background: #10161c;
       padding: 4px;
-      border-radius: 8px;
-      border: 1px solid #283543;
+      border-radius: 10px;
+      border: 1px solid #202d3a;
     }
 
     .tab-btn {
       flex: 1;
       background: transparent;
       border: none;
-      color: #9aa5b1;
+      color: #8fa0b0;
       padding: 8px 2px;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 600;
       cursor: pointer;
-      border-radius: 6px;
+      border-radius: 8px;
       text-align: center;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
     }
 
     .tab-btn.active {
       background: #00ff88;
-      color: #0b0f12;
+      color: #070a0d;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(0,255,136,0.25);
     }
 
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Gamify Box */
+    /* Stats Grid */
     .gamify-box {
       display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
     .stat-card {
       flex: 1;
-      background: #1c252e;
-      padding: 8px;
-      border-radius: 8px;
-      border: 1px solid #283543;
+      background: #18222c;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #233140;
       text-align: center;
     }
 
     .stat-card .label {
       font-size: 10px;
-      color: #9aa5b1;
+      color: #8fa0b0;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .stat-card .value {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       color: #00ff88;
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
-    /* Dual Tables Section */
+    /* Titles & Cards */
     .section-title {
-      font-size: 12px;
+      font-size: 11px;
       color: #00ff88;
       text-transform: uppercase;
-      margin: 12px 0 6px 0;
-      letter-spacing: 0.5px;
+      margin: 14px 0 8px 0;
+      letter-spacing: 0.8px;
       font-weight: 700;
-      border-bottom: 1px solid #283543;
-      padding-bottom: 3px;
+      border-bottom: 1px solid #233140;
+      padding-bottom: 4px;
     }
 
     .date-box {
@@ -200,19 +206,16 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
-      background: #1c252e;
-      padding: 8px 12px;
+      background: #18222c;
+      padding: 10px 12px;
       border-radius: 8px;
-      border: 1px solid #283543;
+      border: 1px solid #233140;
     }
 
-    .date-box label {
-      font-size: 12px;
-      color: #9aa5b1;
-    }
+    .date-box label { font-size: 12px; color: #8fa0b0; }
 
     .date-box input[type="date"] {
-      background: #0b0f12;
+      background: #070a0d;
       color: #00ff88;
       border: 1px solid #00ff88;
       padding: 4px 8px;
@@ -221,34 +224,8 @@
       font-size: 12px;
     }
 
-    .progress-bg {
-      background: #1c252e;
-      border-radius: 6px;
-      height: 10px;
-      width: 100%;
-      overflow: hidden;
-      margin-bottom: 4px;
-      border: 1px solid #283543;
-    }
-
-    .progress-fill {
-      background: #00ff88;
-      height: 100%;
-      width: 0%;
-      transition: width 0.4s ease;
-    }
-
-    .stats-text {
-      text-align: center;
-      font-size: 11px;
-      color: #7b8895;
-      margin-bottom: 12px;
-    }
-
-    /* Input Wrapper */
-    .input-wrapper {
-      margin-bottom: 12px;
-    }
+    /* Input Fields */
+    .input-wrapper { margin-bottom: 14px; }
 
     .input-row {
       display: flex;
@@ -257,78 +234,69 @@
     }
 
     select.category-select {
-      background: #1c252e;
-      border: 1px solid #283543;
+      background: #18222c;
+      border: 1px solid #233140;
       color: #00ff88;
       padding: 8px 6px;
-      border-radius: 6px;
-      font-size: 12px;
+      border-radius: 8px;
+      font-size: 11px;
       outline: none;
-      max-width: 95px;
     }
 
     .input-row input {
       flex: 1;
       min-width: 0;
-      background: #1c252e;
-      border: 1px solid #283543;
+      background: #18222c;
+      border: 1px solid #233140;
       color: #ffffff;
-      padding: 8px 10px;
-      border-radius: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
       outline: none;
-      font-size: 13px;
+      font-size: 12px;
+      transition: border 0.2s;
     }
+    .input-row input:focus { border-color: #00ff88; }
 
     .btn-add {
       background: #00ff88;
-      color: #0b0f12;
+      color: #070a0d;
       border: none;
       padding: 8px 14px;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
       font-size: 12px;
-      white-space: nowrap;
+      transition: transform 0.1s;
     }
+    .btn-add:active { transform: scale(0.96); }
 
-    ul {
-      list-style: none;
-      margin-bottom: 10px;
-      max-height: 140px;
-      overflow-y: auto;
-    }
+    /* Task Items */
+    ul { list-style: none; margin-bottom: 10px; max-height: 150px; overflow-y: auto; }
 
     li {
-      background: #1c252e;
-      padding: 8px 10px;
+      background: #18222c;
+      padding: 8px 12px;
       margin-bottom: 6px;
-      border-radius: 6px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border: 1px solid #283543;
-      font-size: 13px;
+      border: 1px solid #233140;
+      font-size: 12px;
     }
 
-    li.done { opacity: 0.5; }
-    li.done .task-text { text-decoration: line-through; color: #7b8895; }
+    li.done { opacity: 0.45; }
+    li.done .task-text { text-decoration: line-through; color: #8fa0b0; }
 
-    .task-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      overflow: hidden;
-    }
-
-    .task-left input[type="checkbox"] { accent-color: #00ff88; }
+    .task-left { display: flex; align-items: center; gap: 8px; overflow: hidden; }
+    .task-left input[type="checkbox"] { accent-color: #00ff88; width: 14px; height: 14px; }
 
     .tag-badge {
-      font-size: 9px;
+      font-size: 8px;
       font-weight: 700;
-      padding: 2px 5px;
-      border-radius: 3px;
+      padding: 2px 6px;
+      border-radius: 4px;
       text-transform: uppercase;
-      white-space: nowrap;
     }
 
     .tag-study { background: rgba(66, 133, 244, 0.2); color: #4285F4; border: 1px solid rgba(66, 133, 244, 0.3); }
@@ -338,74 +306,55 @@
 
     .btn-del { background: transparent; color: #ff5252; border: none; font-size: 13px; cursor: pointer; }
 
-    /* Chart Box */
+    /* Chart Card */
     .chart-box {
-      background: #1c252e;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #283543;
-      width: 100%;
+      background: #18222c;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #233140;
       margin-top: 15px;
     }
 
     .chart-box h4 {
       font-size: 11px;
-      color: #9aa5b1;
-      margin-bottom: 6px;
+      color: #8fa0b0;
+      margin-bottom: 8px;
       text-align: center;
       letter-spacing: 0.5px;
     }
 
-    .canvas-wrapper {
-      position: relative;
-      width: 100%;
-      height: 160px;
-    }
+    .canvas-wrapper { position: relative; width: 100%; height: 160px; }
 
-    /* Study Room Styles */
+    /* Timer Room */
     .study-card {
-      background: #1c252e;
-      padding: 16px;
-      border-radius: 10px;
-      border: 1px solid #283543;
+      background: #18222c;
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid #233140;
       text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .mode-select {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 14px;
     }
 
     .mode-btn {
-      background: #141a1f;
-      border: 1px solid #283543;
-      color: #9aa5b1;
-      padding: 4px 10px;
-      border-radius: 4px;
+      background: #10161c;
+      border: 1px solid #233140;
+      color: #8fa0b0;
+      padding: 5px 12px;
+      border-radius: 6px;
       font-size: 11px;
       cursor: pointer;
+      margin: 0 3px;
     }
 
-    .mode-btn.active {
-      border-color: #00ff88;
-      color: #00ff88;
-    }
+    .mode-btn.active { border-color: #00ff88; color: #00ff88; }
 
     .timer-display {
-      font-size: 34px;
+      font-size: 38px;
       font-weight: 700;
       color: #00ff88;
-      margin: 8px 0;
-      letter-spacing: 1px;
-    }
-
-    .timer-controls {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
+      margin: 10px 0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0,255,136,0.2);
     }
 
     .bgm-controls {
@@ -414,42 +363,19 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      font-size: 12px;
-      color: #9aa5b1;
-    }
-
-    .leaderboard-box {
-      background: #1c252e;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #283543;
-    }
-
-    .leaderboard-box h4 { font-size: 11px; color: #9aa5b1; margin-bottom: 6px; text-align: center; letter-spacing: 0.5px; }
-
-    .leaderboard-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 8px;
-      border-bottom: 1px solid #283543;
-      font-size: 12px;
-    }
-
-    .leaderboard-item span {
-      cursor: pointer;
-      color: #00ff88;
+      font-size: 11px;
+      color: #8fa0b0;
     }
 
     /* Chat Styling */
     .chat-container {
-      background: #1c252e;
-      border-radius: 8px;
-      border: 1px solid #283543;
+      background: #18222c;
+      border-radius: 12px;
+      border: 1px solid #233140;
       display: flex;
       flex-direction: column;
-      height: 400px;
-      padding: 10px;
+      height: 380px;
+      padding: 12px;
     }
 
     .chat-messages {
@@ -458,134 +384,67 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      margin-bottom: 8px;
-      padding-right: 4px;
+      margin-bottom: 10px;
     }
 
     .chat-msg {
-      background: #141a1f;
+      background: #10161c;
       padding: 8px 10px;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 12px;
-      border: 1px solid #283543;
-      word-break: break-word;
-      position: relative;
+      border: 1px solid #202d3a;
+      max-width: 90%;
     }
 
     .chat-msg .sender-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
-    .chat-msg .sender {
-      color: #00ff88;
-      font-weight: 700;
-      font-size: 11px;
-      cursor: pointer;
-    }
+    .chat-msg .sender { color: #00ff88; font-weight: 700; font-size: 11px; cursor: pointer; }
 
-    .chat-msg-actions {
-      display: flex;
-      gap: 6px;
-      font-size: 10px;
-    }
-
-    .chat-action-btn {
-      background: transparent;
-      border: none;
-      color: #9aa5b1;
-      cursor: pointer;
-    }
+    .chat-action-btn { background: transparent; border: none; color: #8fa0b0; font-size: 10px; cursor: pointer; }
     .chat-action-btn:hover { color: #00ff88; }
 
-    .chat-msg img {
-      max-width: 120px;
-      max-height: 120px;
-      border-radius: 4px;
-      margin-top: 4px;
-      display: block;
-      object-fit: cover;
-    }
+    .reactions-bar { display: flex; gap: 4px; margin-top: 4px; }
+    .reaction-badge { background: #18222c; border: 1px solid #233140; padding: 1px 5px; border-radius: 10px; font-size: 9px; color: #00ff88; }
 
-    .reactions-bar {
-      display: flex;
-      gap: 4px;
-      margin-top: 4px;
-      flex-wrap: wrap;
-    }
-
-    .reaction-badge {
-      background: #1c252e;
-      border: 1px solid #283543;
-      padding: 1px 6px;
-      border-radius: 10px;
-      font-size: 10px;
-      color: #00ff88;
-      cursor: pointer;
-    }
-
-    .mention-text {
-      color: #4285F4;
-      font-weight: 600;
-    }
-
-    .chat-input-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .chat-input-row {
-      display: flex;
-      gap: 4px;
-    }
+    .chat-input-row { display: flex; gap: 6px; }
 
     .chat-input-row input {
       flex: 1;
-      min-width: 0;
-      background: #141a1f;
-      border: 1px solid #283543;
+      background: #10161c;
+      border: 1px solid #202d3a;
       color: #fff;
-      padding: 8px;
-      border-radius: 6px;
+      padding: 8px 10px;
+      border-radius: 8px;
       font-size: 12px;
       outline: none;
     }
 
-    .img-upload-btn {
-      background: #283543;
-      color: #00ff88;
-      border: 1px solid #283543;
-      padding: 6px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    /* Friends Tab Style & Search Box */
+    /* Friends UI */
     .friends-container {
-      background: #1c252e;
-      border-radius: 8px;
-      border: 1px solid #283543;
-      padding: 10px;
-      height: 400px;
+      background: #18222c;
+      border-radius: 12px;
+      border: 1px solid #233140;
+      padding: 12px;
+      height: 380px;
       display: flex;
       flex-direction: column;
     }
 
     .friend-search-input {
-      background: #141a1f;
-      border: 1px solid #283543;
+      background: #10161c;
+      border: 1px solid #202d3a;
       color: #fff;
-      padding: 6px 10px;
-      border-radius: 6px;
+      padding: 8px;
+      border-radius: 8px;
       font-size: 12px;
       outline: none;
       width: 100%;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .friend-item {
@@ -593,45 +452,33 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px;
-      border-bottom: 1px solid #283543;
+      border-bottom: 1px solid #202d3a;
       font-size: 12px;
     }
 
-    /* Profile Tab Styling */
+    /* Profile Card */
     .profile-card-view {
-      background: #1c252e;
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid #283543;
+      background: #18222c;
+      padding: 22px;
+      border-radius: 12px;
+      border: 1px solid #233140;
       text-align: center;
     }
 
     .profile-avatar-lg {
-      width: 70px;
-      height: 70px;
+      width: 75px;
+      height: 75px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #00ff88;
+      box-shadow: 0 0 12px rgba(0,255,136,0.3);
       margin-bottom: 10px;
     }
 
-    .profile-card-view h3 { color: #fff; font-size: 16px; margin-bottom: 4px; }
-    .profile-card-view p { color: #9aa5b1; font-size: 12px; margin-bottom: 15px; }
+    .profile-details-list { text-align: left; font-size: 12px; border-top: 1px solid #233140; padding-top: 12px; margin-top: 12px; }
+    .profile-details-list div { margin-bottom: 8px; display: flex; justify-content: space-between; }
 
-    .profile-details-list {
-      text-align: left;
-      font-size: 12px;
-      border-top: 1px solid #283543;
-      padding-top: 10px;
-    }
-
-    .profile-details-list div {
-      margin-bottom: 6px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    /* Guide Modal */
+    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -648,40 +495,35 @@
       border: 1px solid #00ff88;
       padding: 20px;
       border-radius: 12px;
-      max-width: 450px;
+      max-width: 440px;
       width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0,255,136,0.2);
     }
-
-    .modal-box h3 { color: #00ff88; margin-bottom: 10px; font-size: 16px; text-align: center; }
-    .modal-box ul { padding-left: 15px; font-size: 12px; margin-bottom: 10px; max-height: none; }
-    .modal-box li { background: transparent; border: none; padding: 2px 0; margin-bottom: 4px; }
 
     .hidden { display: none !important; }
     .auth-section { text-align: center; padding: 30px 0; }
-    .btn-google { background: #00ff88; color: #0b0f12; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; }
+    .btn-google { background: #00ff88; color: #070a0d; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 13px; }
   </style>
 </head>
 <body>
 
-  <!-- User Guide Popup Modal -->
+  <!-- Modal Guide -->
   <div id="guideModal" class="modal-overlay hidden">
     <div class="modal-box">
-      <h3>USER GUIDE / ব্যবহার নির্দেশিকা</h3>
-      <div style="font-size:12px; color:#e0e0e0; line-height:1.4;">
-        <p style="color:#00ff88; font-weight:bold; margin-bottom:6px;">উদ্দেশ্য ও উপকারিতা (Purpose & Benefits):</p>
-        <ul>
-          <li>• প্রতিদিনের ও আগামীকালের টাস্ক ট্র্যাক করে প্রোডাক্টিভিটি বাড়াতে সাহায্য করে।</li>
-          <li>• স্টাডি রুম ও টাইমার ব্যবহার করে ফোকাস ধরে রাখা এবং লিডারবোর্ডে নিজের অবস্থান দেখা যায়।</li>
-          <li>• বন্ধুদের সাথে সরাসরি চ্যাট, কমিউনিটি ডিসকাশন এবং স্টাডি প্রোগ্রেস শেয়ার করা যায়।</li>
+      <h3 style="color:#00ff88; text-align:center; font-size:16px; margin-bottom:10px;">USER GUIDE / ব্যবহার নির্দেশিকা</h3>
+      <div style="font-size:12px; color:#e0e0e0; line-height:1.5;">
+        <p style="color:#00ff88; font-weight:bold; margin-bottom:4px;">উদ্দেশ্য ও উপকারিতা (Bangla):</p>
+        <ul style="padding-left:15px; margin-bottom:10px;">
+          <li>• প্রতিটি ইউজারের নিজস্ব To-Do List সম্পূর্ণ প্রাইভেট ও সুরক্ষিত।</li>
+          <li>• বন্ধুদের সাথে আলাদা প্রাইভেট মেসেঞ্জারে ১-অন-১ চ্যাট করার সুবিধা।</li>
+          <li>• গ্লোবাল চ্যাটে শুধু নিজের মেসেজই আনসেন্ড (Delete) করা যাবে।</li>
         </ul>
-        <hr style="border-color:#283543; margin:10px 0;">
-        <p style="color:#00ff88; font-weight:bold; margin-bottom:6px;">Overview (English):</p>
-        <ul>
-          <li>• Track daily and upcoming tasks to boost personal productivity.</li>
-          <li>• Use the focus timer in the study room and compete on the leaderboard.</li>
-          <li>• Connect with peers via direct messaging and community chat.</li>
+        <hr style="border-color:#202d3a; margin:8px 0;">
+        <p style="color:#00ff88; font-weight:bold; margin-bottom:4px;">Overview (English):</p>
+        <ul style="padding-left:15px;">
+          <li>• Individual user tasks are private to your personal account.</li>
+          <li>• Dedicated 1-on-1 private Messenger chat with added friends.</li>
+          <li>• Unsend option is strictly restricted to your own messages.</li>
         </ul>
       </div>
       <button class="btn-add" style="width:100%; margin-top:15px;" onclick="closeGuideModal()">Got It / বুঝলাম</button>
@@ -696,13 +538,12 @@
 
     <!-- Login Area -->
     <div id="login-box" class="auth-section">
-      <p style="color:#9aa5b1; font-size:13px; margin-bottom:15px;">Please sign in to access your dashboard</p>
+      <p style="color:#8fa0b0; font-size:13px; margin-bottom:15px;">Please sign in to access your dashboard</p>
       <button class="btn-google" onclick="loginWithGoogle()">Sign in with Google</button>
     </div>
 
     <!-- Main Container -->
     <div id="app-box" class="hidden">
-      <!-- Profile Bar -->
       <div class="profile-bar">
         <div class="user-info" onclick="switchTab('profile', document.querySelectorAll('.tab-btn')[4])">
           <img id="nav-avatar" class="user-avatar-sm" src="" alt="">
@@ -776,28 +617,28 @@
       <!-- Tab 2: Study Room -->
       <div id="tab-study" class="tab-content">
         <div class="study-card">
-          <div class="mode-select">
+          <div class="mode-select" style="margin-bottom:10px;">
             <button class="mode-btn active" onclick="setTimerMode('stopwatch', this)">Stopwatch</button>
             <button class="mode-btn" onclick="setTimerMode('pomo25', this)">Pomodoro (25m)</button>
           </div>
 
           <div class="timer-display" id="timerDisplay">00:00:00</div>
 
-          <div class="timer-controls">
+          <div style="display:flex; justify-content:center; gap:8px;">
             <button class="btn-add" onclick="startTimer()">Start</button>
             <button class="btn-logout" style="color:#ff5252; border-color:#ff5252;" onclick="stopTimer()">Stop & Save</button>
           </div>
 
           <div class="bgm-controls">
-            <span>Rain Sound:</span>
+            <span>Rain Focus Sound:</span>
             <input type="checkbox" id="bgmToggle" onchange="toggleBGM(this)">
           </div>
         </div>
 
-        <div class="leaderboard-box">
-          <h4>TODAY'S STUDY LEADERBOARD</h4>
+        <div style="background:#18222c; padding:12px; border-radius:10px; border:1px solid #233140;">
+          <h4 style="font-size:11px; color:#8fa0b0; text-align:center; margin-bottom:6px;">TODAY'S STUDY LEADERBOARD</h4>
           <div id="leaderboardList">
-            <div class="leaderboard-item"><span>Loading...</span></div>
+            <div class="friend-item"><span>Loading...</span></div>
           </div>
         </div>
       </div>
@@ -806,28 +647,39 @@
       <div id="tab-chat" class="tab-content">
         <div class="chat-container">
           <div class="chat-messages" id="chatMessages"></div>
-          <div class="chat-input-wrapper">
-            <div class="chat-input-row">
-              <input type="text" id="chatInput" placeholder="Type message... (@username)" onkeypress="handleChatKey(event)">
-              <button class="img-upload-btn" onclick="triggerImgUpload()">Image</button>
-              <button class="btn-add" onclick="sendChatMessage()">Send</button>
-            </div>
-            <input type="file" id="imgFileInput" accept="image/*" class="hidden" onchange="uploadImage(event)">
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Type message... (@username)" onkeypress="handleChatKey(event)">
+            <button class="btn-small" onclick="triggerImgUpload()" style="padding:6px 10px;">Img</button>
+            <button class="btn-add" onclick="sendChatMessage()">Send</button>
           </div>
+          <input type="file" id="imgFileInput" accept="image/*" class="hidden" onchange="uploadImage(event)">
         </div>
       </div>
 
-      <!-- Tab 4: Friends & Direct Messages (With Username Search) -->
+      <!-- Tab 4: Friends & Direct Messenger -->
       <div id="tab-friends" class="tab-content">
-        <div class="friends-container" id="friendsViewContainer">
-          <div class="section-title" style="margin-top:0;">Messenger / Direct Messages</div>
+        <div class="friends-container" id="friendsMainView">
+          <div class="section-title" style="margin-top:0;">Friends (Direct Messenger)</div>
           <div id="friendsListArea" style="flex:1; overflow-y:auto; margin-bottom:10px;">
-            <p style="color:#7b8895; font-size:12px; text-align:center;">Loading friends...</p>
+            <p style="color:#8fa0b0; font-size:12px; text-align:center;">Loading friends...</p>
           </div>
           <div class="section-title">Add Friends from Platform</div>
           <input type="text" class="friend-search-input" id="friendSearchBox" placeholder="Search username..." oninput="filterPlatformUsers()">
           <div id="allPlatformUsers" style="max-height:110px; overflow-y:auto;">
-            <p style="color:#7b8895; font-size:12px; text-align:center;">Loading users...</p>
+            <p style="color:#8fa0b0; font-size:12px; text-align:center;">Loading users...</p>
+          </div>
+        </div>
+
+        <!-- Dedicated Private DM Chat Box -->
+        <div class="friends-container hidden" id="privateChatRoomView">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #233140; padding-bottom:6px; margin-bottom:8px;">
+            <span style="font-weight:700; color:#00ff88;" id="activePrivateFriendTitle">Chatting with @user</span>
+            <button class="btn-small" onclick="closePrivateChat()">Back</button>
+          </div>
+          <div class="chat-messages" id="privateChatMessages" style="flex:1;"></div>
+          <div class="chat-input-row">
+            <input type="text" id="privateChatInput" placeholder="Type private message..." onkeypress="handlePrivateChatKey(event)">
+            <button class="btn-add" onclick="sendPrivateMessage()">Send</button>
           </div>
         </div>
       </div>
@@ -836,9 +688,9 @@
       <div id="tab-profile" class="tab-content">
         <div class="profile-card-view">
           <img id="profileAvatar" class="profile-avatar-lg" src="" alt="Avatar">
-          <h3 id="profileNameDisplay">User</h3>
-          <p id="profileHandleDisplay">@handle</p>
-          <button class="btn-small" onclick="changeUsername()" style="margin-bottom:15px; padding:4px 10px;">Change Username</button>
+          <h3 id="profileNameDisplay" style="color:#fff; font-size:16px;">User</h3>
+          <p id="profileHandleDisplay" style="color:#8fa0b0; font-size:12px; margin-bottom:12px;">@handle</p>
+          <button class="btn-small" onclick="changeUsername()" style="margin-bottom:12px;">Change Username</button>
           
           <div class="profile-details-list">
             <div><span>Email:</span> <strong id="profileEmail" style="color:#fff;">-</strong></div>
@@ -877,6 +729,7 @@
     let myChart = null;
     let cachedUsersList = [];
     let cachedFriendsList = [];
+    let activePrivateFriend = null;
 
     let timerInterval = null;
     let secondsElapsed = 0;
@@ -996,7 +849,7 @@
       list.innerHTML = '';
 
       if (tasks.length === 0) {
-        list.innerHTML = '<li style="color:#7b8895; justify-content:center; font-size:11px;">No tasks added</li>';
+        list.innerHTML = '<li style="color:#8fa0b0; justify-content:center; font-size:11px;">No tasks added</li>';
         return;
       }
 
@@ -1106,15 +959,15 @@
           responsive: true,
           maintainAspectRatio: false,
           scales: {
-            y: { min: 0, max: 100, ticks: { color: '#9aa5b1', font: { family: 'Times New Roman', size: 10 } }, grid: { color: '#283543' } },
-            x: { ticks: { color: '#9aa5b1', font: { family: 'Times New Roman', size: 10 } }, grid: { color: '#283543' } }
+            y: { min: 0, max: 100, ticks: { color: '#8fa0b0', font: { family: 'Times New Roman', size: 10 } }, grid: { color: '#202d3a' } },
+            x: { ticks: { color: '#8fa0b0', font: { family: 'Times New Roman', size: 10 } }, grid: { color: '#202d3a' } }
           },
           plugins: { legend: { display: false } }
         }
       });
     }
 
-    // Study Room Timer
+    // Study Timer
     window.setTimerMode = (mode, btn) => {
       document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
@@ -1171,21 +1024,21 @@
 
     async function loadLeaderboard() {
       const el = document.getElementById('leaderboardList');
-      el.innerHTML = '<div class="leaderboard-item"><span>Loading...</span></div>';
+      el.innerHTML = '<div class="friend-item"><span>Loading...</span></div>';
       try {
         const q = query(collection(db, "leaderboard"), orderBy("minutes", "desc"), limit(10));
         const snap = await getDocs(q);
         el.innerHTML = '';
-        if(snap.empty) { el.innerHTML = '<div class="leaderboard-item"><span>No records yet.</span></div>'; return; }
+        if(snap.empty) { el.innerHTML = '<div class="friend-item"><span>No records yet.</span></div>'; return; }
         snap.forEach(d => {
           const data = d.data();
           el.innerHTML += `
-            <div class="leaderboard-item">
-              <span onclick="mentionUser('${data.handle}')">@${data.handle || 'user'}</span>
+            <div class="friend-item">
+              <span style="color:#00ff88; cursor:pointer;" onclick="mentionUser('${data.handle}')">@${data.handle || 'user'}</span>
               <strong style="color:#00ff88;">${data.minutes} mins</strong>
             </div>`;
         });
-      } catch(e) { el.innerHTML = '<div class="leaderboard-item"><span>Error loading</span></div>'; }
+      } catch(e) { el.innerHTML = '<div class="friend-item"><span>Error loading</span></div>'; }
     }
 
     window.mentionUser = (handle) => {
@@ -1195,7 +1048,7 @@
       input.focus();
     };
 
-    // Chat Functions
+    // Global Public Chat
     window.handleChatKey = (e) => { if(e.key === 'Enter') sendChatMessage(); };
     window.triggerImgUpload = () => { document.getElementById('imgFileInput').click(); };
 
@@ -1233,7 +1086,11 @@
       loadChatMessages();
     };
 
-    window.unsendMsg = async (msgId) => {
+    window.unsendMsg = async (msgId, ownerUid) => {
+      if(ownerUid !== currentUser.uid) {
+        alert("You can only unsend your own messages!");
+        return;
+      }
       if(confirm("Delete this message?")) {
         await deleteDoc(doc(db, "chats", msgId));
         loadChatMessages();
@@ -1259,13 +1116,13 @@
         docs.reverse();
 
         if(docs.length === 0) {
-          box.innerHTML = '<div class="chat-msg" style="text-align:center; color:#7b8895;">No messages yet.</div>';
+          box.innerHTML = '<div class="chat-msg" style="text-align:center; color:#8fa0b0;">No messages yet.</div>';
           return;
         }
 
         docs.forEach(msg => {
           let textHTML = msg.text || '';
-          textHTML = textHTML.replace(/(@\w+)/g, '<span class="mention-text">$1</span>');
+          textHTML = textHTML.replace(/(@\w+)/g, '<span style="color:#4285F4; font-weight:600;">$1</span>');
 
           const isOwner = msg.uid === currentUser.uid;
           const reactions = msg.reactions || {};
@@ -1279,14 +1136,14 @@
           div.innerHTML = `
             <div class="sender-row">
               <span class="sender" onclick="mentionUser('${msg.sender}')">@${msg.sender}</span>
-              <div class="chat-msg-actions">
+              <div style="display:flex; gap:6px;">
                 <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Love', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Love</button>
                 <button class="chat-action-btn" onclick="addReaction('${msg.id}', 'Haha', ${JSON.stringify(reactions).replace(/"/g, '&quot;')})">Haha</button>
-                ${isOwner ? `<button class="chat-action-btn" style="color:#ff5252;" onclick="unsendMsg('${msg.id}')">Unsend</button>` : ''}
+                ${isOwner ? `<button class="chat-action-btn" style="color:#ff5252;" onclick="unsendMsg('${msg.id}', '${msg.uid}')">Unsend</button>` : ''}
               </div>
             </div>
             ${textHTML ? `<div>${textHTML}</div>` : ''}
-            ${msg.image ? `<img src="${msg.image}">` : ''}
+            ${msg.image ? `<img src="${msg.image}" style="max-width:120px; border-radius:6px; margin-top:4px;">` : ''}
             <div class="reactions-bar">${reactionHtml}</div>
           `;
           box.appendChild(div);
@@ -1295,29 +1152,28 @@
       } catch(e) { box.innerHTML = '<div class="chat-msg">Error loading chat</div>'; }
     }
 
-    // Friends & Messenger-style DM System + Live Search
+    // Private Direct DM System
     window.loadFriendsAndUsers = async () => {
       const friendsListArea = document.getElementById('friendsListArea');
-      friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:12px; text-align:center;">Loading...</p>';
+      friendsListArea.innerHTML = '<p style="color:#8fa0b0; font-size:12px; text-align:center;">Loading...</p>';
 
       const userDocRef = doc(db, "users", currentUser.uid);
       const userSnap = await getDoc(userDocRef);
       cachedFriendsList = userSnap.exists() ? (userSnap.data().friends || []) : [];
 
       if(cachedFriendsList.length === 0) {
-        friendsListArea.innerHTML = '<p style="color:#7b8895; font-size:11px; text-align:center;">No friends added yet. Search below.</p>';
+        friendsListArea.innerHTML = '<p style="color:#8fa0b0; font-size:11px; text-align:center;">No friends added yet. Search below.</p>';
       } else {
         friendsListArea.innerHTML = '';
         cachedFriendsList.forEach(fHandle => {
           friendsListArea.innerHTML += `
             <div class="friend-item">
               <span>@${fHandle}</span>
-              <button class="btn-small" onclick="openDirectMessage('${fHandle}')">Message</button>
+              <button class="btn-small" onclick="openPrivateChat('${fHandle}')">Messenger Chat</button>
             </div>`;
         });
       }
 
-      // Cache all platform users
       const allUsersSnap = await getDocs(collection(db, "users"));
       cachedUsersList = [];
       allUsersSnap.forEach(d => {
@@ -1337,7 +1193,7 @@
       const filtered = cachedUsersList.filter(handle => handle.toLowerCase().includes(searchVal));
 
       if(filtered.length === 0) {
-        allPlatformUsers.innerHTML = '<p style="color:#7b8895; font-size:11px; text-align:center;">No user found</p>';
+        allPlatformUsers.innerHTML = '<p style="color:#8fa0b0; font-size:11px; text-align:center;">No user found</p>';
         return;
       }
 
@@ -1363,14 +1219,96 @@
       }
     };
 
-    window.openDirectMessage = (friendHandle) => {
-      switchTab('chat', document.querySelectorAll('.tab-btn')[2]);
-      const input = document.getElementById('chatInput');
-      input.value = `@${friendHandle} [DM] `;
-      input.focus();
+    function getPrivateChatRoomId(userA, userB) {
+      return [userA, userB].sort().join('_DM_');
+    }
+
+    window.openPrivateChat = (friendHandle) => {
+      activePrivateFriend = friendHandle;
+      document.getElementById('friendsMainView').classList.add('hidden');
+      document.getElementById('privateChatRoomView').classList.remove('hidden');
+      document.getElementById('activePrivateFriendTitle').innerText = `Chatting with @${friendHandle}`;
+      loadPrivateMessages();
     };
 
-    // Profile Details Loader
+    window.closePrivateChat = () => {
+      activePrivateFriend = null;
+      document.getElementById('privateChatRoomView').classList.add('hidden');
+      document.getElementById('friendsMainView').classList.remove('hidden');
+    };
+
+    window.handlePrivateChatKey = (e) => { if(e.key === 'Enter') sendPrivateMessage(); };
+
+    window.sendPrivateMessage = async () => {
+      const input = document.getElementById('privateChatInput');
+      const text = input.value.trim();
+      if(text === '' || !activePrivateFriend || !currentUser) return;
+
+      const roomId = getPrivateChatRoomId(customHandle, activePrivateFriend);
+      await addDoc(collection(db, "private_messages"), {
+        roomId: roomId,
+        sender: customHandle,
+        uid: currentUser.uid,
+        text: text,
+        timestamp: serverTimestamp()
+      });
+      input.value = '';
+      loadPrivateMessages();
+    };
+
+    window.unsendPrivateMsg = async (msgId, ownerUid) => {
+      if(ownerUid !== currentUser.uid) {
+        alert("You can only unsend your own messages!");
+        return;
+      }
+      if(confirm("Delete this private message?")) {
+        await deleteDoc(doc(db, "private_messages", msgId));
+        loadPrivateMessages();
+      }
+    };
+
+    async function loadPrivateMessages() {
+      if(!activePrivateFriend || !currentUser) return;
+      const box = document.getElementById('privateChatMessages');
+      box.innerHTML = '<div class="chat-msg">Loading private chat...</div>';
+
+      const roomId = getPrivateChatRoomId(customHandle, activePrivateFriend);
+      try {
+        const q = query(collection(db, "private_messages"), orderBy("timestamp", "desc"), limit(30));
+        const snap = await getDocs(q);
+        box.innerHTML = '';
+        const docs = [];
+        snap.forEach(d => {
+          const data = d.data();
+          if(data.roomId === roomId) {
+            docs.push({ id: d.id, ...data });
+          }
+        });
+        docs.reverse();
+
+        if(docs.length === 0) {
+          box.innerHTML = '<div class="chat-msg" style="text-align:center; color:#8fa0b0;">No private messages yet. Say hi!</div>';
+          return;
+        }
+
+        docs.forEach(msg => {
+          const isOwner = msg.uid === currentUser.uid;
+          const div = document.createElement('div');
+          div.className = 'chat-msg';
+          div.innerHTML = `
+            <div class="sender-row">
+              <span class="sender">@${msg.sender}</span>
+              ${isOwner ? `<button class="chat-action-btn" style="color:#ff5252;" onclick="unsendPrivateMsg('${msg.id}', '${msg.uid}')">Unsend</button>` : ''}
+            </div>
+            <div>${msg.text}</div>
+          `;
+          box.appendChild(div);
+        });
+        box.scrollTop = box.scrollHeight;
+      } catch(e) { box.innerHTML = '<div class="chat-msg">Error loading private chat</div>'; }
+    }
+
+    // Profile Details
     async function loadProfileDetails() {
       if(!currentUser) return;
       document.getElementById('profileAvatar').src = currentUser.photoURL || '';
@@ -1391,4 +1329,4 @@
     }
   </script>
 </body>
-              </html>
+  </html>
