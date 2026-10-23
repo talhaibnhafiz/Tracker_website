@@ -47,7 +47,164 @@
       outline: 2px solid var(--primary-2);
       outline-offset: 3px;
     }
+<!-- GoalFlow Chat Section -->
+<section id="goalflow-chat" class="gf-chat" hidden>
+  <div class="gf-chat-grid">
 
+    <!-- World Chat -->
+    <section class="gf-chat-card">
+      <h2>🌍 World Chat</h2>
+      <p class="gf-muted">Chat with signed-in GoalFlow users.</p>
+
+      <div id="worldChatMessages"
+           class="gf-messages"
+           aria-live="polite"></div>
+
+      <form id="worldChatForm" class="gf-chat-form">
+        <input
+          id="worldChatInput"
+          type="text"
+          maxlength="1000"
+          placeholder="Write a message..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
+    </section>
+
+    <!-- Private Chat -->
+    <section class="gf-chat-card">
+      <h2>🔒 Private Chat</h2>
+      <p class="gf-muted">Find a user by their username.</p>
+
+      <form id="privateUserSearchForm" class="gf-chat-form">
+        <input
+          id="privateUserSearch"
+          type="text"
+          maxlength="30"
+          placeholder="Enter username"
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <p id="privateSearchStatus" class="gf-status" aria-live="polite"></p>
+
+      <div id="privateChatPanel" hidden>
+        <h3 id="privateChatTitle">Private conversation</h3>
+
+        <div id="privateChatMessages"
+             class="gf-messages"
+             aria-live="polite"></div>
+
+        <form id="privateChatForm" class="gf-chat-form">
+          <input
+            id="privateChatInput"
+            type="text"
+            maxlength="1000"
+            placeholder="Write a private message..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </section>
+
+  </div>
+</section>
+
+<style>
+  .gf-chat {
+    margin: 24px auto;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .gf-chat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .gf-chat-card {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #29334b;
+    border-radius: 16px;
+    background: #10182a;
+    color: #f4f7ff;
+  }
+
+  .gf-muted {
+    color: #aab5ca;
+    font-size: 13px;
+  }
+
+  .gf-messages {
+    height: 280px;
+    overflow-y: auto;
+    margin: 14px 0;
+    padding: 12px;
+    border-radius: 10px;
+    background: #0a1020;
+    overflow-wrap: anywhere;
+  }
+
+  .gf-message {
+    margin: 0 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #202b41;
+  }
+
+  .gf-message strong {
+    display: block;
+    margin-bottom: 3px;
+    color: #8db8ff;
+  }
+
+  .gf-message p {
+    margin: 0;
+    white-space: pre-wrap;
+  }
+
+  .gf-chat-form {
+    display: flex;
+    gap: 8px;
+  }
+
+  .gf-chat-form input {
+    min-width: 0;
+    flex: 1;
+    padding: 11px;
+    border: 1px solid #36425c;
+    border-radius: 9px;
+    background: #0b1222;
+    color: white;
+  }
+
+  .gf-chat-form button {
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .gf-status {
+    min-height: 20px;
+    font-size: 13px;
+    color: #b8c8e6;
+  }
+
+  @media (max-width: 760px) {
+    .gf-chat-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
     .app-shell {
       width: min(1180px, 100%);
       margin: 0 auto;
