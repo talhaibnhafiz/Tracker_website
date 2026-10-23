@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Progress Tracker - MD TALHA IBN HAFIZ</title>
+  <!-- Google Font: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Chart.js Library -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -11,7 +13,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
@@ -25,7 +27,7 @@
     }
 
     .container {
-      max-width: 520px;
+      max-width: 560px;
       width: 100%;
       background: #141a1f;
       padding: 25px;
@@ -36,15 +38,15 @@
 
     .header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .header h2 {
       color: #ffffff;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .creator-badge {
@@ -53,11 +55,47 @@
       font-weight: 600;
       color: #00ff88;
       background: rgba(0, 255, 136, 0.1);
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 20px;
       border: 1px solid rgba(0, 255, 136, 0.2);
-      letter-spacing: 0.5px;
       text-transform: uppercase;
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+      background: #1c252e;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid #283543;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #9aa5b1;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: #00ff88;
+      color: #0b0f12;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
     }
 
     .auth-section {
@@ -87,7 +125,6 @@
     .btn-google:hover {
       background: #00cc6a;
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
     }
 
     .profile-bar {
@@ -95,14 +132,14 @@
       align-items: center;
       justify-content: space-between;
       background: #1c252e;
-      padding: 12px 16px;
+      padding: 10px 14px;
       border-radius: 10px;
       margin-bottom: 15px;
       border: 1px solid #283543;
     }
 
     .profile-bar span {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #00ff88;
     }
@@ -111,19 +148,13 @@
       background: transparent;
       color: #ff5252;
       border: 1px solid rgba(255, 82, 82, 0.3);
-      padding: 5px 12px;
+      padding: 4px 10px;
       border-radius: 6px;
       cursor: pointer;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
-      transition: all 0.2s;
     }
 
-    .btn-logout:hover {
-      background: rgba(255, 82, 82, 0.1);
-    }
-
-    /* Gamification Section */
     .gamify-box {
       display: flex;
       justify-content: space-between;
@@ -134,24 +165,24 @@
     .stat-card {
       flex: 1;
       background: #1c252e;
-      padding: 10px;
+      padding: 8px;
       border-radius: 10px;
       border: 1px solid #283543;
       text-align: center;
     }
 
     .stat-card .label {
-      font-size: 11px;
+      font-size: 10px;
       color: #9aa5b1;
       text-transform: uppercase;
       font-weight: 600;
     }
 
     .stat-card .value {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 700;
       color: #00ff88;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .date-box {
@@ -160,13 +191,13 @@
       justify-content: space-between;
       margin-bottom: 15px;
       background: #1c252e;
-      padding: 12px 16px;
+      padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid #283543;
     }
 
     .date-box label {
-      font-size: 13px;
+      font-size: 12px;
       color: #9aa5b1;
       font-weight: 600;
     }
@@ -175,24 +206,24 @@
       background: #0b0f12;
       color: #00ff88;
       border: 1px solid #00ff88;
-      padding: 6px 10px;
+      padding: 5px 8px;
       border-radius: 6px;
       outline: none;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
     }
 
     .progress-section {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     .progress-bg {
       background: #1c252e;
-      border-radius: 12px;
-      height: 14px;
+      border-radius: 10px;
+      height: 12px;
       width: 100%;
       overflow: hidden;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       border: 1px solid #283543;
     }
 
@@ -201,22 +232,20 @@
       height: 100%;
       width: 0%;
       transition: width 0.4s ease;
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
     }
 
     .stats-text {
       text-align: center;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: #7b8895;
     }
 
-    /* Category & Input Group */
     .input-wrapper {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 15px;
     }
 
     .input-row {
@@ -228,11 +257,11 @@
       background: #1c252e;
       border: 1px solid #283543;
       color: #00ff88;
-      padding: 10px;
+      padding: 8px;
       border-radius: 8px;
       outline: none;
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .input-row input {
@@ -240,52 +269,39 @@
       background: #1c252e;
       border: 1px solid #283543;
       color: #ffffff;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 8px;
       outline: none;
-      font-size: 14px;
-      transition: border-color 0.2s;
-    }
-
-    .input-row input:focus {
-      border-color: #00ff88;
+      font-size: 13px;
     }
 
     .btn-add {
       background: #00ff88;
       color: #0b0f12;
       border: none;
-      padding: 10px 18px;
+      padding: 8px 14px;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 14px;
-      transition: background 0.2s;
-    }
-
-    .btn-add:hover {
-      background: #00cc6a;
+      font-size: 13px;
     }
 
     ul {
       list-style: none;
-      margin-bottom: 25px;
+      margin-bottom: 15px;
+      max-height: 200px;
+      overflow-y: auto;
     }
 
     li {
       background: #1c252e;
-      padding: 12px 14px;
-      margin-bottom: 8px;
-      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border: 1px solid #283543;
-      transition: all 0.2s;
-    }
-
-    li:hover {
-      border-color: rgba(0, 255, 136, 0.3);
     }
 
     li.done {
@@ -300,20 +316,20 @@
     .task-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .task-left input[type="checkbox"] {
       accent-color: #00ff88;
-      width: 17px;
-      height: 17px;
+      width: 16px;
+      height: 16px;
       cursor: pointer;
     }
 
     .tag-badge {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 700;
-      padding: 2px 6px;
+      padding: 2px 5px;
       border-radius: 4px;
       text-transform: uppercase;
     }
@@ -327,34 +343,139 @@
       background: transparent;
       color: #ff5252;
       border: none;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
-      padding: 2px 6px;
     }
 
-    .btn-del:hover {
-      color: #ff1a1a;
-    }
-
-    /* Analytics Chart Container */
     .chart-box {
       background: #1c252e;
-      padding: 15px;
-      border-radius: 12px;
+      padding: 12px;
+      border-radius: 10px;
       border: 1px solid #283543;
-      margin-top: 15px;
     }
 
     .chart-box h4 {
-      font-size: 13px;
+      font-size: 12px;
       color: #9aa5b1;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-align: center;
     }
 
-    .hidden {
-      display: none;
+    /* Study Room & Timer Styling */
+    .study-room-box {
+      text-align: center;
+      background: #1c252e;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #283543;
+      margin-bottom: 15px;
     }
+
+    .timer-display {
+      font-size: 38px;
+      font-weight: 700;
+      color: #00ff88;
+      margin: 15px 0;
+      letter-spacing: 2px;
+    }
+
+    .timer-btns {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-timer {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-size: 13px;
+    }
+
+    .btn-start { background: #00ff88; color: #0b0f12; }
+    .btn-stop { background: #ff5252; color: #fff; }
+
+    .leaderboard-box {
+      background: #1c252e;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #283543;
+    }
+
+    .leaderboard-box h4 {
+      font-size: 12px;
+      color: #9aa5b1;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .leaderboard-list {
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .leaderboard-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-bottom: 1px solid #283543;
+      font-size: 13px;
+    }
+
+    /* Chat Styling */
+    .chat-container {
+      background: #1c252e;
+      border-radius: 10px;
+      border: 1px solid #283543;
+      display: flex;
+      flex-direction: column;
+      height: 320px;
+      padding: 10px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding-right: 5px;
+    }
+
+    .chat-msg {
+      background: #141a1f;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 12px;
+      border: 1px solid #283543;
+    }
+
+    .chat-msg .sender {
+      color: #00ff88;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      background: #141a1f;
+      border: 1px solid #283543;
+      color: #fff;
+      padding: 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .hidden { display: none; }
   </style>
 </head>
 <body>
@@ -367,70 +488,108 @@
 
     <!-- Login Area -->
     <div id="login-box" class="auth-section">
-      <p>Sign in with Google to manage your personal targets</p>
+      <p>Sign in with Google to access Study Room & Tracker</p>
       <button class="btn-google" onclick="loginWithGoogle()">Sign in with Google</button>
     </div>
 
-    <!-- Main Dashboard Area -->
+    <!-- Main App Container -->
     <div id="app-box" class="hidden">
       <div class="profile-bar">
         <span id="user-name">Welcome User</span>
         <button class="btn-logout" onclick="logout()">Logout</button>
       </div>
 
-      <!-- Gamification & Stats -->
-      <div class="gamify-box">
-        <div class="stat-card">
-          <div class="label">Streak</div>
-          <div class="value" id="streakVal">🔥 0 Days</div>
+      <!-- Navigation Tabs -->
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('tracker', this)">📋 Tracker</button>
+        <button class="tab-btn" onclick="switchTab('study', this)">⏱️ Study Room</button>
+        <button class="tab-btn" onclick="switchTab('chat', this)">💬 Community Chat</button>
+      </div>
+
+      <!-- Tab 1: Tracker -->
+      <div id="tab-tracker" class="tab-content active">
+        <div class="gamify-box">
+          <div class="stat-card">
+            <div class="label">Streak</div>
+            <div class="value" id="streakVal">🔥 0 Days</div>
+          </div>
+          <div class="stat-card">
+            <div class="label">Badge</div>
+            <div class="value" id="badgeVal">🥉 Bronze</div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="label">Badge</div>
-          <div class="value" id="badgeVal">🥉 Bronze</div>
+
+        <div class="date-box">
+          <label for="taskDate">Select Date:</label>
+          <input type="date" id="taskDate" onchange="loadTasks()">
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-bg">
+            <div class="progress-fill" id="progressBar"></div>
+          </div>
+          <div class="stats-text" id="statsText">0% Completed</div>
+        </div>
+
+        <div class="input-wrapper">
+          <div class="input-row">
+            <select id="taskCategory" class="category-select">
+              <option value="Study">📚 Study</option>
+              <option value="Workout">🏋️ Workout</option>
+              <option value="Coding">💻 Coding</option>
+              <option value="Personal">⚙️ Personal</option>
+            </select>
+            <input type="text" id="taskInput" placeholder="Enter new task here...">
+            <button class="btn-add" onclick="addTask()">Add</button>
+          </div>
+        </div>
+
+        <ul id="taskList"></ul>
+
+        <div class="chart-box">
+          <h4>📊 Weekly Completion Trend (%)</h4>
+          <canvas id="progressChart"></canvas>
         </div>
       </div>
 
-      <div class="date-box">
-        <label for="taskDate">Select Date:</label>
-        <input type="date" id="taskDate" onchange="loadTasks()">
-      </div>
-
-      <div class="progress-section">
-        <div class="progress-bg">
-          <div class="progress-fill" id="progressBar"></div>
+      <!-- Tab 2: Study Room -->
+      <div id="tab-study" class="tab-content">
+        <div class="study-room-box">
+          <h4 style="color: #9aa5b1; font-size: 13px;">FOCUS STUDY TIMER</h4>
+          <div class="timer-display" id="timerDisplay">00:00:00</div>
+          <div class="timer-btns">
+            <button class="btn-timer btn-start" onclick="startTimer()">Start</button>
+            <button class="btn-timer btn-stop" onclick="stopTimer()">Stop & Save</button>
+          </div>
         </div>
-        <div class="stats-text" id="statsText">0% Completed</div>
-      </div>
 
-      <!-- Category + Task Input -->
-      <div class="input-wrapper">
-        <div class="input-row">
-          <select id="taskCategory" class="category-select">
-            <option value="Study">📚 Study</option>
-            <option value="Workout">🏋️ Workout</option>
-            <option value="Coding">💻 Coding</option>
-            <option value="Personal">⚙️ Personal</option>
-          </select>
-          <input type="text" id="taskInput" placeholder="Enter new task here...">
-          <button class="btn-add" onclick="addTask()">Add Task</button>
+        <div class="leaderboard-box">
+          <h4>🏆 Study Time Leaderboard (Minutes)</h4>
+          <div class="leaderboard-list" id="leaderboardList">
+            <div class="leaderboard-item"><span>Loading...</span></div>
+          </div>
         </div>
       </div>
 
-      <ul id="taskList"></ul>
-
-      <!-- Weekly Analytics Chart -->
-      <div class="chart-box">
-        <h4>📊 Weekly Completion Trend (%)</h4>
-        <canvas id="progressChart"></canvas>
+      <!-- Tab 3: Community Chat -->
+      <div id="tab-chat" class="tab-content">
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessages"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleChatKey(event)">
+            <button class="btn-add" onclick="sendChatMessage()">Send</button>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <!-- Firebase Integration -->
+  <!-- Firebase & App Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyA7K42WBzWBAKRfWdZPJ2W_i4smbVtN9T0",
@@ -451,6 +610,11 @@
     let userTasks = {};
     let myChart = null;
 
+    // Timer Variables
+    let timerInterval = null;
+    let secondsElapsed = 0;
+    let isTimerRunning = false;
+
     const todayStr = new Date().toISOString().split('T')[0];
     document.getElementById('taskDate').value = todayStr;
 
@@ -460,6 +624,15 @@
 
     window.logout = () => {
       signOut(auth);
+    };
+
+    window.switchTab = (tabName, btn) => {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabName).classList.add('active');
+      btn.classList.add('active');
+      if(tabName === 'study') loadLeaderboard();
+      if(tabName === 'chat') loadChatMessages();
     };
 
     onAuthStateChanged(auth, async (user) => {
@@ -506,9 +679,7 @@
           if(task.completed) completedCount++;
           const li = document.createElement('li');
           if(task.completed) li.classList.add('done');
-          
           const tagClass = `tag-${(task.category || 'personal').toLowerCase()}`;
-          
           li.innerHTML = `
             <div class="task-left">
               <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${index})">
@@ -559,25 +730,21 @@
     function updateStreakAndBadges() {
       let streak = 0;
       let totalCompletedDays = 0;
-
       const dates = Object.keys(userTasks).sort();
       dates.forEach(d => {
         const dayTasks = userTasks[d];
-        if (dayTasks.length > 0 && dayTasks.every(t => t.completed)) {
+        if (dayTasks && dayTasks.length > 0 && dayTasks.every(t => t.completed)) {
           streak++;
           totalCompletedDays++;
-        } else if (dayTasks.length > 0) {
+        } else if (dayTasks && dayTasks.length > 0) {
           streak = 0;
         }
       });
-
       document.getElementById('streakVal').innerText = `🔥 ${streak} Days`;
-
       let badge = "🥉 Bronze";
       if (totalCompletedDays >= 30) badge = "💎 Diamond";
       else if (totalCompletedDays >= 15) badge = "🥇 Gold";
       else if (totalCompletedDays >= 7) badge = "🥈 Silver";
-
       document.getElementById('badgeVal').innerText = badge;
     }
 
@@ -617,6 +784,7 @@
           }]
         },
         options: {
+          responsive: true,
           scales: {
             y: { min: 0, max: 100, ticks: { color: '#9aa5b1' }, grid: { color: '#283543' } },
             x: { ticks: { color: '#9aa5b1' }, grid: { color: '#283543' } }
@@ -624,6 +792,109 @@
           plugins: { legend: { display: false } }
         }
       });
+    }
+
+    // Study Room Timer Functions
+    window.startTimer = () => {
+      if(isTimerRunning) return;
+      isTimerRunning = true;
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        let hrs = Math.floor(secondsElapsed / 3600).toString().padStart(2, '0');
+        let mins = Math.floor((secondsElapsed % 3600) / 60).toString().padStart(2, '0');
+        let secs = (secondsElapsed % 60).toString().padStart(2, '0');
+        document.getElementById('timerDisplay').innerText = `${hrs}:${mins}:${secs}`;
+      }, 1000);
+    };
+
+    window.stopTimer = async () => {
+      if(!isTimerRunning) return;
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      const minutesStudied = Math.round(secondsElapsed / 60);
+      secondsElapsed = 0;
+      document.getElementById('timerDisplay').innerText = "00:00:00";
+
+      if(minutesStudied > 0 && currentUser) {
+        const lbRef = doc(db, "leaderboard", currentUser.uid);
+        const snap = await getDoc(lbRef);
+        let existingMins = snap.exists() ? (snap.data().minutes || 0) : 0;
+        await setDoc(lbRef, {
+          name: currentUser.displayName,
+          minutes: existingMins + minutesStudied
+        });
+        alert(`Great job! ${minutesStudied} minutes added to leaderboard.`);
+        loadLeaderboard();
+      }
+    };
+
+    async function loadLeaderboard() {
+      const listEl = document.getElementById('leaderboardList');
+      listEl.innerHTML = '<div class="leaderboard-item"><span>Loading...</span></div>';
+      try {
+        const q = query(collection(db, "leaderboard"), orderBy("minutes", "desc"), limit(10));
+        const querySnapshot = await getDocs(q);
+        listEl.innerHTML = '';
+        if(querySnapshot.empty) {
+          listEl.innerHTML = '<div class="leaderboard-item"><span>No records yet. Start studying!</span></div>';
+          return;
+        }
+        querySnapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          const item = document.createElement('div');
+          item.className = 'leaderboard-item';
+          item.innerHTML = `<span>👤 ${data.name}</span><strong style="color: #00ff88;">${data.minutes} mins</strong>`;
+          listEl.appendChild(item);
+        });
+      } catch(e) {
+        listEl.innerHTML = '<div class="leaderboard-item"><span>Error loading leaderboard</span></div>';
+      }
+    }
+
+    // Community Chat Functions
+    window.handleChatKey = (e) => {
+      if(e.key === 'Enter') sendChatMessage();
+    };
+
+    window.sendChatMessage = async () => {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if(text === '' || !currentUser) return;
+
+      await addDoc(collection(db, "chats"), {
+        sender: currentUser.displayName,
+        text: text,
+        timestamp: serverTimestamp()
+      });
+      input.value = '';
+      loadChatMessages();
+    };
+
+    async function loadChatMessages() {
+      const chatBox = document.getElementById('chatMessages');
+      chatBox.innerHTML = '<div class="chat-msg">Loading messages...</div>';
+      try {
+        const q = query(collection(db, "chats"), orderBy("timestamp", "desc"), limit(20));
+        const querySnapshot = await getDocs(q);
+        chatBox.innerHTML = '';
+        const docs = [];
+        querySnapshot.forEach(d => docs.unshift(d.data()));
+        
+        if(docs.length === 0) {
+          chatBox.innerHTML = '<div class="chat-msg">No messages yet. Say hello!</div>';
+          return;
+        }
+
+        docs.forEach(msg => {
+          const div = document.createElement('div');
+          div.className = 'chat-msg';
+          div.innerHTML = `<div class="sender">${msg.sender}</div><div>${msg.text}</div>`;
+          chatBox.appendChild(div);
+        });
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch(e) {
+        chatBox.innerHTML = '<div class="chat-msg">Error loading chat</div>';
+      }
     }
   </script>
 </body>
