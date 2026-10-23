@@ -1,1892 +1,1537 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1020">
-<title>Goal & Progress Tracker — Talha</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>Goal & Progress Tracker</title>
 
-<style>
-:root{--bg:#080d18;--panel:#111a2b;--panel2:#172239;--line:#293753;--text:#f2f5ff;--muted:#9aa9c4;--green:#46e6a5;--purple:#a78bfa;--blue:#70a5ff;--red:#ff7185;--amber:#f5c66a}
-*{box-sizing:border-box}
-html{min-height:100%;background:var(--bg)}
-body{margin:0;padding:24px;min-height:100vh;background:radial-gradient(ellipse at 10% 0%,#19304a 0,transparent 40%),radial-gradient(ellipse at 100% 15%,#251b49 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif}
-.container{width:100%;max-width:1240px;margin:auto;padding:clamp(14px,3vw,30px);background:rgba(15,23,42,.95);border:1px solid #293753;border-radius:24px;box-shadow:0 24px 80px #0006}
-.header{text-align:center;margin-bottom:22px}
-.header h1{font-size:clamp(23px,4vw,35px);margin:0 0 8px;letter-spacing:-.7px}
-.creator{display:inline-block;color:var(--green);background:#46e6a511;border:1px solid #46e6a544;border-radius:30px;padding:5px 12px;font-size:10px;letter-spacing:1px}
-.hidden{display:none!important}
-.auth{text-align:center;padding:35px 0}
-.profilebar,.stat,.card,.chatbox,.friendsbox,.profilecard{background:linear-gradient(145deg,#172239,#101827);border:1px solid var(--line);border-radius:16px}
-.profilebar{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;margin-bottom:16px;gap:10px}
-.user{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
-.avatar{width:36px;height:36px;object-fit:cover;border-radius:50%;border:2px solid var(--green);background:#293753}
-.user span{color:var(--green);font-weight:700;overflow-wrap:anywhere}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;background:#0a1120;border:1px solid var(--line);border-radius:14px;padding:6px;margin-bottom:22px}
-.tab{flex:1 1 100px;min-height:42px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-weight:700;font-size:11px;cursor:pointer}
-.tab.active{color:#07131b;background:linear-gradient(135deg,var(--green),#8df5ca)}
-.pane{display:none}
-.pane.active{display:block;animation:fade .2s ease}
-@keyframes fade{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:18px}
-.stat{padding:16px;text-align:center}
-.stat .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
-.stat .value{font-size:clamp(18px,3vw,27px);font-weight:800;color:var(--green);margin-top:8px}
-.section{color:var(--green);font-size:12px;font-weight:800;letter-spacing:.7px;margin:22px 0 12px;padding-bottom:9px;border-bottom:1px solid var(--line)}
-.muted{color:var(--muted)}
-.row{display:flex;gap:8px;align-items:center}
-.row>*{min-width:0}
-.input,select,textarea{width:100%;min-height:42px;background:#0b1322;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit;font-size:13px}
-.input:focus,select:focus,textarea:focus{outline:2px solid #46e6a544;border-color:var(--green)}
-button{font:inherit;cursor:pointer}
-.btn{border:0;border-radius:10px;padding:10px 15px;font-size:12px;font-weight:800;background:linear-gradient(135deg,var(--green),#9af5d1);color:#07131b;white-space:nowrap}
-.btn.secondary{background:#46e6a511;color:var(--green);border:1px solid #46e6a544}
-.btn.danger{background:#ff718511;color:var(--red);border:1px solid #ff718544}
-.btn.purple{background:#a78bfa18;color:var(--purple);border:1px solid #a78bfa55}
-.btn:active{transform:scale(.98)}
-.card{padding:14px;margin-bottom:15px}
-.table-scroll{overflow-x:auto;width:100%;-webkit-overflow-scrolling:touch}
-.task-table{width:100%;min-width:520px;border-collapse:collapse;text-align:left;font-size:12px}
-.task-table th{background:#172239;color:var(--muted);padding:12px 10px;white-space:nowrap}
-.task-table td{padding:11px 10px;border-bottom:1px solid #29375399;vertical-align:middle}
-.task-table tr:last-child td{border-bottom:0}
-.task-table input[type=checkbox]{accent-color:var(--green);width:16px;height:16px}
-.task-table .done{opacity:.55}
-.task-table .done .tasktext{text-decoration:line-through}
-.tasktext{overflow-wrap:anywhere;line-height:1.5}
-.tag{display:inline-block;font-size:9px;font-weight:800;text-transform:uppercase;border-radius:5px;padding:4px 6px;background:#70a5ff18;color:var(--blue)}
-.tag-Workout{color:var(--red);background:#ff718515}
-.tag-Coding{color:var(--amber);background:#f5c66a15}
-.tag-Personal{color:var(--green);background:#46e6a515}
-.inlineform{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}
-.dateheading{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.dateheading h3{font-size:14px;color:var(--purple);margin:0}
-.empty{text-align:center;padding:16px;color:var(--muted);font-size:12px}
-.chartbox{height:220px}
-.studycard{text-align:center;padding:22px}
-.timer{font-size:clamp(36px,7vw,56px);font-weight:800;color:var(--green);letter-spacing:2px;margin:15px 0}
-.mode{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#0b1322;color:var(--muted)}
-.mode.active{color:var(--green);border-color:var(--green)}
-.chatbox,.friendsbox{padding:12px;display:flex;flex-direction:column;min-height:370px}
-.messages{flex:1;overflow:auto;display:flex;flex-direction:column;gap:9px;max-height:450px;margin-bottom:12px}
-.message{background:#0b1322;border:1px solid var(--line);padding:10px;border-radius:11px;font-size:12px;overflow-wrap:anywhere}
-.msghead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
-.sender{color:var(--green);font-weight:800}
-.chatinput{display:flex;gap:7px}
-.chatinput input{flex:1;min-width:0}
-.frienditem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 4px;border-bottom:1px solid var(--line);font-size:12px}
-.profilecard{text-align:center;padding:24px}
-.profilebig{width:82px;height:82px;border-radius:50%;border:2px solid var(--green);object-fit:cover;margin-bottom:10px}
-.details{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);text-align:left;font-size:12px}
-.details div{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
-.details strong{text-align:right;overflow-wrap:anywhere}
-.modal{position:fixed;inset:0;background:#000c;display:flex;align-items:center;justify-content:center;z-index:99;padding:16px}
-.modalbox{max-width:550px;width:100%;max-height:90vh;overflow:auto;background:#111a2b;border:1px solid var(--green);border-radius:18px;padding:22px;box-shadow:0 20px 70px #0008}
-.modalbox h2{color:var(--green);text-align:center;font-size:20px}
-.modalbox h3{color:var(--purple);font-size:14px;margin:15px 0 6px}
-.modalbox li{margin:5px 0;font-size:12px;line-height:1.6}
-.musicframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
-.feedback{font-size:12px;margin-top:10px;min-height:18px}
-.reactions{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
-.reaction{font-size:10px;border:1px solid var(--line);border-radius:20px;padding:3px 7px;color:var(--green)}
-@media(min-width:950px){.widegrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:18px;align-items:start}}
-@media(max-width:620px){
-body{padding:8px}
-.container{padding:13px;border-radius:17px}
-.header h1{font-size:22px}
-.tabs{gap:4px}
-.tab{flex:1 1 28%;min-width:0;font-size:10px;padding:8px 3px}
-.stats{gap:7px}
-.stat{padding:12px 6px}
-.stat .label{font-size:9px}
-.profilebar{padding:10px}
-.row.mobile-stack{display:grid;grid-template-columns:1fr 1fr}
-.row.mobile-stack>*{width:100%}
-.chatinput{flex-wrap:wrap}
-.chatinput input{flex-basis:100%}
-.details div{align-items:flex-start}
-.details strong{max-width:60%}
-.inlineform{grid-template-columns:minmax(0,1fr) auto}
-.table-scroll{overflow-x:auto}
-}
-</style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2e;
+      --panel-2: #18233b;
+      --text: #f4f7ff;
+      --muted: #9ba9c5;
+      --line: rgba(255,255,255,.09);
+      --primary: #7c83ff;
+      --primary-2: #5de2c2;
+      --danger: #ff718b;
+      --radius: 18px;
+      --shadow: 0 18px 45px rgba(0,0,0,.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 10% 0%, rgba(124,131,255,.15), transparent 38%),
+        radial-gradient(ellipse at 95% 15%, rgba(93,226,194,.08), transparent 32%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible,
+    textarea:focus-visible, select:focus-visible {
+      outline: 2px solid var(--primary-2);
+      outline-offset: 3px;
+    }
+
+    .app-shell {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      flex: 0 0 46px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--primary), #a77cff);
+      box-shadow: 0 8px 25px rgba(124,131,255,.28);
+      font-size: 23px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(18px, 3vw, 23px);
+      letter-spacing: -.7px;
+    }
+
+    .brand p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: var(--text);
+      background: var(--panel-2);
+      transition: transform .15s ease, opacity .15s ease, border-color .15s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); border-color: rgba(124,131,255,.6); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    .btn-primary {
+      border-color: transparent;
+      color: #fff;
+      background: linear-gradient(135deg, #777eff, #986cff);
+      font-weight: 700;
+    }
+
+    .btn-success {
+      color: #081c19;
+      border-color: transparent;
+      background: var(--primary-2);
+      font-weight: 700;
+    }
+
+    .btn-danger { color: var(--danger); }
+    .btn-small { padding: 7px 10px; font-size: 12px; border-radius: 9px; }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: clamp(22px, 4vw, 36px);
+      margin-bottom: 22px;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: linear-gradient(120deg, rgba(124,131,255,.16), rgba(93,226,194,.055));
+      box-shadow: var(--shadow);
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+      font-size: clamp(24px, 5vw, 38px);
+      line-height: 1.15;
+      letter-spacing: -1.2px;
+    }
+
+    .hero p {
+      max-width: 570px;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .hero-mark {
+      display: grid;
+      place-items: center;
+      width: 94px;
+      height: 94px;
+      flex: 0 0 94px;
+      border-radius: 27px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(11,16,32,.35);
+      font-size: 43px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card, .panel {
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(18,26,46,.88);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card { padding: 19px; }
+
+    .stat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat-icon {
+      display: grid;
+      place-items: center;
+      width: 35px;
+      height: 35px;
+      border-radius: 11px;
+      background: rgba(124,131,255,.14);
+      font-size: 17px;
+    }
+
+    .stat-value {
+      margin-top: 15px;
+      font-size: clamp(23px, 3vw, 30px);
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .stat-note { margin-top: 5px; color: var(--muted); font-size: 11px; }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(280px, .85fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel { padding: 22px; margin-bottom: 20px; }
+
+    .panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .panel-header h3 { margin: 0; font-size: 17px; letter-spacing: -.35px; }
+    .panel-header p { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .field-full { grid-column: 1 / -1; }
+
+    .field label { color: #c6d0e6; font-size: 12px; font-weight: 600; }
+
+    .field input, .field select, .field textarea,
+    .search-input {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 12px 13px;
+      color: var(--text);
+      background: #0d1426;
+    }
+
+    .field input::placeholder, .field textarea::placeholder,
+    .search-input::placeholder { color: #66748f; }
+
+    .field select option { background: #121a2e; }
+    .field textarea { min-height: 88px; resize: vertical; line-height: 1.5; }
+
+    .form-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .toolbar .search-input { flex: 1 1 180px; }
+    .toolbar select {
+      max-width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 11px;
+      color: var(--text);
+      background: #0d1426;
+    }
+
+    .task-list { display: grid; gap: 11px; }
+
+    .task-card {
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(24,35,59,.62);
+    }
+
+    .task-card.is-complete { opacity: .68; }
+    .task-card.is-complete .task-title { text-decoration: line-through; }
+
+    .task-main { display: flex; align-items: flex-start; gap: 12px; }
+
+    .task-check {
+      width: 19px;
+      height: 19px;
+      margin-top: 2px;
+      flex: 0 0 auto;
+      accent-color: var(--primary-2);
+    }
+
+    .task-content { flex: 1; min-width: 0; }
+    .task-title { margin: 0; overflow-wrap: anywhere; font-size: 14px; font-weight: 700; }
+    .task-description { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+
+    .task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 11px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #c2cce2;
+      font-size: 10px;
+      background: rgba(11,16,32,.45);
+    }
+
+    .pill-high { color: #ffb2c0; }
+    .pill-medium { color: #ffd99a; }
+    .pill-low { color: #8debd4; }
+
+    .task-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
+
+    .empty-state {
+      padding: 30px 15px;
+      border: 1px dashed rgba(255,255,255,.15);
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .empty-state .empty-icon { margin-bottom: 9px; font-size: 28px; }
+
+    .progress-track {
+      width: 100%;
+      height: 9px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #26314b;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), var(--primary-2));
+      transition: width .3s ease;
+    }
+
+    .progress-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; font-size: 12px; }
+    .progress-row span:last-child { color: var(--muted); }
+
+    .goal-item { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .goal-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .goal-item h4 { margin: 0 0 8px; font-size: 13px; }
+    .goal-item p { margin: 0 0 11px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+    .chart-wrap { position: relative; width: 100%; min-height: 180px; }
+    .chart-wrap canvas { display: block; width: 100%; max-width: 100%; }
+
+    .profile-row { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      display: grid;
+      place-items: center;
+      width: 43px;
+      height: 43px;
+      flex: 0 0 43px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #bd7dff);
+      color: white;
+      font-weight: 800;
+    }
+
+    .profile-name { font-size: 13px; font-weight: 700; overflow-wrap: anywhere; }
+    .profile-email { margin-top: 5px; color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+
+    .status-line { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #f5c66a; }
+    .status-dot.online { background: var(--primary-2); }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(3,6,16,.78);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      width: min(520px, 100%);
+      max-height: min(85vh, 720px);
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 23px;
+      background: #121a2e;
+      box-shadow: 0 25px 90px rgba(0,0,0,.5);
+    }
+
+    .modal h3 { margin: 0 0 9px; }
+    .modal p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+
+    .toast-area {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 2000;
+      display: grid;
+      gap: 8px;
+      width: min(350px, calc(100vw - 36px));
+    }
+
+    .toast {
+      padding: 13px 15px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #18233b;
+      color: var(--text);
+      box-shadow: var(--shadow);
+      font-size: 12px;
+      line-height: 1.5;
+      animation: toastIn .2s ease;
+    }
+
+    .toast.error { border-color: rgba(255,113,139,.4); }
+    .toast.success { border-color: rgba(93,226,194,.35); }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-label {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .divider { height: 1px; margin: 18px 0; background: var(--line); }
+    .muted { color: var(--muted); }
+    .hidden { display: none !important; }
+
+    footer {
+      padding: 14px 0 4px;
+      color: #74819b;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .main-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .app-shell { padding: 14px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .top-actions { justify-content: flex-start; width: 100%; }
+      .hero { align-items: flex-start; }
+      .hero-mark { width: 58px; height: 58px; flex-basis: 58px; border-radius: 18px; font-size: 28px; }
+      .stats-grid { gap: 10px; }
+      .stat-card { padding: 14px; }
+      .panel { padding: 16px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field-full { grid-column: auto; }
+      .panel-header { align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<div class="container">
-<header class="header">
-<h1>GOAL & PROGRESS TRACKER</h1>
-<span class="creator">CREATED BY MD TALHA IBN HAFIZ</span>
-<div><button class="btn secondary" style="margin-top:12px" id="fullscreenBtn">⛶ Fullscreen</button></div>
-</header>
+<!-- PART 2 CONTINUES BELOW -->
 
-<div id="loginBox" class="auth">
-<p class="muted" style="margin-bottom:16px">Sign in to access your personal dashboard.</p>
-<button class="btn" id="loginBtn">Sign in with Google</button>
-<p class="muted" style="font-size:11px;margin-top:12px">Your tasks are stored in your Firebase account.</p>
-</div>
-
-<main id="appBox" class="hidden">
-<div class="profilebar">
-<div class="user" id="profileShortcut">
-<img id="navAvatar" class="avatar" alt="Avatar">
-<span id="userHandle">@user</span>
-</div>
-<button class="btn danger" id="logoutBtn">Logout</button>
-</div>
-
-<nav class="tabs">
-<button class="tab active" data-tab="tracker">TRACKER</button>
-<button class="tab" data-tab="study">STUDY ROOM</button>
-<button class="tab" data-tab="chat">PUBLIC CHAT</button>
-<button class="tab" data-tab="friends">FRIENDS / DM</button>
-<button class="tab" data-tab="profile">PROFILE</button>
-</nav>
-
-<section id="pane-tracker" class="pane active">
-<div class="stats">
-<div class="stat"><div class="label">Current Streak</div><div class="value" id="streakVal">0 days</div></div>
-<div class="stat"><div class="label">Achievement</div><div class="value" id="badgeVal">Bronze</div></div>
-<div class="stat"><div class="label">Tasks Completed</div><div class="value" id="completedVal">0</div></div>
-</div>
-
-<div class="section">QUICK ADD / দ্রুত কাজ যোগ করো</div>
-<form id="quickTaskForm" class="row mobile-stack">
-<select id="taskCategory" style="flex:0 0 140px">
-<option>Study</option><option>Workout</option><option>Coding</option><option>Personal</option>
-</select>
-<input class="input" id="taskInput" maxlength="200" placeholder="What do you need to do?" required>
-<select id="taskTargetDate" style="flex:0 0 130px">
-<option value="today">Today</option><option value="tomorrow">Tomorrow</option>
-</select>
-<button class="btn">+ Add</button>
-  </form>
-
-  <div class="section">TODAY'S TASKS / আজকের কাজ</div>
-<div class="card" id="todayTableHost"></div>
-
-<div class="section">TOMORROW / আগামীকালের কাজ</div>
-<div class="card" id="tomorrowTableHost"></div>
-
-<div class="section">ADD FUTURE DATE & TASK / ভবিষ্যতের কাজ</div>
-<form id="futureTaskForm" class="row mobile-stack">
-  <input class="input" type="date" id="futureDate" required>
-  <input class="input" id="futureTask" maxlength="200"
-    placeholder="Task for this date" required>
-  <select id="futureCategory">
-    <option>Study</option>
-    <option>Workout</option>
-    <option>Coding</option>
-    <option>Personal</option>
-  </select>
-  <button class="btn">Add Future Task</button>
-</form>
-
-<p class="muted" style="font-size:12px;line-height:1.6;margin:10px 0">
-  প্রতিটি তারিখের জন্য আলাদা table তৈরি হবে। নিচে সব অতিরিক্ত তারিখের table দেখা যাবে।
-</p>
-<div id="allDateTables"></div>
-
-<div class="section">WEEKLY PROGRESS / সাপ্তাহিক অগ্রগতি</div>
-<div class="card chartbox">
-  <canvas id="progressChart"></canvas>
-</div>
-</section>
-
-<section id="pane-study" class="pane">
-  <div class="widegrid">
-    <div>
-      <div class="card studycard">
-        <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
-          <button class="mode active" data-mode="stopwatch">Stopwatch</button>
-          <button class="mode" data-mode="pomo25">Pomodoro 25m</button>
-        </div>
-
-        <div class="timer" id="timerDisplay">00:00:00</div>
-
-        <div class="row" style="justify-content:center;flex-wrap:wrap">
-          <button class="btn" id="startTimer">Start</button>
-          <button class="btn danger" id="stopTimer">Stop & Save</button>
-          <button class="btn secondary" id="resetTimer">Reset</button>
-        </div>
-
-        <label class="muted" style="display:block;margin-top:16px;font-size:12px">
-          <input type="checkbox" id="rainToggle"> Rain focus sound
-        </label>
-      </div>
-
-      <div class="card">
-        <div class="section" style="margin-top:0">MUSIC FOCUS ROOM / গান শুনে পড়াশোনা</div>
-        <p class="muted" style="font-size:12px;line-height:1.6;margin-bottom:10px">
-          Search YouTube for music or paste a supported video link. Some videos do not allow embedding.
-        </p>
-
-        <form id="musicSearchForm" class="row">
-          <input class="input" id="musicSearch"
-            placeholder="Lo-fi, instrumental, artist..." required>
-          <button class="btn">Search</button>
-        </form>
-
-        <form id="musicPlayForm" class="row" style="margin-top:8px">
-          <input class="input" type="url" id="musicUrl"
-            placeholder="Paste YouTube video URL" required>
-          <button class="btn secondary">Play</button>
-        </form>
-
-        <div id="musicPlayerBox" class="hidden" style="margin-top:12px">
-          <iframe id="musicPlayer" class="musicframe"
-            title="Study music player"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
+  <div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">🎯</div>
+      <div>
+        <h1>GoalFlow</h1>
+        <p>Your goals. Your progress. Your future.</p>
       </div>
     </div>
+    <div class="top-actions">
+      <button class="btn" id="guideBtn">📘 Guide</button>
+      <button class="btn" id="fullscreenBtn">⛶ Focus mode</button>
+      <button class="btn btn-primary" id="loginBtn">Continue with Google</button>
+      <button class="btn hidden" id="logoutBtn">Sign out</button>
+    </div>
+  </header>
 
+  <section class="hero">
     <div>
-      <div class="card">
-        <div class="section" style="margin-top:0">MATH PRACTICE / অঙ্ক অনুশীলন</div>
+      <p class="section-label">YOUR PERSONAL WORKSPACE</p>
+      <h2>Small steps.<br>Big achievements.</h2>
+      <p>Plan your day, track your goals, and build consistent habits—one task at a time.</p>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="jumpToTaskBtn">＋ Add a task</button>
+        <button class="btn" id="todayBtn">📅 Today's tasks</button>
+      </div>
+    </div>
+    <div class="hero-mark">🚀</div>
+  </section>
 
-        <div class="row">
-          <select id="mathDifficulty">
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+  <section class="stats-grid">
+    <article class="stat-card">
+      <div class="stat-top"><span>Total tasks</span><span class="stat-icon">📋</span></div>
+      <div class="stat-value" id="totalTasksStat">0</div>
+      <div class="stat-note">Tasks in your workspace</div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-top"><span>Completed</span><span class="stat-icon">✅</span></div>
+      <div class="stat-value" id="completedTasksStat">0</div>
+      <div class="stat-note">Tasks you've finished</div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-top"><span>Completion</span><span class="stat-icon">📈</span></div>
+      <div class="stat-value" id="completionRateStat">0%</div>
+      <div class="stat-note">Overall completion rate</div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-top"><span>Study time</span><span class="stat-icon">⏱️</span></div>
+      <div class="stat-value" id="studyTimeStat">0m</div>
+      <div class="stat-note">Tracked focus time</div>
+    </article>
+  </section>
+
+  <div class="main-grid">
+    <main>
+      <section class="panel" id="taskFormPanel">
+        <div class="panel-header">
+          <div>
+            <h3 id="taskFormTitle">Create a task</h3>
+            <p>Turn your next step into something actionable.</p>
+          </div>
+          <span class="stat-icon">✍️</span>
+        </div>
+
+        <form id="taskForm">
+          <input type="hidden" id="editingTaskId" value="">
+          <div class="form-grid">
+            <div class="field field-full">
+              <label for="taskTitle">Task title *</label>
+              <input id="taskTitle" maxlength="120" required placeholder="e.g. Study thermodynamics for 45 minutes">
+            </div>
+
+            <div class="field field-full">
+              <label for="taskDescription">Description (optional)</label>
+              <textarea id="taskDescription" maxlength="1000" placeholder="What do you want to accomplish?"></textarea>
+            </div>
+
+            <div class="field">
+              <label for="taskDate">Date *</label>
+              <input type="date" id="taskDate" required>
+            </div>
+
+            <div class="field">
+              <label for="taskCategory">Category</label>
+              <select id="taskCategory">
+                <option value="Study">📚 Study</option>
+                <option value="Personal">🌱 Personal</option>
+                <option value="Project">🛠️ Project</option>
+                <option value="Health">💪 Health</option>
+                <option value="Other">✨ Other</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="taskPriority">Priority</label>
+              <select id="taskPriority">
+                <option value="High">🔴 High</option>
+                <option value="Medium" selected>🟡 Medium</option>
+                <option value="Low">🟢 Low</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="taskDuration">Estimated minutes</label>
+              <input type="number" id="taskDuration" min="1" max="1440" value="30">
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit" id="saveTaskBtn">＋ Save task</button>
+            <button class="btn hidden" type="button" id="cancelEditBtn">Cancel edit</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel" id="tasksPanel">
+        <div class="panel-header">
+          <div>
+            <h3>Your tasks</h3>
+            <p>Search, filter, and manage your daily work.</p>
+          </div>
+          <span class="pill" id="visibleTaskCount">0 tasks</span>
+        </div>
+
+        <div class="toolbar">
+          <input class="search-input" id="taskSearch" placeholder="🔎 Search tasks...">
+          <select id="taskFilter" aria-label="Filter tasks">
+            <option value="all">All tasks</option>
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
           </select>
-          <button class="btn" id="newMath">New Question</button>
+          <select id="dateFilter" aria-label="Filter by date">
+            <option value="all">All dates</option>
+            <option value="today">Today</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="overdue">Overdue</option>
+          </select>
         </div>
 
-        <h2 id="mathQuestion"
-          style="font-size:25px;color:var(--purple);margin:20px 0">
-          Press New Question
-        </h2>
-
-        <form id="mathForm" class="row">
-          <input class="input" id="mathAnswer" type="number" step="1"
-            placeholder="Your answer" required>
-          <button class="btn">Check</button>
-        </form>
-
-        <p id="mathFeedback" class="feedback muted" aria-live="polite"></p>
-      </div>
-
-      <div class="card">
-        <div class="section" style="margin-top:0">TODAY'S STUDY LEADERBOARD</div>
-        <div id="leaderboardList" class="muted" style="font-size:12px">
-          Open Study Room to load leaderboard.
+        <div class="task-list" id="taskList">
+          <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <strong>Ready when you are</strong>
+            <div>Sign in and create your first task.</div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Weekly progress</h3>
+            <p>Your completed tasks over the last seven days.</p>
+          </div>
+          <span class="stat-icon">📊</span>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="weeklyChart" height="180" aria-label="Weekly task completion chart"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Your profile</h3>
+            <p>Your account and sync status.</p>
+          </div>
+          <span class="stat-icon">👤</span>
+        </div>
+
+        <div class="profile-row">
+          <div class="avatar" id="profileAvatar">G</div>
+          <div>
+            <div class="profile-name" id="profileName">Guest</div>
+            <div class="profile-email" id="profileEmail">Sign in to sync your tasks</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="status-line">
+          <span class="status-dot" id="syncDot"></span>
+          <span id="syncStatus">Not signed in</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Daily target</h3>
+            <p>Progress on today's tasks.</p>
+          </div>
+          <span class="stat-icon">🏁</span>
+        </div>
+
+        <div class="progress-row">
+          <span>Today's completion</span>
+          <span id="todayProgressLabel">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="todayProgressBar"></div>
+        </div>
+        <p class="muted" id="todayProgressText" style="font-size:12px;line-height:1.7;margin-bottom:0">
+          Add a task to begin tracking your day.
+        </p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Focus timer</h3>
+            <p>Make time for focused work.</p>
+          </div>
+          <span class="stat-icon">⏳</span>
+        </div>
+
+        <div class="stat-value" id="timerDisplay">25:00</div>
+        <div class="field" style="margin-top:15px">
+          <label for="timerMinutes">Focus duration (minutes)</label>
+          <input type="number" id="timerMinutes" min="1" max="180" value="25">
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="timerStartBtn">▶ Start</button>
+          <button class="btn" id="timerPauseBtn">Ⅱ Pause</button>
+          <button class="btn" id="timerResetBtn">↺ Reset</button>
+        </div>
+        <p class="muted" id="timerStatus" style="font-size:11px;line-height:1.6">Your focus session is ready.</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Study goals</h3>
+            <p>Keep your bigger picture in sight.</p>
+          </div>
+          <span class="stat-icon">🌟</span>
+        </div>
+
+        <div id="goalList">
+          <div class="goal-item">
+            <h4>🎓 Learning</h4>
+            <p>Make steady progress through daily learning sessions.</p>
+            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="goal-item">
+            <h4>🛠️ Projects</h4>
+            <p>Turn ideas into practical projects, one step at a time.</p>
+            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="goal-item">
+            <h4>🌱 Healthy habits</h4>
+            <p>Build a sustainable routine for study and rest.</p>
+            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Quick notes</h3>
+            <p>Keep a reminder for yourself.</p>
+          </div>
+          <span class="stat-icon">🗒️</span>
+        </div>
+        <div class="field">
+          <label for="quickNotes">Your note</label>
+          <textarea id="quickNotes" maxlength="2000" placeholder="Write a reminder..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn" id="saveNotesBtn">Save note</button>
+        </div>
+        <p class="muted" id="notesStatus" style="font-size:11px"></p>
+      </section>
+    </aside>
   </div>
-</section>
 
-<section id="pane-chat" class="pane">
-  <div class="chatbox">
-    <div id="chatMessages" class="messages">
-      <div class="empty">Open this tab to load recent messages.</div>
-    </div>
-
-    <form id="chatForm" class="chatinput">
-      <input class="input" id="chatInput" maxlength="1000"
-        placeholder="Type a public message..." required>
-      <button class="btn">Send</button>
-    </form>
-
-    <p class="muted" style="font-size:10px;margin-top:8px">
-      Public messages can be seen by users allowed by your Firestore rules.
-    </p>
-  </div>
-</section>
-
-<section id="pane-friends" class="pane">
-  <div id="friendsMainView" class="friendsbox">
-    <div class="section" style="margin-top:0">YOUR FRIENDS / তোমার বন্ধু</div>
-
-    <div id="friendsListArea" style="flex:1">
-      <p class="empty">Loading friends...</p>
-    </div>
-
-    <div class="section">FIND USERS</div>
-    <input class="input" id="friendSearch"
-      placeholder="Search username..." style="margin-bottom:8px">
-    <div id="allUsersArea" style="max-height:220px;overflow:auto"></div>
-  </div>
-
-  <div id="privateRoom" class="friendsbox hidden">
-    <div class="msghead">
-      <strong id="privateTitle" class="sender">Private chat</strong>
-      <button id="backFriends" class="btn secondary">Back</button>
-    </div>
-
-    <div id="privateMessages" class="messages"></div>
-
-    <form id="privateForm" class="chatinput">
-      <input class="input" id="privateInput" maxlength="1000"
-        placeholder="Private message..." required>
-      <button class="btn">Send</button>
-    </form>
-  </div>
-</section>
-
-<section id="pane-profile" class="pane">
-  <div class="profilecard">
-    <img id="profileAvatar" class="profilebig" alt="Profile avatar">
-    <h2 id="profileName">User</h2>
-    <p id="profileHandle" class="muted" style="font-size:12px;margin:6px 0 14px">@user</p>
-
-    <button class="btn secondary" id="changeHandle">Change Username</button>
-
-    <div class="details">
-      <div><span>Email</span><strong id="profileEmail">—</strong></div>
-      <div>
-        <span>Total Tasks Completed</span>
-        <strong id="profileTasks" style="color:var(--green)">0</strong>
-      </div>
-      <div>
-        <span>Total Study Minutes</span>
-        <strong id="profileMinutes" style="color:var(--green)">0</strong>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
+  <footer>
+    GoalFlow · Build consistency, celebrate progress.<br>
+    Your personal productivity workspace.
+  </footer>
 </div>
 
-<div id="guideModal" class="modal hidden" role="dialog"
-  aria-modal="true" aria-labelledby="guideTitle">
-  <div class="modalbox">
-    <h2 id="guideTitle">Welcome to Goal & Progress Tracker</h2>
-    <p class="muted" style="text-align:center;font-size:12px">
-      Your productivity and study companion
-    </p>
-
-    <h3>🇧🇩 উদ্দেশ্য ও ফিচার</h3>
-    <ul>
-      <li>আজ, আগামীকাল ও ভবিষ্যতের প্রতিটি তারিখের জন্য আলাদা To-Do table।</li>
-      <li>Task completion, streak, achievement ও weekly progress tracking।</li>
-      <li>Stopwatch, Pomodoro timer, study leaderboard ও rain sound।</li>
-      <li>YouTube music search এবং arithmetic Math Practice।</li>
-      <li>Friends, public chat ও private direct messaging।</li>
-      <li>নিজের profile ও username পরিচালনা।</li>
-    </ul>
-
-    <h3>🇬🇧 Purpose & Features</h3>
-    <ul>
-      <li>Manage tasks in separate tables for today and any future date.</li>
-      <li>Track completed tasks, streaks, badges and weekly progress.</li>
-      <li>Use a stopwatch, Pomodoro timer, leaderboard and rain sound.</li>
-      <li>Search YouTube for study music and practise arithmetic.</li>
-      <li>Connect with friends using public and private chat.</li>
-      <li>Manage your profile and username.</li>
-    </ul>
-
-    <button class="btn" id="closeGuide" style="width:100%;margin-top:12px">
-      Let's Start / শুরু করি
-    </button>
+<!-- Guide modal -->
+<div class="modal-backdrop" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+  <div class="modal">
+    <div class="panel-header">
+      <div>
+        <h3 id="guideTitle">Welcome to GoalFlow</h3>
+        <p>A quick guide to using your tracker.</p>
+      </div>
+      <button class="btn btn-small" id="closeGuideBtn" aria-label="Close guide">✕</button>
+    </div>
+    <p><strong>1. Sign in:</strong> Use Google sign-in to connect your account.</p>
+    <p><strong>2. Create tasks:</strong> Add a title, date, category, priority, and estimated duration.</p>
+    <p><strong>3. Track progress:</strong> Mark tasks complete and review your weekly progress chart.</p>
+    <p><strong>4. Focus:</strong> Use the timer to structure a focused study session.</p>
+    <p><strong>5. Sync:</strong> When Firebase is configured correctly, your account data can sync across devices.</p>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="guideDoneBtn">Got it!</button>
+    </div>
   </div>
 </div>
 
-  <script type="module">
-import { initializeApp } from
-  "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+<div class="toast-area" id="toastArea" aria-live="polite"></div>
 
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+<!-- PART 3 SCRIPT GOES BELOW -->
+<script type="module">
+  // Firebase SDK imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
-import {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  query,
-  orderBy,
-  limit,
-  where,
-  onSnapshot,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-/* =========================================
-   1. FIREBASE CONFIGURATION
-   Replace these placeholders with your
-   existing Firebase project's config.
-========================================= */
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    setDoc,
+    onSnapshot,
+    query,
+    where,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+  // YOUR FIREBASE CONFIG
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7K42WBzWBAKRfWdZPJ2W_i4smbVtN9T0",
+    authDomain: "my-project-tracker-3e7ca.firebaseapp.com",
+    projectId: "my-project-tracker-3e7ca",
+    storageBucket: "my-project-tracker-3e7ca.firebasestorage.app",
+    messagingSenderId: "1090393183788",
+    appId: "1:1090393183788:web:ec609592f8f2061fdee389",
+    measurementId: "G-629WCSP2TT"
+  };
 
-const firebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
-const googleProvider = new GoogleAuthProvider();
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const googleProvider = new GoogleAuthProvider();
 
-/* =========================================
-   2. HELPERS AND APP STATE
-========================================= */
+  // App state
+  let currentUser = null;
+  let tasks = [];
+  let unsubscribeTasks = null;
+  let editingTaskId = null;
 
-const $ = id => document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
 
-let currentUser = null;
-let currentUsername = "";
-let tasks = [];
-let extraDates = new Set();
-let chart = null;
-let activeTab = "tracker";
-let taskUnsubscribe = null;
-let publicChatUnsubscribe = null;
-let privateChatUnsubscribe = null;
-let friendUnsubscribe = null;
-let timerInterval = null;
-let timerSeconds = 0;
-let timerRunning = false;
-let timerMode = "stopwatch";
-let timerEndAt = null;
-let mathCorrectAnswer = null;
-let currentChatUser = null;
+  function localDateString(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
 
-const todayKey = () => dateKey(new Date());
+  $("taskDate").value = localDateString();
 
-function dateKey(date) {
-  const d = new Date(date);
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
+  // Safely display user-entered text
+  function escapeHTML(value = "") {
+    return String(value).replace(/[&<>"']/g, (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]);
+  }
 
-function shiftDate(days) {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return dateKey(d);
-}
+  function showToast(message, type = "") {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    $("toastArea").appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+  }
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[char]);
-}
+  function setSyncStatus(message, online = false) {
+    $("syncStatus").textContent = message;
+    $("syncDot").classList.toggle("online", online);
+  }
 
-function showFeedback(id, message, color = "var(--muted)") {
-  const element = $(id);
-  if (!element) return;
-  element.textContent = message;
-  element.style.color = color;
-}
-
-function userDoc(uid = currentUser?.uid) {
-  return doc(db, "users", uid);
-}
-
-function tasksCollection() {
-  return collection(db, "users", currentUser.uid, "tasks");
-}
-
-function taskDateLabel(key) {
-  const d = new Date(`${key}T12:00:00`);
-  return d.toLocaleDateString(undefined, {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric"
+  // Google sign-in
+  $("loginBtn").addEventListener("click", async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error("Sign-in error:", error);
+      showToast(error.message || "Google sign-in failed.", "error");
+    }
   });
-}
 
-/* =========================================
-   3. SIGN-IN AND SIGN-OUT
-========================================= */
+  $("logoutBtn").addEventListener("click", async () => {
+    try {
+      await signOut(auth);
+      showToast("You have signed out.", "success");
+    } catch (error) {
+      console.error(error);
+      showToast("Could not sign out.", "error");
+    }
+  });
 
-$("loginBtn").addEventListener("click", async () => {
-  try {
-    await signInWithPopup(auth, googleProvider);
-  } catch (error) {
-    alert("Login failed: " + error.message);
-  }
-});
+  // Authentication state
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
 
-$("logoutBtn").addEventListener("click", async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    alert("Logout failed: " + error.message);
-  }
-});
+    if (unsubscribeTasks) {
+      unsubscribeTasks();
+      unsubscribeTasks = null;
+    }
 
-onAuthStateChanged(auth, async user => {
-  currentUser = user;
-
-  if (!user) {
-    $("loginBox").classList.remove("hidden");
-    $("appBox").classList.add("hidden");
-
-    if (taskUnsubscribe) taskUnsubscribe();
-    if (publicChatUnsubscribe) publicChatUnsubscribe();
-    if (privateChatUnsubscribe) privateChatUnsubscribe();
-    if (friendUnsubscribe) friendUnsubscribe();
-
-    stopTimerInterval();
-    return;
-  }
-
-  $("loginBox").classList.add("hidden");
-  $("appBox").classList.remove("hidden");
-
-  try {
-    await loadUserProfile();
-    listenToTasks();
-    await loadFriends();
-    await loadUsers();
-    updateProfileUI();
-    renderStats();
-    renderAllTaskTables();
-    updateChart();
-    showGuideOnce();
-  } catch (error) {
-    console.error(error);
-    alert("Could not load your dashboard. Check Firebase settings and rules.");
-  }
-});
-
-/* =========================================
-   4. USER PROFILE
-========================================= */
-
-async function loadUserProfile() {
-  const ref = userDoc();
-  const snap = await getDoc(ref);
-
-  if (!snap.exists()) {
-    currentUsername =
-      (currentUser.displayName || "student")
-        .toLowerCase()
-        .replace(/[^a-z0-9_]/g, "")
-        .slice(0, 20) || "student";
-
-    await setDoc(ref, {
-      uid: currentUser.uid,
-      username: currentUsername,
-      displayName: currentUser.displayName || "Student",
-      email: currentUser.email || "",
-      photoURL: currentUser.photoURL || "",
-      studySeconds: 0,
-      createdAt: serverTimestamp()
-    });
-  } else {
-    currentUsername =
-      snap.data().username ||
-      currentUser.displayName ||
-      "student";
-  }
-}
-
-function updateProfileUI() {
-  const name = currentUser?.displayName || "Student";
-  const photo = currentUser?.photoURL || "";
-  const handle = "@" + currentUsername;
-
-  $("userHandle").textContent = handle;
-  $("navAvatar").src = photo;
-  $("profileAvatar").src = photo;
-  $("profileName").textContent = name;
-  $("profileHandle").textContent = handle;
-  $("profileEmail").textContent = currentUser?.email || "—";
-}
-
-$("profileShortcut").addEventListener("click", () => switchTab("profile"));
-
-$("changeHandle").addEventListener("click", async () => {
-  const answer = prompt("Choose a username (letters, numbers, underscore):",
-    currentUsername);
-
-  if (answer === null) return;
-
-  const username = answer.trim().toLowerCase();
-
-  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
-    alert("Username must be 3–20 characters: letters, numbers or underscore.");
-    return;
-  }
-
-  try {
-    const usersSnap = await getDocs(
-      query(collection(db, "users"), where("username", "==", username))
-    );
-
-    const taken = usersSnap.docs.some(d => d.id !== currentUser.uid);
-
-    if (taken) {
-      alert("That username is already in use.");
+    if (!user) {
+      tasks = [];
+      $("loginBtn").classList.remove("hidden");
+      $("logoutBtn").classList.add("hidden");
+      $("profileName").textContent = "Guest";
+      $("profileEmail").textContent = "Sign in to sync your tasks";
+      $("profileAvatar").textContent = "G";
+      setSyncStatus("Not signed in", false);
+      renderTasks();
+      updateDashboard();
       return;
     }
 
-    await updateDoc(userDoc(), { username });
-    currentUsername = username;
-    updateProfileUI();
-    await loadUsers();
-  } catch (error) {
-    alert("Could not change username: " + error.message);
-  }
-});
+    $("loginBtn").classList.add("hidden");
+    $("logoutBtn").classList.remove("hidden");
+    $("profileName").textContent = user.displayName || "User";
+    $("profileEmail").textContent = user.email || "";
+    $("profileAvatar").textContent =
+      (user.displayName || user.email || "U").charAt(0).toUpperCase();
+
+    setSyncStatus("Connecting to Firestore…", false);
 
-/* =========================================
-   5. TAB NAVIGATION
-========================================= */
-
-document.querySelectorAll(".tab").forEach(button => {
-  button.addEventListener("click", () => switchTab(button.dataset.tab));
-});
-
-function switchTab(tab) {
-  activeTab = tab;
-
-  document.querySelectorAll(".tab").forEach(button => {
-    button.classList.toggle("active", button.dataset.tab === tab);
-  });
-
-  document.querySelectorAll(".pane").forEach(pane => {
-    pane.classList.toggle("active", pane.id === `pane-${tab}`);
-  });
-
-  if (tab === "chat") listenToPublicChat();
-  if (tab === "friends") {
-    loadFriends();
-    loadUsers();
-  }
-  if (tab === "study") loadLeaderboard();
-  if (tab === "profile") updateProfileUI();
-}
-
-/* =========================================
-   6. TASK DATA
-========================================= */
-
-function listenToTasks() {
-  if (taskUnsubscribe) taskUnsubscribe();
-
-  taskUnsubscribe = onSnapshot(
-    query(tasksCollection(), orderBy("date", "asc")),
-    snapshot => {
-      tasks = snapshot.docs.map(d => ({
-        id: d.id,
-        ...d.data()
-      }));
-
-      extraDates = new Set(
-        tasks
-          .map(task => task.date)
-          .filter(date => date && date !== todayKey() &&
-            date !== shiftDate(1))
-      );
-
-      renderAllTaskTables();
-      renderStats();
-      updateChart();
-      updateProfileUI();
-    },
-    error => {
-      console.error("Task listener:", error);
-      alert("Could not load tasks. Check Firestore rules.");
-    }
-  );
-}
-
-async function addTask(title, category, date) {
-  if (!currentUser) return;
-
-  title = title.trim();
-
-  if (!title || !date) return;
-
-  try {
-    await addDoc(tasksCollection(), {
-      title,
-      category,
-      date,
-      completed: false,
-      createdAt: serverTimestamp(),
-      completedAt: null
-    });
-  } catch (error) {
-    alert("Could not add task: " + error.message);
-  }
-}
-
-async function toggleTask(task, completed) {
-  try {
-    await updateDoc(
-      doc(db, "users", currentUser.uid, "tasks", task.id),
-      {
-        completed,
-        completedAt: completed ? serverTimestamp() : null
-      }
-    );
-  } catch (error) {
-    alert("Could not update task: " + error.message);
-  }
-}
-
-async function removeTask(task) {
-  if (!confirm(`Delete "${task.title}"?`)) return;
-
-  try {
-    await deleteDoc(
-      doc(db, "users", currentUser.uid, "tasks", task.id)
-    );
-  } catch (error) {
-    alert("Could not delete task: " + error.message);
-  }
-}
-
-/* =========================================
-   7. QUICK ADD TASK FORM
-========================================= */
-
-$("quickTaskForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  const title = $("taskInput").value;
-  const category = $("taskCategory").value;
-  const target = $("taskTargetDate").value;
-  const date = target === "tomorrow" ? shiftDate(1) : todayKey();
-
-  await addTask(title, category, date);
-  $("taskInput").value = "";
-});
-
-/* =========================================
-   8. FUTURE DATE FORM
-========================================= */
-
-$("futureDate").min = todayKey();
-
-$("futureTaskForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  const date = $("futureDate").value;
-  const title = $("futureTask").value;
-  const category = $("futureCategory").value;
-
-  if (date < todayKey()) {
-    alert("Please select today or a future date.");
-    return;
-  }
-
-  await addTask(title, category, date);
-
-  $("futureTask").value = "";
-  $("futureDate").value = "";
-});
-
-/* =========================================
-   9. RENDER SEPARATE TABLES FOR EACH DATE
-========================================= */
-
-function renderAllTaskTables() {
-  renderTaskTable("todayTableHost", todayKey(), "Today's Tasks");
-  renderTaskTable("tomorrowTableHost", shiftDate(1), "Tomorrow's Tasks");
-
-  const host = $("allDateTables");
-  host.replaceChildren();
-
-  const dates = [...extraDates]
-    .filter(date => date !== todayKey() && date !== shiftDate(1))
-    .sort();
-
-  if (!dates.length) {
-    host.innerHTML = '<div class="empty">No extra dates yet. Add a future task above.</div>';
-    return;
-  }
-
-  dates.forEach(date => {
-    const wrapper = document.createElement("div");
-    wrapper.className = "card";
-
-    const heading = document.createElement("div");
-    heading.className = "dateheading";
-
-    const title = document.createElement("h3");
-    title.textContent = taskDateLabel(date);
-
-    const removeDateButton = document.createElement("button");
-    removeDateButton.className = "btn danger";
-    removeDateButton.textContent = "Remove Date";
-    removeDateButton.addEventListener("click", async () => {
-      const dateTasks = tasks.filter(task => task.date === date);
-
-      if (!dateTasks.length) {
-        extraDates.delete(date);
-        renderAllTaskTables();
-        return;
-      }
-
-      if (!confirm(`Delete all ${dateTasks.length} tasks for ${date}?`)) {
-        return;
-      }
-
-      for (const task of dateTasks) {
-        await deleteDoc(
-          doc(db, "users", currentUser.uid, "tasks", task.id)
-        );
-      }
-    });
-
-    heading.append(title, removeDateButton);
-
-    const tableHost = document.createElement("div");
-    tableHost.id = "table-" + date;
-
-    wrapper.append(heading, tableHost);
-    host.append(wrapper);
-
-    renderTaskTable(tableHost.id, date, "");
-  });
-}
-
-function renderTaskTable(hostId, date, headingText) {
-  const host = $(hostId);
-  if (!host) return;
-
-  const dateTasks = tasks.filter(task => task.date === date);
-
-  host.replaceChildren();
-
-  if (headingText) {
-    const heading = document.createElement("div");
-    heading.className = "dateheading";
-
-    const title = document.createElement("h3");
-    title.textContent = headingText;
-    heading.append(title);
-    host.append(heading);
-  }
-
-  const form = document.createElement("form");
-  form.className = "inlineform";
-  form.style.marginBottom = "12px";
-
-  const input = document.createElement("input");
-  input.className = "input";
-  input.maxLength = 200;
-  input.required = true;
-  input.placeholder = "Add a task to this date...";
-
-  const button = document.createElement("button");
-  button.className = "btn";
-  button.textContent = "+ Add";
-
-  form.append(input, button);
-  form.addEventListener("submit", async event => {
-    event.preventDefault();
-    await addTask(input.value, "Study", date);
-  });
-
-  host.append(form);
-
-  if (!dateTasks.length) {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = "No tasks for this date yet.";
-    host.append(empty);
-    return;
-  }
-
-  const scroll = document.createElement("div");
-  scroll.className = "table-scroll";
-
-  const table = document.createElement("table");
-  table.className = "task-table";
-
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Done</th>
-        <th>Task</th>
-        <th>Category</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody></tbody>`;
-
-  const tbody = table.querySelector("tbody");
-
-  dateTasks.forEach(task => {
-    const tr = document.createElement("tr");
-    if (task.completed) tr.classList.add("done");
-
-    const checkboxCell = document.createElement("td");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = !!task.completed;
-    checkbox.setAttribute("aria-label", "Mark task complete");
-    checkbox.addEventListener("change", () => toggleTask(task, checkbox.checked));
-    checkboxCell.append(checkbox);
-
-    const taskCell = document.createElement("td");
-    taskCell.className = "tasktext";
-    taskCell.textContent = task.title || "";
-
-    const categoryCell = document.createElement("td");
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = task.category || "Study";
-    categoryCell.append(tag);
-
-    const actionCell = document.createElement("td");
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "btn danger";
-    deleteButton.textContent = "Delete";
-    deleteButton.addEventListener("click", () => removeTask(task));
-    actionCell.append(deleteButton);
-
-    tr.append(checkboxCell, taskCell, categoryCell, actionCell);
-    tbody.append(tr);
-  });
-
-  scroll.append(table);
-  host.append(scroll);
-}
-
-/* =========================================
-   10. STREAK, BADGES AND PROGRESS STATS
-========================================= */
-
-function renderStats() {
-  const completed = tasks.filter(task => task.completed);
-
-  $("completedVal").textContent = completed.length;
-
-  let badge = "Bronze";
-  if (completed.length >= 50) badge = "Diamond";
-  else if (completed.length >= 25) badge = "Gold";
-  else if (completed.length >= 10) badge = "Silver";
-
-  $("badgeVal").textContent = badge;
-
-  const completedDays = new Set(
-    completed
-      .filter(task => task.completedAt)
-      .map(task => {
-        const stamp = task.completedAt?.toDate?.();
-        return stamp ? dateKey(stamp) : task.date;
-      })
-  );
-
-  let streak = 0;
-  const d = new Date();
-
-  if (!completedDays.has(dateKey(d))) {
-    d.setDate(d.getDate() - 1);
-  }
-
-  while (completedDays.has(dateKey(d))) {
-    streak++;
-    d.setDate(d.getDate() - 1);
-  }
-
-  $("streakVal").textContent = `${streak} day${streak === 1 ? "" : "s"}`;
-
-  $("profileTasks").textContent = completed.length;
-  updateProfileUI();
-}
-
-function updateChart() {
-  const canvas = $("progressChart");
-  if (!canvas || typeof Chart === "undefined") return;
-
-  const labels = [];
-  const counts = [];
-
-  for (let offset = 6; offset >= 0; offset--) {
-    const date = shiftDate(-offset);
-    labels.push(new Date(`${date}T12:00:00`).toLocaleDateString(undefined, {
-      weekday: "short"
-    }));
-
-    counts.push(tasks.filter(task =>
-      task.date === date && task.completed
-    ).length);
-  }
-
-  if (chart) chart.destroy();
-
-  chart = new Chart(canvas, {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [{
-        label: "Completed tasks",
-        data: counts,
-        backgroundColor: "#46e6a5",
-        borderRadius: 7
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          labels: { color: "#9aa9c4" }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { color: "#9aa9c4" },
-          grid: { color: "#29375355" }
-        },
-        y: {
-          beginAtZero: true,
-          ticks: { color: "#9aa9c4", precision: 0 },
-          grid: { color: "#29375355" }
-        }
-      }
-    }
-  });
-}
-
-/* =========================================
-   11. FULLSCREEN
-========================================= */
-
-$("fullscreenBtn").addEventListener("click", async () => {
-  try {
-    if (!document.fullscreenElement) {
-      await document.documentElement.requestFullscreen();
-      $("fullscreenBtn").textContent = "⛶ Exit Fullscreen";
-    } else {
-      await document.exitFullscreen();
-      $("fullscreenBtn").textContent = "⛶ Fullscreen";
-    }
-  } catch {
-    alert("Fullscreen is not supported in this browser.");
-  }
-});
-
-document.addEventListener("fullscreenchange", () => {
-  $("fullscreenBtn").textContent =
-    document.fullscreenElement ? "⛶ Exit Fullscreen" : "⛶ Fullscreen";
-});
-
-/* =========================================
-   12. GUIDE MODAL
-========================================= */
-
-function showGuideOnce() {
-  if (!sessionStorage.getItem("goalTrackerGuideSeen")) {
-    $("guideModal").classList.remove("hidden");
-  }
-}
-
-$("closeGuide").addEventListener("click", () => {
-  $("guideModal").classList.add("hidden");
-  sessionStorage.setItem("goalTrackerGuideSeen", "yes");
-});
-
-/* =========================================
-   END OF PART 3
-   Part 4 will add timer, music, math,
-   public chat, friends and private messages.
-========================================= */
-
-    <script>
-/* =========================================
-   13. STOPWATCH AND POMODORO TIMER
-========================================= */
-
-function formatTime(totalSeconds) {
-  totalSeconds = Math.max(0, Math.floor(totalSeconds));
-
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  return [hours, minutes, seconds]
-    .map(number => String(number).padStart(2, "0"))
-    .join(":");
-}
-
-function renderTimer() {
-  $("timerDisplay").textContent = formatTime(timerSeconds);
-}
-
-function stopTimerInterval() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = null;
-  timerRunning = false;
-}
-
-function startTimer() {
-  if (timerRunning) return;
-
-  timerRunning = true;
-
-  timerInterval = setInterval(() => {
-    if (timerMode === "pomo25") {
-      timerSeconds = Math.max(0, timerSeconds - 1);
-
-      if (timerSeconds === 0) {
-        stopTimerInterval();
-        playTimerAlert();
-        alert("Pomodoro session complete! Take a short break.");
-      }
-    } else {
-      timerSeconds++;
-    }
-
-    renderTimer();
-  }, 1000);
-}
-
-function playTimerAlert() {
-  try {
-    const AudioContextClass =
-      window.AudioContext || window.webkitAudioContext;
-
-    if (!AudioContextClass) return;
-
-    const context = new AudioContextClass();
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-
-    oscillator.type = "sine";
-    oscillator.frequency.value = 880;
-    gain.gain.value = 0.12;
-
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-
-    oscillator.start();
-    oscillator.stop(context.currentTime + 0.5);
-    oscillator.onended = () => context.close();
-  } catch (error) {
-    console.warn("Timer alert unavailable:", error);
-  }
-}
-
-document.querySelectorAll(".mode").forEach(button => {
-  button.addEventListener("click", () => {
-    stopTimerInterval();
-
-    document.querySelectorAll(".mode").forEach(item =>
-      item.classList.remove("active")
-    );
-
-    button.classList.add("active");
-    timerMode = button.dataset.mode;
-    timerSeconds = timerMode === "pomo25" ? 25 * 60 : 0;
-
-    renderTimer();
-  });
-});
-
-$("startTimer").addEventListener("click", startTimer);
-
-$("stopTimer").addEventListener("click", async () => {
-  stopTimerInterval();
-
-  const secondsToSave =
-    timerMode === "pomo25" ? 25 * 60 - timerSeconds : timerSeconds;
-
-  if (secondsToSave > 0 && currentUser) {
     try {
-      const profileRef = userDoc();
-      const snap = await getDoc(profileRef);
-      const oldSeconds = snap.exists()
-        ? Number(snap.data().studySeconds || 0)
-        : 0;
-
-      await setDoc(profileRef, {
-        studySeconds: oldSeconds + secondsToSave
+      // Create/update the signed-in user's own profile document
+      await setDoc(doc(db, "users", user.uid), {
+        displayName: user.displayName || "",
+        email: user.email || "",
+        photoURL: user.photoURL || "",
+        lastLogin: serverTimestamp()
       }, { merge: true });
 
-      $("profileMinutes").textContent =
-        Math.floor((oldSeconds + secondsToSave) / 60);
+      const tasksQuery = query(
+        collection(db, "tasks"),
+        where("userId", "==", user.uid)
+      );
 
-      await loadLeaderboard();
+      unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
+        tasks = snapshot.docs.map((taskDoc) => ({
+          id: taskDoc.id,
+          ...taskDoc.data()
+        }));
+
+        tasks.sort((a, b) =>
+          String(a.date || "").localeCompare(String(b.date || ""))
+        );
+
+        setSyncStatus("Synced with Firebase", true);
+        renderTasks();
+        updateDashboard();
+      }, (error) => {
+        console.error("Task sync error:", error);
+        setSyncStatus("Sync failed — check Firestore rules", false);
+        showToast("Could not load tasks. Check Firestore Security Rules.", "error");
+      });
+
     } catch (error) {
-      console.error("Study time save failed:", error);
-      alert("Timer stopped, but study time could not be saved.");
+      console.error("Profile setup error:", error);
+      setSyncStatus("Firebase setup error", false);
+      showToast("Could not initialize your profile. Check Firestore rules.", "error");
     }
-  }
+  });
 
-  timerSeconds = 0;
-  renderTimer();
-});
+  // Save or edit a task
+  $("taskForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-$("resetTimer").addEventListener("click", () => {
-  stopTimerInterval();
-  timerSeconds = timerMode === "pomo25" ? 25 * 60 : 0;
-  renderTimer();
-});
-
-/* =========================================
-   14. RAIN FOCUS SOUND
-========================================= */
-
-let rainContext = null;
-let rainSource = null;
-let rainGain = null;
-
-async function startRain() {
-  try {
-    const AudioContextClass =
-      window.AudioContext || window.webkitAudioContext;
-
-    if (!AudioContextClass) {
-      alert("Your browser does not support audio playback.");
-      $("rainToggle").checked = false;
+    if (!currentUser) {
+      showToast("Please sign in with Google first.", "error");
       return;
     }
 
-    rainContext = new AudioContextClass();
+    const title = $("taskTitle").value.trim();
 
-    if (rainContext.state === "suspended") {
-      await rainContext.resume();
+    if (!title) {
+      showToast("Please enter a task title.", "error");
+      return;
     }
 
-    const bufferSize = 2 * rainContext.sampleRate;
-    const buffer = rainContext.createBuffer(
-      1, bufferSize, rainContext.sampleRate
-    );
+    const taskData = {
+      title,
+      description: $("taskDescription").value.trim(),
+      date: $("taskDate").value,
+      category: $("taskCategory").value,
+      priority: $("taskPriority").value,
+      duration: Number($("taskDuration").value) || 30,
+      updatedAt: serverTimestamp()
+    };
 
-    const data = buffer.getChannelData(0);
+    try {
+      if (editingTaskId) {
+        const existingTask = tasks.find((task) => task.id === editingTaskId);
 
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-
-    rainSource = rainContext.createBufferSource();
-    rainSource.buffer = buffer;
-    rainSource.loop = true;
-
-    const filter = rainContext.createBiquadFilter();
-    filter.type = "lowpass";
-    filter.frequency.value = 1100;
-
-    rainGain = rainContext.createGain();
-    rainGain.gain.value = 0.035;
-
-    rainSource.connect(filter);
-    filter.connect(rainGain);
-    rainGain.connect(rainContext.destination);
-    rainSource.start();
-  } catch (error) {
-    console.error("Rain sound failed:", error);
-    $("rainToggle").checked = false;
-  }
-}
-
-async function stopRain() {
-  try {
-    if (rainSource) rainSource.stop();
-    if (rainContext) await rainContext.close();
-  } catch (error) {
-    console.warn(error);
-  }
-
-  rainSource = null;
-  rainContext = null;
-  rainGain = null;
-}
-
-$("rainToggle").addEventListener("change", async () => {
-  if ($("rainToggle").checked) {
-    await startRain();
-  } else {
-    await stopRain();
-  }
-});
-
-/* =========================================
-   15. YOUTUBE STUDY MUSIC
-========================================= */
-
-$("musicSearchForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const term = $("musicSearch").value.trim();
-  if (!term) return;
-
-  const url = "https://www.youtube.com/results?search_query=" +
-    encodeURIComponent(term + " study music");
-
-  window.open(url, "_blank", "noopener,noreferrer");
-});
-
-function getYouTubeId(input) {
-  try {
-    const url = new URL(input);
-    const host = url.hostname.replace(/^www\./, "");
-
-    if (host === "youtu.be") {
-      return url.pathname.slice(1).split("/")[0];
-    }
-
-    if (
-      host === "youtube.com" ||
-      host === "m.youtube.com" ||
-      host === "music.youtube.com"
-    ) {
-      if (url.pathname === "/watch") {
-        return url.searchParams.get("v");
-      }
-
-      const match = url.pathname.match(
-        /^\/(?:embed|shorts)\/([A-Za-z0-9_-]+)/
-      );
-
-      return match ? match[1] : null;
-    }
-
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-$("musicPlayForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const id = getYouTubeId($("musicUrl").value.trim());
-
-  if (!id || !/^[A-Za-z0-9_-]{6,20}$/.test(id)) {
-    alert("Please enter a valid YouTube video URL.");
-    return;
-  }
-
-  $("musicPlayer").src =
-    "https://www.youtube-nocookie.com/embed/" +
-    encodeURIComponent(id) +
-    "?autoplay=1&rel=0";
-
-  $("musicPlayerBox").classList.remove("hidden");
-});
-
-/* =========================================
-   16. MATH PRACTICE
-========================================= */
-
-function makeMathQuestion() {
-  const difficulty = $("mathDifficulty").value;
-
-  let a, b, operator;
-
-  if (difficulty === "easy") {
-    a = Math.floor(Math.random() * 20) + 1;
-    b = Math.floor(Math.random() * 20) + 1;
-    operator = Math.random() < 0.5 ? "+" : "-";
-  } else if (difficulty === "medium") {
-    a = Math.floor(Math.random() * 50) + 10;
-    b = Math.floor(Math.random() * 30) + 1;
-    operator = ["+", "-", "*"][Math.floor(Math.random() * 3)];
-  } else {
-    a = Math.floor(Math.random() * 90) + 10;
-    b = Math.floor(Math.random() * 20) + 2;
-    operator = ["+", "-", "*"][Math.floor(Math.random() * 3)];
-  }
-
-  if (operator === "-" && b > a) {
-    [a, b] = [b, a];
-  }
-
-  mathCorrectAnswer =
-    operator === "+" ? a + b :
-    operator === "-" ? a - b :
-    a * b;
-
-  $("mathQuestion").textContent = `${a} ${operator} ${b} = ?`;
-  $("mathAnswer").value = "";
-  $("mathFeedback").textContent = "";
-  $("mathAnswer").focus();
-}
-
-$("newMath").addEventListener("click", makeMathQuestion);
-
-$("mathForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  if (mathCorrectAnswer === null) {
-    makeMathQuestion();
-    return;
-  }
-
-  const answer = Number($("mathAnswer").value);
-
-  if (answer === mathCorrectAnswer) {
-    showFeedback("mathFeedback", "Correct! Great work! 🎉", "var(--green)");
-  } else {
-    showFeedback(
-      "mathFeedback",
-      "Not quite. Try again!",
-      "var(--red)"
-    );
-  }
-});
-
-/* =========================================
-   17. PUBLIC CHAT
-========================================= */
-
-function listenToPublicChat() {
-  if (publicChatUnsubscribe) return;
-
-  const chatRef = collection(db, "publicMessages");
-
-  publicChatUnsubscribe = onSnapshot(
-    query(chatRef, orderBy("createdAt", "desc"), limit(50)),
-    snapshot => {
-      const messages = snapshot.docs
-        .map(item => ({ id: item.id, ...item.data() }))
-        .reverse();
-
-      const host = $("chatMessages");
-      host.replaceChildren();
-
-      if (!messages.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.textContent = "No messages yet. Say hello!";
-        host.append(empty);
-        return;
-      }
-
-      messages.forEach(message => {
-        const item = document.createElement("div");
-        item.className = "message";
-
-        const head = document.createElement("div");
-        head.className = "msghead";
-
-        const sender = document.createElement("span");
-        sender.className = "sender";
-        sender.textContent = message.username || "Student";
-
-        const time = document.createElement("span");
-        time.className = "muted";
-        time.style.fontSize = "10px";
-
-        const timestamp = message.createdAt?.toDate?.();
-        time.textContent = timestamp
-          ? timestamp.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit"
-            })
-          : "";
-
-        const body = document.createElement("div");
-        body.style.whiteSpace = "pre-wrap";
-        body.textContent = message.text || "";
-
-        head.append(sender, time);
-        item.append(head, body);
-        host.append(item);
-      });
-
-      host.scrollTop = host.scrollHeight;
-    },
-    error => {
-      console.error("Public chat listener:", error);
-      $("chatMessages").textContent =
-        "Chat could not load. Check Firestore rules and indexes.";
-    }
-  );
-}
-
-$("chatForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  if (!currentUser) return;
-
-  const input = $("chatInput");
-  const textValue = input.value.trim();
-
-  if (!textValue) return;
-
-  try {
-    await addDoc(collection(db, "publicMessages"), {
-      uid: currentUser.uid,
-      username: currentUsername,
-      text: textValue,
-      createdAt: serverTimestamp()
-    });
-
-    input.value = "";
-  } catch (error) {
-    alert("Message could not be sent: " + error.message);
-  }
-});
-
-/* =========================================
-   18. FRIENDS
-========================================= */
-
-function friendsCollection() {
-  return collection(db, "users", currentUser.uid, "friends");
-}
-
-async function loadFriends() {
-  if (!currentUser) return;
-
-  try {
-    if (friendUnsubscribe) friendUnsubscribe();
-
-    friendUnsubscribe = onSnapshot(
-      friendsCollection(),
-      async snapshot => {
-        const host = $("friendsListArea");
-        host.replaceChildren();
-
-        if (snapshot.empty) {
-          const empty = document.createElement("p");
-          empty.className = "empty";
-          empty.textContent = "No friends added yet. Search for users below.";
-          host.append(empty);
+        if (!existingTask || existingTask.userId !== currentUser.uid) {
+          showToast("Task not found in your account.", "error");
           return;
         }
 
-        for (const friendDoc of snapshot.docs) {
-          const friendId = friendDoc.id;
-
-          try {
-            const profileSnap = await getDoc(doc(db, "users", friendId));
-            if (!profileSnap.exists()) continue;
-
-            const profile = profileSnap.data();
-
-            const row = document.createElement("div");
-            row.className = "frienditem";
-
-            const name = document.createElement("span");
-            name.textContent = "@" + (profile.username || "student");
-
-            const buttons = document.createElement("div");
-            buttons.className = "row";
-
-            const chatButton = document.createElement("button");
-            chatButton.className = "btn secondary";
-            chatButton.textContent = "Message";
-            chatButton.addEventListener("click", () => {
-              openPrivateChat(friendId, profile.username || "student");
-            });
-
-            const removeButton = document.createElement("button");
-            removeButton.className = "btn danger";
-            removeButton.textContent = "Remove";
-            removeButton.addEventListener("click", async () => {
-              if (!confirm("Remove this friend?")) return;
-
-              try {
-                await deleteDoc(
-                  doc(db, "users", currentUser.uid, "friends", friendId)
-                );
-                await deleteDoc(
-                  doc(db, "users", friendId, "friends", currentUser.uid)
-                );
-              } catch (error) {
-                alert("Could not remove friend: " + error.message);
-              }
-            });
-
-            buttons.append(chatButton, removeButton);
-            row.append(name, buttons);
-            host.append(row);
-          } catch (error) {
-            console.warn("Could not load friend profile:", error);
-          }
-        }
-      },
-      error => {
-        console.error(error);
-        $("friendsListArea").textContent =
-          "Could not load friends. Check Firestore rules.";
-      }
-    );
-  } catch (error) {
-    console.error("Friends listener:", error);
-  }
-}
-
-async function loadUsers() {
-  if (!currentUser) return;
-
-  const host = $("allUsersArea");
-  host.textContent = "Loading users...";
-
-  try {
-    const snapshot = await getDocs(
-      query(collection(db, "users"), limit(100))
-    );
-
-    host.replaceChildren();
-
-    const search = $("friendSearch").value.trim().toLowerCase();
-
-    const users = snapshot.docs
-      .filter(item => item.id !== currentUser.uid)
-      .map(item => ({ id: item.id, ...item.data() }))
-      .filter(user =>
-        (user.username || "").toLowerCase().includes(search)
-      );
-
-    if (!users.length) {
-      host.textContent = "No users found.";
-      return;
-    }
-
-    for (const user of users) {
-      const row = document.createElement("div");
-      row.className = "frienditem";
-
-      const name = document.createElement("span");
-      name.textContent = "@" + (user.username || "student");
-
-      const addButton = document.createElement("button");
-      addButton.className = "btn secondary";
-      addButton.textContent = "Add Friend";
-
-      const existing = await getDoc(
-        doc(db, "users", currentUser.uid, "friends", user.id)
-      );
-
-      if (existing.exists()) {
-        addButton.textContent = "Added";
-        addButton.disabled = true;
-      }
-
-      addButton.addEventListener("click", async () => {
-        try {
-          await setDoc(
-            doc(db, "users", currentUser.uid, "friends", user.id),
-            {
-              uid: user.id,
-              username: user.username || "student",
-              createdAt: serverTimestamp()
-            }
-          );
-
-          await setDoc(
-            doc(db, "users", user.id, "friends", currentUser.uid),
-            {
-              uid: currentUser.uid,
-              username: currentUsername,
-              createdAt: serverTimestamp()
-            }
-          );
-
-          addButton.textContent = "Added";
-          addButton.disabled = true;
-        } catch (error) {
-          alert("Could not add friend: " + error.message);
-        }
-      });
-
-      row.append(name, addButton);
-      host.append(row);
-    }
-  } catch (error) {
-    console.error("User search:", error);
-    host.textContent =
-      "Could not load users. Check Firestore rules.";
-  }
-}
-
-$("friendSearch").addEventListener("input", () => {
-  clearTimeout(window.friendSearchDelay);
-  window.friendSearchDelay = setTimeout(loadUsers, 250);
-});
-
-/* =========================================
-   19. PRIVATE DIRECT MESSAGES
-========================================= */
-
-function privateChatId(uid1, uid2) {
-  return [uid1, uid2].sort().join("_");
-}
-
-function privateMessagesCollection(friendId) {
-  const chatId = privateChatId(currentUser.uid, friendId);
-
-  return collection(db, "privateChats", chatId, "messages");
-}
-
-async function openPrivateChat(friendId, username) {
-  currentChatUser = friendId;
-
-  $("friendsMainView").classList.add("hidden");
-  $("privateRoom").classList.remove("hidden");
-  $("privateTitle").textContent = "@" + username;
-  $("privateMessages").replaceChildren();
-
-  if (privateChatUnsubscribe) {
-    privateChatUnsubscribe();
-    privateChatUnsubscribe = null;
-  }
-
-  try {
-    const messagesRef = privateMessagesCollection(friendId);
-
-    privateChatUnsubscribe = onSnapshot(
-      query(messagesRef, orderBy("createdAt", "asc"), limit(100)),
-      snapshot => {
-        const host = $("privateMessages");
-        host.replaceChildren();
-
-        snapshot.docs.forEach(item => {
-          const message = item.data();
-
-          const box = document.createElement("div");
-          box.className = "message";
-
-          const head = document.createElement("div");
-          head.className = "msghead";
-
-          const sender = document.createElement("span");
-          sender.className = "sender";
-          sender.textContent = message.username || "Student";
-
-          const body = document.createElement("div");
-          body.style.whiteSpace = "pre-wrap";
-          body.textContent = message.text || "";
-
-          head.append(sender);
-          box.append(head, body);
-          host.append(box);
+        await updateDoc(doc(db, "tasks", editingTaskId), taskData);
+        showToast("Task updated successfully.", "success");
+      } else {
+        await addDoc(collection(db, "tasks"), {
+          ...taskData,
+          userId: currentUser.uid,
+          completed: false,
+          createdAt: serverTimestamp(),
+          completedAt: null
         });
-
-        host.scrollTop = host.scrollHeight;
-      },
-      error => {
-        console.error("Private chat listener:", error);
-        $("privateMessages").textContent =
-          "Private messages could not load. Check Firestore rules.";
+        showToast("Task saved to Firebase.", "success");
       }
-    );
-  } catch (error) {
-    console.error(error);
-    alert("Could not open private chat.");
+
+      resetTaskForm();
+    } catch (error) {
+      console.error("Save task error:", error);
+      showToast("Could not save task. Check Firestore Security Rules.", "error");
+    }
+  });
+
+  function resetTaskForm() {
+    editingTaskId = null;
+    $("taskForm").reset();
+    $("taskDate").value = localDateString();
+    $("taskDuration").value = "30";
+    $("taskPriority").value = "Medium";
+    $("taskFormTitle").textContent = "Create a task";
+    $("saveTaskBtn").textContent = "＋ Save task";
+    $("cancelEditBtn").classList.add("hidden");
   }
-}
 
-$("backFriends").addEventListener("click", () => {
-  if (privateChatUnsubscribe) privateChatUnsubscribe();
+  $("cancelEditBtn").addEventListener("click", resetTaskForm);
 
-  privateChatUnsubscribe = null;
-  currentChatUser = null;
+  $("jumpToTaskBtn").addEventListener("click", () => {
+    $("taskFormPanel").scrollIntoView({ behavior: "smooth" });
+    $("taskTitle").focus();
+  });
 
-  $("privateRoom").classList.add("hidden");
-  $("friendsMainView").classList.remove("hidden");
-});
+  $("todayBtn").addEventListener("click", () => {
+    $("dateFilter").value = "today";
+    renderTasks();
+    $("tasksPanel").scrollIntoView({ behavior: "smooth" });
+  });
 
-$("privateForm").addEventListener("submit", async event => {
-  event.preventDefault();
+  // Render task cards
+  function renderTasks() {
+    const search = $("taskSearch").value.trim().toLowerCase();
+    const taskFilter = $("taskFilter").value;
+    const dateFilter = $("dateFilter").value;
+    const today = localDateString();
 
-  if (!currentUser || !currentChatUser) return;
+    const visibleTasks = tasks.filter((task) => {
+      const matchesSearch =
+        String(task.title || "").toLowerCase().includes(search) ||
+        String(task.description || "").toLowerCase().includes(search);
 
-  const input = $("privateInput");
-  const textValue = input.value.trim();
+      const matchesStatus =
+        taskFilter === "all" ||
+        (taskFilter === "active" && !task.completed) ||
+        (taskFilter === "completed" && task.completed);
 
-  if (!textValue) return;
+      let matchesDate = true;
 
-  try {
-    await addDoc(privateMessagesCollection(currentChatUser), {
-      uid: currentUser.uid,
-      username: currentUsername,
-      text: textValue,
-      createdAt: serverTimestamp()
+      if (dateFilter === "today") matchesDate = task.date === today;
+      if (dateFilter === "upcoming") matchesDate = task.date > today;
+      if (dateFilter === "overdue") {
+        matchesDate = task.date < today && !task.completed;
+      }
+
+      return matchesSearch && matchesStatus && matchesDate;
     });
 
-    input.value = "";
-  } catch (error) {
-    alert("Private message could not be sent: " + error.message);
-  }
-});
+    $("visibleTaskCount").textContent =
+      `${visibleTasks.length} task${visibleTasks.length === 1 ? "" : "s"}`;
 
-/* =========================================
-   20. STUDY LEADERBOARD
-========================================= */
-
-async function loadLeaderboard() {
-  if (!currentUser) return;
-
-  const host = $("leaderboardList");
-  host.textContent = "Loading leaderboard...";
-
-  try {
-    const snapshot = await getDocs(
-      query(collection(db, "users"), limit(100))
-    );
-
-    const users = snapshot.docs.map(item => {
-      const data = item.data();
-
-      return {
-        uid: item.id,
-        username: data.username || "student",
-        seconds: Number(data.studySeconds || 0)
-      };
-    });
-
-    users.sort((a, b) => b.seconds - a.seconds);
-
-    host.replaceChildren();
-
-    if (!users.length) {
-      host.textContent = "No study records yet.";
+    if (!currentUser) {
+      $("taskList").innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">🔐</div>
+          <strong>Sign in to get started</strong>
+          <div>Your tasks will be connected to your Google account.</div>
+        </div>`;
       return;
     }
 
-    users.slice(0, 10).forEach((user, index) => {
-      const row = document.createElement("div");
-      row.className = "frienditem";
+    if (!visibleTasks.length) {
+      $("taskList").innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📝</div>
+          <strong>No matching tasks</strong>
+          <div>Add a new task or change your filters.</div>
+        </div>`;
+      return;
+    }
 
-      const name = document.createElement("span");
-      name.textContent =
-        `${index + 1}. @${user.username}` +
-        (user.uid === currentUser.uid ? " (You)" : "");
+    $("taskList").innerHTML = visibleTasks.map((task) => {
+      const priorityClass = {
+        High: "pill-high",
+        Medium: "pill-medium",
+        Low: "pill-low"
+      }[task.priority] || "";
 
-      const time = document.createElement("strong");
-      time.style.color = "var(--green)";
-      time.textContent = `${Math.floor(user.seconds / 60)} min`;
-
-      row.append(name, time);
-      host.append(row);
-    });
-  } catch (error) {
-    console.error("Leaderboard:", error);
-    host.textContent =
-      "Could not load leaderboard. Check Firestore rules.";
+      return `
+        <article class="task-card ${task.completed ? "is-complete" : ""}">
+          <div class="task-main">
+            <input
+              class="task-check"
+              type="checkbox"
+              data-action="toggle"
+              data-id="${escapeHTML(task.id)}"
+              aria-label="Mark ${escapeHTML(task.title)} completed"
+              ${task.completed ? "checked" : ""}
+            >
+            <div class="task-content">
+              <h4 class="task-title">${escapeHTML(task.title)}</h4>
+              ${task.description
+                ? `<p class="task-description">${escapeHTML(task.description)}</p>`
+                : ""}
+              <div class="task-meta">
+                <span class="pill">📅 ${escapeHTML(task.date || "No date")}</span>
+                <span class="pill">📁 ${escapeHTML(task.category || "Other")}</span>
+                <span class="pill ${priorityClass}">● ${escapeHTML(task.priority || "Medium")}</span>
+                <span class="pill">⏱ ${Number(task.duration) || 30} min</span>
+              </div>
+              <div class="task-actions">
+                <button class="btn btn-small" data-action="edit" data-id="${escapeHTML(task.id)}">✏️ Edit</button>
+                <button class="btn btn-small btn-danger" data-action="delete" data-id="${escapeHTML(task.id)}">🗑 Delete</button>
+              </div>
+            </div>
+          </div>
+        </article>`;
+    }).join("");
   }
-}
 
-/* =========================================
-   21. STARTUP DEFAULTS
-========================================= */
+  // Task actions
+  $("taskList").addEventListener("click", async (event) => {
+    const button = event.target.closest("button[data-action]");
+    if (!button) return;
 
-renderTimer();
+    const { action, id } = button.dataset;
+    const task = tasks.find((item) => item.id === id);
 
-$("futureDate").min = todayKey();
+    if (!task || !currentUser || task.userId !== currentUser.uid) return;
 
-console.log("Goal & Progress Tracker initialized.");
+    if (action === "edit") {
+      editingTaskId = id;
+      $("taskTitle").value = task.title || "";
+      $("taskDescription").value = task.description || "";
+      $("taskDate").value = task.date || localDateString();
+      $("taskCategory").value = task.category || "Other";
+      $("taskPriority").value = task.priority || "Medium";
+      $("taskDuration").value = task.duration || 30;
+      $("taskFormTitle").textContent = "Edit task";
+      $("saveTaskBtn").textContent = "💾 Update task";
+      $("cancelEditBtn").classList.remove("hidden");
+      $("taskFormPanel").scrollIntoView({ behavior: "smooth" });
+      $("taskTitle").focus();
+    }
+
+    if (action === "delete") {
+      if (!confirm(`Delete "${task.title}"? This cannot be undone.`)) return;
+
+      try {
+        await deleteDoc(doc(db, "tasks", id));
+        showToast("Task deleted.", "success");
+      } catch (error) {
+        console.error(error);
+        showToast("Could not delete task.", "error");
+      }
+    }
+  });
+
+  $("taskList").addEventListener("change", async (event) => {
+    const checkbox = event.target.closest('input[data-action="toggle"]');
+    if (!checkbox) return;
+
+    const task = tasks.find((item) => item.id === checkbox.dataset.id);
+
+    if (!task || !currentUser || task.userId !== currentUser.uid) return;
+
+    try {
+      await updateDoc(doc(db, "tasks", task.id), {
+        completed: checkbox.checked,
+        completedAt: checkbox.checked ? serverTimestamp() : null,
+        updatedAt: serverTimestamp()
+      });
+    } catch (error) {
+      console.error(error);
+      showToast("Could not update task status.", "error");
+    }
+  });
+
+  $("taskSearch").addEventListener("input", renderTasks);
+  $("taskFilter").addEventListener("change", renderTasks);
+  $("dateFilter").addEventListener("change", renderTasks);
+
+  // Dashboard statistics
+  function updateDashboard() {
+    const total = tasks.length;
+    const completed = tasks.filter((task) => task.completed).length;
+    const rate = total ? Math.round((completed / total) * 100) : 0;
+
+    $("totalTasksStat").textContent = total;
+    $("completedTasksStat").textContent = completed;
+    $("completionRateStat").textContent = `${rate}%`;
+
+    const today = localDateString();
+    const todayTasks = tasks.filter((task) => task.date === today);
+    const todayCompleted = todayTasks.filter((task) => task.completed).length;
+    const todayRate = todayTasks.length
+      ? Math.round((todayCompleted / todayTasks.length) * 100)
+      : 0;
+
+    $("todayProgressLabel").textContent = `${todayRate}%`;
+    $("todayProgressBar").style.width = `${todayRate}%`;
+    $("todayProgressText").textContent = todayTasks.length
+      ? `${todayCompleted} of ${todayTasks.length} tasks completed today.`
+      : "Add a task to begin tracking your day.";
+
+    drawWeeklyChart();
+  }
+
+  // Weekly completion chart — no external chart library required
+  function drawWeeklyChart() {
+    const canvas = $("weeklyChart");
+    const context = canvas.getContext("2d");
+    const width = Math.max(canvas.clientWidth, 260);
+    const height = 180;
+    const ratio = window.devicePixelRatio || 1;
+
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    canvas.style.height = `${height}px`;
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    context.clearRect(0, 0, width, height);
+
+    const days = [];
+
+    for (let offset = 6; offset >= 0; offset--) {
+      const date = new Date();
+      date.setDate(date.getDate() - offset);
+      const key = localDateString(date);
+
+      days.push({
+        key,
+        label: date.toLocaleDateString(undefined, { weekday: "short" }),
+        count: tasks.filter((task) => task.completed && task.date === key).length
+      });
+    }
+
+    const max = Math.max(4, ...days.map((day) => day.count));
+    const left = 12;
+    const right = 8;
+    const top = 15;
+    const bottom = 30;
+    const chartWidth = width - left - right;
+    const chartHeight = height - top - bottom;
+    const slot = chartWidth / days.length;
+    const barWidth = Math.min(24, slot * 0.56);
+
+    context.font = "11px Inter, sans-serif";
+    context.textAlign = "center";
+
+    days.forEach((day, index) => {
+      const x = left + index * slot + (slot - barWidth) / 2;
+      const barHeight = (day.count / max) * chartHeight;
+      const y = top + chartHeight - barHeight;
+
+      context.fillStyle = "rgba(124,131,255,.8)";
+      context.beginPath();
+      context.roundRect(x, y, barWidth, Math.max(3, barHeight), 5);
+      context.fill();
+
+      context.fillStyle = "#9ba9c5";
+      context.fillText(day.label, x + barWidth / 2, height - 9);
+    });
+  }
+
+  window.addEventListener("resize", drawWeeklyChart);
+
+  // Guide modal
+  function closeGuide() {
+    $("guideModal").classList.remove("open");
+  }
+
+  $("guideBtn").addEventListener("click", () =>
+    $("guideModal").classList.add("open")
+  );
+  $("closeGuideBtn").addEventListener("click", closeGuide);
+  $("guideDoneBtn").addEventListener("click", closeGuide);
+
+  $("guideModal").addEventListener("click", (event) => {
+    if (event.target === $("guideModal")) closeGuide();
+  });
+
+  // Fullscreen focus mode
+  $("fullscreenBtn").addEventListener("click", async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error(error);
+      showToast("Fullscreen is not available in this browser.", "error");
+    }
+  });
+
+  // PART 4 CONTINUES HERE.
+  // Do not add </script>, </body>, or </html> yet.
+// ===== PART 4: FOCUS TIMER =====
+  let timerRemaining = 25 * 60;
+  let timerInterval = null;
+  let timerRunning = false;
+  let focusSeconds = 0;
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+  }
+
+  function updateTimerDisplay() {
+    $("timerDisplay").textContent = formatTime(timerRemaining);
+    $("studyTimeStat").textContent =
+      focusSeconds >= 3600
+        ? `${(focusSeconds / 3600).toFixed(1)}h`
+        : `${Math.floor(focusSeconds / 60)}m`;
+  }
+
+  function stopTimer() {
+    if (timerInterval !== null) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+    timerRunning = false;
+  }
+
+  $("timerStartBtn").addEventListener("click", () => {
+    if (timerRunning) return;
+
+    if (timerRemaining <= 0) {
+      const minutes = Number($("timerMinutes").value);
+      if (!Number.isFinite(minutes) || minutes < 1 || minutes > 180) {
+        showToast("Choose a duration between 1 and 180 minutes.", "error");
+        return;
+      }
+      timerRemaining = Math.round(minutes * 60);
+    }
+
+    timerRunning = true;
+    $("timerStatus").textContent = "Focus session in progress…";
+
+    timerInterval = setInterval(() => {
+      timerRemaining -= 1;
+      focusSeconds += 1;
+      updateTimerDisplay();
+
+      if (timerRemaining <= 0) {
+        stopTimer();
+        timerRemaining = 0;
+        updateTimerDisplay();
+        $("timerStatus").textContent = "Session complete! Great work. 🎉";
+        showToast("Focus session complete. Take a short break!", "success");
+      }
+    }, 1000);
+  });
+
+  $("timerPauseBtn").addEventListener("click", () => {
+    stopTimer();
+    $("timerStatus").textContent = "Timer paused.";
+  });
+
+  $("timerResetBtn").addEventListener("click", () => {
+    stopTimer();
+
+    const minutes = Number($("timerMinutes").value);
+    if (!Number.isFinite(minutes) || minutes < 1 || minutes > 180) {
+      showToast("Choose a duration between 1 and 180 minutes.", "error");
+      return;
+    }
+
+    timerRemaining = Math.round(minutes * 60);
+    updateTimerDisplay();
+    $("timerStatus").textContent = "Timer reset and ready.";
+  });
+
+  $("timerMinutes").addEventListener("change", () => {
+    if (timerRunning) {
+      showToast("Pause the timer before changing its duration.");
+      return;
+    }
+
+    const minutes = Number($("timerMinutes").value);
+
+    if (!Number.isFinite(minutes) || minutes < 1 || minutes > 180) {
+      $("timerMinutes").value = "25";
+      timerRemaining = 25 * 60;
+    } else {
+      timerRemaining = Math.round(minutes * 60);
+    }
+
+    updateTimerDisplay();
+  });
+
+  // ===== QUICK NOTES =====
+  // Notes are stored in this browser, not synced to Firestore.
+  function notesStorageKey(user) {
+    return `goalflow_notes_${user.uid}`;
+  }
+
+  function loadQuickNotes() {
+    if (!currentUser) {
+      $("quickNotes").value = "";
+      $("notesStatus").textContent = "Sign in to save notes in this browser.";
+      return;
+    }
+
+    try {
+      $("quickNotes").value =
+        localStorage.getItem(notesStorageKey(currentUser)) || "";
+      $("notesStatus").textContent = "Notes loaded from this browser.";
+    } catch (error) {
+      console.error("Could not load notes:", error);
+      $("notesStatus").textContent = "Browser storage is unavailable.";
+    }
+  }
+
+  $("saveNotesBtn").addEventListener("click", () => {
+    if (!currentUser) {
+      showToast("Please sign in before saving your notes.", "error");
+      return;
+    }
+
+    try {
+      localStorage.setItem(
+        notesStorageKey(currentUser),
+        $("quickNotes").value
+      );
+      $("notesStatus").textContent = "Saved in this browser.";
+      showToast("Note saved.", "success");
+    } catch (error) {
+      console.error("Could not save notes:", error);
+      showToast("Could not save the note in browser storage.", "error");
+    }
+  });
+
+  // Update the notes field when the account changes.
+  onAuthStateChanged(auth, () => {
+    loadQuickNotes();
+  });
+
+  // ===== GOAL PROGRESS =====
+  function updateGoalProgress() {
+    const goals = [
+      { category: "Study", title: "🎓 Learning" },
+      { category: "Project", title: "🛠️ Projects" },
+      { category: "Health", title: "🌱 Healthy habits" }
+    ];
+
+    $("goalList").innerHTML = goals.map((goal) => {
+      const categoryTasks = tasks.filter(
+        (task) => task.category === goal.category
+      );
+      const finished = categoryTasks.filter(
+        (task) => task.completed
+      ).length;
+
+      const percent = categoryTasks.length
+        ? Math.round((finished / categoryTasks.length) * 100)
+        : 0;
+
+      return `
+        <div class="goal-item">
+          <h4>${goal.title}</h4>
+          <p>${finished} of ${categoryTasks.length} tasks completed</p>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:${percent}%"></div>
+          </div>
+          <p style="margin-top:8px">${percent}% complete</p>
+        </div>
+      `;
+    }).join("");
+  }
+
+  // Wrap dashboard updates so goal progress updates too.
+  const originalUpdateDashboard = updateDashboard;
+
+  updateDashboard = function () {
+    originalUpdateDashboard();
+    updateGoalProgress();
+  };
+
+  // ===== INITIAL UI =====
+  updateTimerDisplay();
+  renderTasks();
+  updateDashboard();
+
+  // Close the guide with Escape.
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      $("guideModal").classList.remove("open");
+    }
+  });
+
 </script>
-
 </body>
-</html>
+    </html>
+
+  
