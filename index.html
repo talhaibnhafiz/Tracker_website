@@ -40,19 +40,19 @@
       color: var(--text);
     }
 
-.creator-credit {
-  padding: 12px 16px;
-  text-align: center;
-  font-size: 14px;
-  color: #aab5ca;
-  background: #0a1020;
-  border-bottom: 1px solid rgba(255,255,255,.09);
-}
+    .creator-credit {
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 14px;
+      color: #aab5ca;
+      background: #0a1020;
+      border-bottom: 1px solid rgba(255,255,255,.09);
+    }
 
-.creator-credit span {
-  color: #8db8ff;
-  font-weight: 700;
-}
+    .creator-credit span {
+      color: #8db8ff;
+      font-weight: 700;
+    }
     
     button, input, textarea, select { font: inherit; }
     button { cursor: pointer; }
@@ -515,102 +515,104 @@
         transition-duration: .01ms !important;
       }
     }
-  /* ===== GoalFlow Chat Styles ===== */
-.gf-chat {
-  margin: 24px auto;
-  width: 100%;
-  max-width: 1200px;
-}
 
-.gf-chat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-}
+    /* ===== GoalFlow Chat Styles ===== */
+    .gf-chat {
+      margin: 24px auto;
+      width: 100%;
+      max-width: 1200px;
+    }
 
-.gf-chat-card {
-  min-width: 0;
-  padding: 18px;
-  border: 1px solid #29334b;
-  border-radius: 16px;
-  background: #10182a;
-  color: #f4f7ff;
-}
+    .gf-chat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
 
-.gf-muted {
-  color: #aab5ca;
-  font-size: 13px;
-}
+    .gf-chat-card {
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid #29334b;
+      border-radius: 16px;
+      background: #10182a;
+      color: #f4f7ff;
+    }
 
-.gf-messages {
-  height: 280px;
-  overflow-y: auto;
-  margin: 14px 0;
-  padding: 12px;
-  border-radius: 10px;
-  background: #0a1020;
-  overflow-wrap: anywhere;
-}
+    .gf-muted {
+      color: #aab5ca;
+      font-size: 13px;
+    }
 
-.gf-message {
-  margin: 0 0 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #202b41;
-}
+    .gf-messages {
+      height: 280px;
+      overflow-y: auto;
+      margin: 14px 0;
+      padding: 12px;
+      border-radius: 10px;
+      background: #0a1020;
+      overflow-wrap: anywhere;
+    }
 
-.gf-message strong {
-  display: block;
-  margin-bottom: 3px;
-  color: #8db8ff;
-}
+    .gf-message {
+      margin: 0 0 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #202b41;
+    }
 
-.gf-message p {
-  margin: 0;
-  white-space: pre-wrap;
-}
+    .gf-message strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #8db8ff;
+    }
 
-.gf-chat-form {
-  display: flex;
-  gap: 8px;
-}
+    .gf-message p {
+      margin: 0;
+      white-space: pre-wrap;
+    }
 
-.gf-chat-form input {
-  min-width: 0;
-  flex: 1;
-  padding: 11px;
-  border: 1px solid #36425c;
-  border-radius: 9px;
-  background: #0b1222;
-  color: white;
-}
+    .gf-chat-form {
+      display: flex;
+      gap: 8px;
+    }
 
-.gf-chat-form button {
-  padding: 10px 14px;
-  border: 0;
-  border-radius: 9px;
-  cursor: pointer;
-  font-weight: 600;
-}
+    .gf-chat-form input {
+      min-width: 0;
+      flex: 1;
+      padding: 11px;
+      border: 1px solid #36425c;
+      border-radius: 9px;
+      background: #0b1222;
+      color: white;
+    }
 
-.gf-status {
-  min-height: 20px;
-  font-size: 13px;
-  color: #b8c8e6;
-}
+    .gf-chat-form button {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 600;
+    }
 
-@media (max-width: 760px) {
-  .gf-chat-grid {
-    grid-template-columns: 1fr;
-  }
-}
+    .gf-status {
+      min-height: 20px;
+      font-size: 13px;
+      color: #b8c8e6;
+    }
+
+    @media (max-width: 900px) {
+      .gf-chat-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-<!-- PART 2 CONTINUES BELOW -->
+
 <div class="creator-credit">
-  Created By <span>MD. Talha Ibn Hafiz</span>
+  Created By <span>MD. Talha Ibn Hafiz</span>[cite: 1]
 </div>
-  <div class="app-shell">
+
+<div class="app-shell">
   <header class="topbar">
     <div class="brand">
       <div class="brand-icon">🎯</div>
@@ -631,7 +633,7 @@
     <div>
       <p class="section-label">YOUR PERSONAL WORKSPACE</p>
       <h2>Small steps.<br>Big achievements.</h2>
-      <p>Plan your day, track your goals, and build consistent habits—one task at a time.</p>
+      <p>Plan your day, track your goals, and build consistent habits--one task at a time.</p>
       <div class="form-actions">
         <button class="btn btn-primary" id="jumpToTaskBtn">＋ Add a task</button>
         <button class="btn" id="todayBtn">📅 Today's tasks</button>
@@ -789,6 +791,11 @@
             <div class="profile-email" id="profileEmail">Sign in to sync your tasks</div>
           </div>
         </div>
+        
+        <!-- Profile Edit Button Added Here -->
+        <div style="margin-top: 12px;">
+          <button class="btn btn-small" id="editProfileBtn" style="width: 100%;">✏️ Edit Profile</button>
+        </div>
 
         <div class="divider"></div>
         <div class="status-line">
@@ -893,15 +900,16 @@
     Your personal productivity workspace.
   </footer>
 </div>
-<!-- GoalFlow Chat Section -->
-<section id="goalflow-chat" class="gf-chat"
+
+<!-- GoalFlow Chat Section (With User Directory Added) -->
+<section id="goalflow-chat" class="gf-chat">
   <div class="gf-chat-grid">
 
     <!-- World Chat -->
     <section class="gf-chat-card">
       <h2>🌍 World Chat</h2>
       <p class="gf-muted">
-        Chat with signed-in GoalFlow users.
+        Chat with signed-in GoalFlow users.[cite: 1]
       </p>
 
       <div
@@ -924,11 +932,23 @@
       </form>
     </section>
 
+    <!-- User Directory -->
+    <section class="gf-chat-card">
+      <h2>👥 User Directory</h2>
+      <p class="gf-muted">Click any user to start a private chat.</p>
+      
+      <input class="search-input" id="userDirectorySearch" placeholder="🔍 Search users..." style="margin-bottom: 12px; width: 100%;">
+      
+      <div id="userDirectoryList" class="gf-messages" style="height: 220px;">
+        <!-- Dynamic list -->
+      </div>
+    </section>
+
     <!-- Private Chat -->
     <section class="gf-chat-card">
       <h2>🔒 Private Chat</h2>
       <p class="gf-muted">
-        Find a user by their username.
+        Find a user by their username.[cite: 1]
       </p>
 
       <form id="privateUserSearchForm" class="gf-chat-form">
@@ -987,22 +1007,55 @@
       </div>
       <button class="btn btn-small" id="closeGuideBtn" aria-label="Close guide">✕</button>
     </div>
-    <p><strong>1. Sign in:</strong> Use Google sign-in to connect your account.</p>
-    <p><strong>2. Create tasks:</strong> Add a title, date, category, priority, and estimated duration.</p>
-    <p><strong>3. Track progress:</strong> Mark tasks complete and review your weekly progress chart.</p>
-    <p><strong>4. Focus:</strong> Use the timer to structure a focused study session.</p>
-    <p><strong>5. Sync:</strong> When Firebase is configured correctly, your account data can sync across devices.</p>
+    <p><strong>1. Sign in:</strong> Use Google sign-in to connect your account.[cite: 1]</p>
+    <p><strong>2. Create tasks:</strong> Add a title, date, category, priority, and estimated duration.[cite: 1]</p>
+    <p><strong>3. Track progress:</strong> Mark tasks complete and review your weekly progress chart.[cite: 1]</p>
+    <p><strong>4. Focus:</strong> Use the timer to structure a focused study session.[cite: 1]</p>
+    <p><strong>5. Sync:</strong> When Firebase is configured correctly, your account data can sync across devices.[cite: 1]</p>
     <div class="form-actions">
       <button class="btn btn-primary" id="guideDoneBtn">Got it!</button>
     </div>
   </div>
 </div>
 
+<!-- Profile Edit Modal Added Here -->
+<div class="modal-backdrop" id="profileModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="panel-header">
+      <div>
+        <h3>Edit Profile</h3>
+        <p>Update your public profile details.</p>
+      </div>
+      <button class="btn btn-small" id="closeProfileModalBtn">✕</button>
+    </div>
+    <form id="profileEditForm">
+      <div class="field" style="margin-bottom: 12px;">
+        <label for="editDisplayName">Display Name</label>
+        <input type="text" id="editDisplayName" maxlength="50" required>
+      </div>
+      <div class="field" style="margin-bottom: 12px;">
+        <label for="editUsername">Username (Unique)</label>
+        <input type="text" id="editUsername" maxlength="20" required placeholder="e.g. talha_hafiz">
+      </div>
+      <div class="field" style="margin-bottom: 12px;">
+        <label for="editBio">Bio</label>
+        <textarea id="editBio" maxlength="200" placeholder="A short bio about yourself..."></textarea>
+      </div>
+      <div class="field" style="margin-bottom: 12px;">
+        <label for="editPhotoURL">Profile Photo URL</label>
+        <input type="url" id="editPhotoURL" placeholder="https://example.com/photo.jpg">
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="toast-area" id="toastArea" aria-live="polite"></div>
 
-<!-- PART 3 SCRIPT GOES BELOW -->
 <script type="module">
-  // Firebase SDK imports
+  // Firebase SDK imports[cite: 1]
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
   import {
@@ -1014,26 +1067,24 @@
   } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
   import {
-  getFirestore,
-  collection,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-  setDoc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-  orderBy,
-  limit,
-  serverTimestamp,
-  runTransaction
-} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-  
+    getFirestore,
+    collection,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc,
+    setDoc,
+    getDoc,
+    getDocs,
+    onSnapshot,
+    query,
+    where,
+    orderBy,
+    limit,
+    serverTimestamp,
+    runTransaction
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-  // YOUR FIREBASE CONFIG
   const firebaseConfig = {
     apiKey: "AIzaSyA7K42WBzWBAKRfWdZPJ2W_i4smbVtN9T0",
     authDomain: "my-project-tracker-3e7ca.firebaseapp.com",
@@ -1044,13 +1095,11 @@
     measurementId: "G-629WCSP2TT"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
   const googleProvider = new GoogleAuthProvider();
 
-  // App state
   let currentUser = null;
   let tasks = [];
   let unsubscribeTasks = null;
@@ -1067,7 +1116,6 @@
 
   $("taskDate").value = localDateString();
 
-  // Safely display user-entered text
   function escapeHTML(value = "") {
     return String(value).replace(/[&<>"']/g, (character) => ({
       "&": "&amp;",
@@ -1091,7 +1139,6 @@
     $("syncDot").classList.toggle("online", online);
   }
 
-  // Google sign-in
   $("loginBtn").addEventListener("click", async () => {
     try {
       await signInWithPopup(auth, googleProvider);
@@ -1111,7 +1158,6 @@
     }
   });
 
-  // Authentication state
   onAuthStateChanged(auth, async (user) => {
     currentUser = user;
 
@@ -1143,7 +1189,6 @@
     setSyncStatus("Connecting to Firestore…", false);
 
     try {
-      // Create/update the signed-in user's own profile document
       await setDoc(doc(db, "users", user.uid), {
         displayName: user.displayName || "",
         email: user.email || "",
@@ -1171,7 +1216,7 @@
         updateDashboard();
       }, (error) => {
         console.error("Task sync error:", error);
-        setSyncStatus("Sync failed — check Firestore rules", false);
+        setSyncStatus("Sync failed -- check Firestore rules", false);
         showToast("Could not load tasks. Check Firestore Security Rules.", "error");
       });
 
@@ -1182,7 +1227,6 @@
     }
   });
 
-  // Save or edit a task
   $("taskForm").addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -1261,7 +1305,6 @@
     $("tasksPanel").scrollIntoView({ behavior: "smooth" });
   });
 
-  // Render task cards
   function renderTasks() {
     const search = $("taskSearch").value.trim().toLowerCase();
     const taskFilter = $("taskFilter").value;
@@ -1351,7 +1394,6 @@
     }).join("");
   }
 
-  // Task actions
   $("taskList").addEventListener("click", async (event) => {
     const button = event.target.closest("button[data-action]");
     if (!button) return;
@@ -1413,7 +1455,6 @@
   $("taskFilter").addEventListener("change", renderTasks);
   $("dateFilter").addEventListener("change", renderTasks);
 
-  // Dashboard statistics
   function updateDashboard() {
     const total = tasks.length;
     const completed = tasks.filter((task) => task.completed).length;
@@ -1439,7 +1480,6 @@
     drawWeeklyChart();
   }
 
-  // Weekly completion chart — no external chart library required
   function drawWeeklyChart() {
     const canvas = $("weeklyChart");
     const context = canvas.getContext("2d");
@@ -1497,7 +1537,6 @@
 
   window.addEventListener("resize", drawWeeklyChart);
 
-  // Guide modal
   function closeGuide() {
     $("guideModal").classList.remove("open");
   }
@@ -1512,7 +1551,83 @@
     if (event.target === $("guideModal")) closeGuide();
   });
 
-  // Fullscreen focus mode
+  // Profile Modal Event Listeners
+  const profileModal = $("profileModal");
+  $("editProfileBtn").addEventListener("click", async () => {
+    if (!currentUser) {
+      showToast("Please sign in first.", "error");
+      return;
+    }
+    profileModal.classList.add("open");
+    // Pre-fill profile data if available
+    const profileRef = doc(db, "publicProfiles", currentUser.uid);
+    const snap = await getDoc(profileRef);
+    if (snap.exists()) {
+      const data = snap.data();
+      $("editDisplayName").value = data.displayName || currentUser.displayName || "";
+      $("editUsername").value = data.username || "";
+      $("editBio").value = data.bio || "";
+      $("editPhotoURL").value = data.photoURL || currentUser.photoURL || "";
+    }
+  });
+
+  $("closeProfileModalBtn").addEventListener("click", () => profileModal.classList.remove("open"));
+  profileModal.addEventListener("click", (e) => {
+    if (e.target === profileModal) profileModal.classList.remove("open");
+  });
+
+  $("profileEditForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!currentUser) return;
+
+    const newName = $("editDisplayName").value.trim();
+    const newUsername = $("editUsername").value.trim().toLowerCase();
+    const newBio = $("editBio").value.trim();
+    const newPhoto = $("editPhotoURL").value.trim();
+
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(newUsername)) {
+      alert("Username must be 3-20 characters (letters, numbers, underscores).");
+      return;
+    }
+
+    try {
+      const usernameRef = doc(db, "usernames", newUsername);
+      const usernameSnap = await getDoc(usernameRef);
+
+      if (usernameSnap.exists() && usernameSnap.data().uid !== currentUser.uid) {
+        alert("This username is already taken by someone else.");
+        return;
+      }
+
+      await runTransaction(db, async (transaction) => {
+        transaction.set(usernameRef, { uid: currentUser.uid, username: newUsername, usernameLower: newUsername });
+        transaction.set(doc(db, "publicProfiles", currentUser.uid), {
+          uid: currentUser.uid,
+          username: newUsername,
+          usernameLower: newUsername,
+          displayName: newName,
+          bio: newBio,
+          photoURL: newPhoto
+        }, { merge: true });
+        transaction.set(doc(db, "users", currentUser.uid), {
+          displayName: newName,
+          handle: newUsername,
+          photoURL: newPhoto
+        }, { merge: true });
+      });
+
+      gfUsername = newUsername;
+      $("profileName").textContent = newName;
+      if (newPhoto) $("profileAvatar").textContent = ""; // Can support image avatar if styled
+      profileModal.classList.remove("open");
+      showToast("Profile updated successfully!", "success");
+      loadUserDirectory();
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to update profile.", "error");
+    }
+  });
+
   $("fullscreenBtn").addEventListener("click", async () => {
     try {
       if (!document.fullscreenElement) {
@@ -1526,9 +1641,6 @@
     }
   });
 
-  // PART 4 CONTINUES HERE.
-  // Do not add </script>, </body>, or </html> yet.
-// ===== PART 4: FOCUS TIMER =====
   let timerRemaining = 25 * 60;
   let timerInterval = null;
   let timerRunning = false;
@@ -1623,8 +1735,6 @@
     updateTimerDisplay();
   });
 
-  // ===== QUICK NOTES =====
-  // Notes are stored in this browser, not synced to Firestore.
   function notesStorageKey(user) {
     return `goalflow_notes_${user.uid}`;
   }
@@ -1665,12 +1775,10 @@
     }
   });
 
-  // Update the notes field when the account changes.
   onAuthStateChanged(auth, () => {
     loadQuickNotes();
   });
 
-  // ===== GOAL PROGRESS =====
   function updateGoalProgress() {
     const goals = [
       { category: "Study", title: "🎓 Learning" },
@@ -1703,7 +1811,6 @@
     }).join("");
   }
 
-  // Wrap dashboard updates so goal progress updates too.
   const originalUpdateDashboard = updateDashboard;
 
   updateDashboard = function () {
@@ -1711,515 +1818,419 @@
     updateGoalProgress();
   };
 
-  // ===== INITIAL UI =====
   updateTimerDisplay();
   renderTasks();
   updateDashboard();
 
-  // Close the guide with Escape.
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       $("guideModal").classList.remove("open");
+      profileModal.classList.remove("open");
     }
   });
-// ================================
-// GoalFlow Chat Integration
-// World Chat + Private Chat
-// ================================
 
-const gfChatSection = document.getElementById("goalflow-chat");
+  // ================================
+  // GoalFlow Chat & Directory Integration
+  // ================================
 
-const gfWorldMessages = document.getElementById("worldChatMessages");
-const gfWorldForm = document.getElementById("worldChatForm");
-const gfWorldInput = document.getElementById("worldChatInput");
+  const gfChatSection = document.getElementById("goalflow-chat");
 
-const gfPrivateSearchForm = document.getElementById("privateUserSearchForm");
-const gfPrivateSearchInput = document.getElementById("privateUserSearch");
-const gfPrivateSearchStatus = document.getElementById("privateSearchStatus");
+  const gfWorldMessages = document.getElementById("worldChatMessages");
+  const gfWorldForm = document.getElementById("worldChatForm");
+  const gfWorldInput = document.getElementById("worldChatInput");
 
-const gfPrivatePanel = document.getElementById("privateChatPanel");
-const gfPrivateTitle = document.getElementById("privateChatTitle");
-const gfPrivateMessages = document.getElementById("privateChatMessages");
-const gfPrivateForm = document.getElementById("privateChatForm");
-const gfPrivateInput = document.getElementById("privateChatInput");
+  const gfPrivateSearchForm = document.getElementById("privateUserSearchForm");
+  const gfPrivateSearchInput = document.getElementById("privateUserSearch");
+  const gfPrivateSearchStatus = document.getElementById("privateSearchStatus");
 
-// Current chat state
-let gfCurrentUser = null;
-let gfUsername = "";
-let gfPrivateTarget = null;
-let gfConversationId = null;
+  const gfPrivatePanel = document.getElementById("privateChatPanel");
+  const gfPrivateTitle = document.getElementById("privateChatTitle");
+  const gfPrivateMessages = document.getElementById("privateChatMessages");
+  const gfPrivateForm = document.getElementById("privateChatForm");
+  const gfPrivateInput = document.getElementById("privateChatInput");
 
-let gfStopWorld = null;
-let gfStopPrivate = null;
+  const userDirectoryList = document.getElementById("userDirectoryList");
+  const userDirectorySearch = document.getElementById("userDirectorySearch");
 
-// Display errors safely
-function gfShowStatus(message, isError = false) {
-  if (!gfPrivateSearchStatus) return;
+  let gfCurrentUser = null;
+  let gfUsername = "";
+  let gfPrivateTarget = null;
+  let gfConversationId = null;
 
-  gfPrivateSearchStatus.textContent = message;
-  gfPrivateSearchStatus.style.color = isError ? "#ff8b8b" : "#b8c8e6";
-}
+  let gfStopWorld = null;
+  let gfStopPrivate = null;
+  let allDirectoryUsers = [];
 
-// Render messages safely using textContent
-function gfRenderMessages(container, documents) {
-  if (!container) return;
-
-  container.replaceChildren();
-
-  if (!documents.length) {
-    const empty = document.createElement("p");
-    empty.className = "gf-muted";
-    empty.textContent = "No messages yet. Start the conversation!";
-    container.appendChild(empty);
-    return;
+  function gfShowStatus(message, isError = false) {
+    if (!gfPrivateSearchStatus) return;
+    gfPrivateSearchStatus.textContent = message;
+    gfPrivateSearchStatus.style.color = isError ? "#ff8b8b" : "#b8c8e6";
   }
 
-  documents.forEach((messageDoc) => {
-    const data = messageDoc.data();
+  function gfRenderMessages(container, documents) {
+    if (!container) return;
+    container.replaceChildren();
 
-    const messageElement = document.createElement("div");
-    messageElement.className = "gf-message";
-
-    const usernameElement = document.createElement("strong");
-    usernameElement.textContent = data.username || "GoalFlow User";
-
-    const textElement = document.createElement("p");
-    textElement.textContent = data.text || "";
-
-    messageElement.append(usernameElement, textElement);
-    container.appendChild(messageElement);
-  });
-
-  container.scrollTop = container.scrollHeight;
-}
-
-// Stop active Firestore listeners
-function gfStopWorldListener() {
-  if (typeof gfStopWorld === "function") {
-    gfStopWorld();
-    gfStopWorld = null;
-  }
-}
-
-function gfStopPrivateListener() {
-  if (typeof gfStopPrivate === "function") {
-    gfStopPrivate();
-    gfStopPrivate = null;
-  }
-}
-
-// Get or create the current user's public username
-async function gfEnsureUsername(user) {
-  const userRef = doc(db, "users", user.uid);
-  const profileRef = doc(db, "publicProfiles", user.uid);
-
-  const [userSnapshot, profileSnapshot] = await Promise.all([
-    getDoc(userRef),
-    getDoc(profileRef)
-  ]);
-
-  const existingUserData = userSnapshot.exists()
-    ? userSnapshot.data()
-    : {};
-
-  const existingProfile = profileSnapshot.exists()
-    ? profileSnapshot.data()
-    : {};
-
-  // Use an existing public profile if available
-  if (existingProfile.username && existingProfile.usernameLower) {
-    gfUsername = existingProfile.username;
-
-    // Keep the username lookup document available
-    const usernameRef = doc(
-      db,
-      "usernames",
-      existingProfile.usernameLower
-    );
-
-    const usernameSnapshot = await getDoc(usernameRef);
-
-    if (!usernameSnapshot.exists()) {
-      await setDoc(usernameRef, {
-        uid: user.uid,
-        username: existingProfile.username,
-        usernameLower: existingProfile.usernameLower
-      });
+    if (!documents.length) {
+      const empty = document.createElement("p");
+      empty.className = "gf-muted";
+      empty.textContent = "No messages yet. Start the conversation!";
+      container.appendChild(empty);
+      return;
     }
 
-    return gfUsername;
+    documents.forEach((messageDoc) => {
+      const data = messageDoc.data();
+      const messageElement = document.createElement("div");
+      messageElement.className = "gf-message";
+
+      const usernameElement = document.createElement("strong");
+      usernameElement.textContent = data.username || "GoalFlow User";
+
+      const textElement = document.createElement("p");
+      textElement.textContent = data.text || "";
+
+      messageElement.append(usernameElement, textElement);
+      container.appendChild(messageElement);
+    });
+
+    container.scrollTop = container.scrollHeight;
   }
 
-  // Reuse an existing handle when possible
-  let suggestedUsername =
-    existingUserData.handle ||
-    existingUserData.username ||
-    "";
-
-  while (true) {
-    let chosenUsername = suggestedUsername;
-
-    if (!chosenUsername) {
-      chosenUsername = prompt(
-        "Choose a GoalFlow chat username (3–20 letters, numbers or underscores):"
-      );
+  function gfStopWorldListener() {
+    if (typeof gfStopWorld === "function") {
+      gfStopWorld();
+      gfStopWorld = null;
     }
+  }
 
-    if (chosenUsername === null) {
-      throw new Error("A username is required to use GoalFlow Chat.");
+  function gfStopPrivateListener() {
+    if (typeof gfStopPrivate === "function") {
+      gfStopPrivate();
+      gfStopPrivate = null;
     }
+  }
 
-    chosenUsername = chosenUsername.trim();
-
-    if (!/^[a-zA-Z0-9_]{3,20}$/.test(chosenUsername)) {
-      alert(
-        "Username must be 3–20 characters and contain only letters, numbers or underscores."
-      );
-      suggestedUsername = "";
-      continue;
-    }
-
-    const usernameLower = chosenUsername.toLowerCase();
-    const usernameRef = doc(db, "usernames", usernameLower);
-
-    try {
-      await runTransaction(db, async (transaction) => {
-        const usernameSnapshot = await transaction.get(usernameRef);
-
-        if (
-          usernameSnapshot.exists() &&
-          usernameSnapshot.data().uid !== user.uid
-        ) {
-          throw new Error("USERNAME_TAKEN");
+  // Load User Directory
+  function loadUserDirectory() {
+    if (!userDirectoryList) return;
+    const q = query(collection(db, "publicProfiles"), limit(30));
+    onSnapshot(q, (snapshot) => {
+      allDirectoryUsers = [];
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        if (currentUser && data.uid !== currentUser.uid) {
+          allDirectoryUsers.push(data);
         }
-
-        transaction.set(usernameRef, {
-          uid: user.uid,
-          username: chosenUsername,
-          usernameLower
-        });
-
-        transaction.set(
-          profileRef,
-          {
-            uid: user.uid,
-            username: chosenUsername,
-            usernameLower,
-            displayName:
-              user.displayName || chosenUsername,
-            createdAt: serverTimestamp()
-          },
-          { merge: true }
-        );
-
-        transaction.set(
-          userRef,
-          { handle: chosenUsername },
-          { merge: true }
-        );
       });
+      renderDirectoryList(allDirectoryUsers);
+    });
+  }
 
-      gfUsername = chosenUsername;
+  function renderDirectoryList(users) {
+    if (!userDirectoryList) return;
+    if (users.length === 0) {
+      userDirectoryList.innerHTML = `<p class="gf-muted" style="padding:10px;">No users found.</p>`;
+      return;
+    }
+
+    userDirectoryList.innerHTML = users.map(user => `
+      <div class="profile-row" style="padding: 8px 4px; border-bottom: 1px solid var(--line); cursor: pointer;" onclick="startChatWith('${user.uid}', '${escapeHTML(user.username)}')">
+        <div class="avatar" style="width: 32px; height: 32px; font-size: 14px;">${escapeHTML((user.username || "U").charAt(0).toUpperCase())}</div>
+        <div>
+          <div class="profile-name">@${escapeHTML(user.username)}</div>
+          <div class="profile-email">${escapeHTML(user.displayName || "")}</div>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  userDirectorySearch?.addEventListener("input", (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    const filtered = allDirectoryUsers.filter(u => 
+      (u.username && u.username.toLowerCase().includes(term)) ||
+      (u.displayName && u.displayName.toLowerCase().includes(term))
+    );
+    renderDirectoryList(filtered);
+  });
+
+  window.startChatWith = async function(targetUid, targetUsername) {
+    await gfOpenPrivateChat(targetUid, targetUsername);
+    $("privateChatPanel").scrollIntoView({ behavior: "smooth" });
+  };
+
+  async function gfEnsureUsername(user) {
+    const userRef = doc(db, "users", user.uid);
+    const profileRef = doc(db, "publicProfiles", user.uid);
+
+    const [userSnapshot, profileSnapshot] = await Promise.all([
+      getDoc(userRef),
+      getDoc(profileRef)
+    ]);
+
+    const existingUserData = userSnapshot.exists() ? userSnapshot.data() : {};
+    const existingProfile = profileSnapshot.exists() ? profileSnapshot.data() : {};
+
+    if (existingProfile.username && existingProfile.usernameLower) {
+      gfUsername = existingProfile.username;
+      const usernameRef = doc(db, "usernames", existingProfile.usernameLower);
+      const usernameSnapshot = await getDoc(usernameRef);
+
+      if (!usernameSnapshot.exists()) {
+        await setDoc(usernameRef, {
+          uid: user.uid,
+          username: existingProfile.username,
+          usernameLower: existingProfile.usernameLower
+        });
+      }
       return gfUsername;
-    } catch (error) {
-      if (error.message === "USERNAME_TAKEN") {
-        alert("This username is already taken. Choose another one.");
+    }
+
+    let suggestedUsername = existingUserData.handle || existingUserData.username || "";
+
+    while (true) {
+      let chosenUsername = suggestedUsername;
+
+      if (!chosenUsername) {
+        chosenUsername = prompt("Choose a GoalFlow chat username (3–20 letters, numbers or underscores):");
+      }
+
+      if (chosenUsername === null) {
+        throw new Error("A username is required to use GoalFlow Chat.");
+      }
+
+      chosenUsername = chosenUsername.trim();
+
+      if (!/^[a-zA-Z0-9_]{3,20}$/.test(chosenUsername)) {
+        alert("Username must be 3–20 characters and contain only letters, numbers or underscores.");
         suggestedUsername = "";
         continue;
       }
 
-      throw error;
-    }
-  }
-}
+      const usernameLower = chosenUsername.toLowerCase();
+      const usernameRef = doc(db, "usernames", usernameLower);
 
-// Start the World Chat listener
-function gfStartWorldListener() {
-  gfStopWorldListener();
+      try {
+        await runTransaction(db, async (transaction) => {
+          const usernameSnapshot = await transaction.get(usernameRef);
+          if (usernameSnapshot.exists() && usernameSnapshot.data().uid !== user.uid) {
+            throw new Error("USERNAME_TAKEN");
+          }
 
-  const messagesQuery = query(
-    collection(db, "worldMessages"),
-    orderBy("createdAt", "desc"),
-    limit(50)
-  );
+          transaction.set(usernameRef, {
+            uid: user.uid,
+            username: chosenUsername,
+            usernameLower
+          });
 
-  gfStopWorld = onSnapshot(
-    messagesQuery,
-    (snapshot) => {
-      const messages = snapshot.docs.slice().reverse();
-      gfRenderMessages(gfWorldMessages, messages);
-    },
-    (error) => {
-      console.error("World Chat error:", error);
+          transaction.set(profileRef, {
+            uid: user.uid,
+            username: chosenUsername,
+            usernameLower,
+            displayName: user.displayName || chosenUsername,
+            createdAt: serverTimestamp()
+          }, { merge: true });
 
-      if (gfWorldMessages) {
-        gfWorldMessages.textContent =
-          "Could not load World Chat. Check your Firestore rules.";
+          transaction.set(userRef, { handle: chosenUsername }, { merge: true });
+        });
+
+        gfUsername = chosenUsername;
+        return gfUsername;
+      } catch (error) {
+        if (error.message === "USERNAME_TAKEN") {
+          alert("This username is already taken. Choose another one.");
+          suggestedUsername = "";
+          continue;
+        }
+        throw error;
       }
     }
-  );
-}
-
-// Send a message to a specified collection
-async function gfSendMessage(collectionPath, input) {
-  if (!gfCurrentUser || !gfUsername) {
-    gfShowStatus("Please sign in before sending messages.", true);
-    return;
   }
 
-  const messageText = input.value.trim();
+  function gfStartWorldListener() {
+    gfStopWorldListener();
+    const messagesQuery = query(
+      collection(db, "worldMessages"),
+      orderBy("createdAt", "desc"),
+      limit(50)
+    );
 
-  if (!messageText) return;
-
-  if (messageText.length > 1000) {
-    gfShowStatus("Messages must be 1000 characters or fewer.", true);
-    return;
-  }
-
-  try {
-    await addDoc(collection(db, ...collectionPath), {
-      senderUid: gfCurrentUser.uid,
-      username: gfUsername,
-      text: messageText,
-      createdAt: serverTimestamp()
-    });
-
-    input.value = "";
-    gfShowStatus("");
-  } catch (error) {
-    console.error("Send message error:", error);
-    gfShowStatus(
-      "Message could not be sent. Check your Firestore security rules.",
-      true
+    gfStopWorld = onSnapshot(
+      messagesQuery,
+      (snapshot) => {
+        const messages = snapshot.docs.slice().reverse();
+        gfRenderMessages(gfWorldMessages, messages);
+      },
+      (error) => {
+        console.error("World Chat error:", error);
+        if (gfWorldMessages) {
+          gfWorldMessages.textContent = "Could not load World Chat. Check your Firestore rules.";
+        }
+      }
     );
   }
-}
 
-// World Chat form
-gfWorldForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  await gfSendMessage(
-    ["worldMessages"],
-    gfWorldInput
-  );
-});
-
-// Search for a user by username
-gfPrivateSearchForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  if (!gfCurrentUser) {
-    gfShowStatus("Please sign in first.", true);
-    return;
-  }
-
-  const searchUsername = gfPrivateSearchInput.value
-    .trim()
-    .replace(/^@/, "");
-
-  if (!/^[a-zA-Z0-9_]{3,20}$/.test(searchUsername)) {
-    gfShowStatus(
-      "Enter a valid username (3–20 letters, numbers or underscores).",
-      true
-    );
-    return;
-  }
-
-  const usernameLower = searchUsername.toLowerCase();
-
-  gfShowStatus("Searching for user...");
-  gfPrivatePanel.hidden = true;
-
-  try {
-    const usernameRef = doc(db, "usernames", usernameLower);
-    const usernameSnapshot = await getDoc(usernameRef);
-
-    if (!usernameSnapshot.exists()) {
-      gfShowStatus("User not found. Check the username and try again.", true);
+  async function gfSendMessage(collectionPath, input) {
+    if (!gfCurrentUser || !gfUsername) {
+      gfShowStatus("Please sign in before sending messages.", true);
       return;
     }
 
-    const targetUid = usernameSnapshot.data().uid;
+    const messageText = input.value.trim();
+    if (!messageText) return;
 
-    if (!targetUid) {
-      gfShowStatus("This username profile is unavailable.", true);
+    if (messageText.length > 1000) {
+      gfShowStatus("Messages must be 1000 characters or fewer.", true);
       return;
     }
 
-    if (targetUid === gfCurrentUser.uid) {
-      gfShowStatus("You cannot start a private chat with yourself.", true);
-      return;
-    }
-
-    const targetProfileRef = doc(db, "publicProfiles", targetUid);
-    const targetProfileSnapshot = await getDoc(targetProfileRef);
-
-    if (!targetProfileSnapshot.exists()) {
-      gfShowStatus("This user's public profile was not found.", true);
-      return;
-    }
-
-    const targetProfile = targetProfileSnapshot.data();
-
-    await gfOpenPrivateChat(
-      targetUid,
-      targetProfile.username || searchUsername
-    );
-
-    gfShowStatus("");
-  } catch (error) {
-    console.error("User search error:", error);
-    gfShowStatus(
-      "Search failed. Check your Firestore security rules.",
-      true
-    );
-  }
-});
-
-// Open a private conversation
-async function gfOpenPrivateChat(targetUid, targetUsername) {
-  gfStopPrivateListener();
-
-  const memberUids = [
-    gfCurrentUser.uid,
-    targetUid
-  ].sort();
-
-  const conversationId = `${memberUids[0]}_${memberUids[1]}`;
-  const conversationRef = doc(db, "conversations", conversationId);
-
-  // Create the conversation if it does not exist.
-  // Existing conversations must contain exactly these members.
-  await runTransaction(db, async (transaction) => {
-    const conversationSnapshot = await transaction.get(conversationRef);
-
-    if (!conversationSnapshot.exists()) {
-      transaction.set(conversationRef, {
-        memberUids,
+    try {
+      await addDoc(collection(db, ...collectionPath), {
+        senderUid: gfCurrentUser.uid,
+        username: gfUsername,
+        text: messageText,
         createdAt: serverTimestamp()
       });
+
+      input.value = "";
+      gfShowStatus("");
+    } catch (error) {
+      console.error("Send message error:", error);
+      gfShowStatus("Message could not be sent. Check Firestore security rules.", true);
+    }
+  }
+
+  gfWorldForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await gfSendMessage(["worldMessages"], gfWorldInput);
+  });
+
+  gfPrivateSearchForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!gfCurrentUser) {
+      gfShowStatus("Please sign in first.", true);
       return;
     }
 
-    const existingMembers =
-      conversationSnapshot.data().memberUids || [];
+    const searchUsername = gfPrivateSearchInput.value.trim().replace(/^@/, "");
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(searchUsername)) {
+      gfShowStatus("Enter a valid username (3–20 chars).", true);
+      return;
+    }
 
-    const sameMembers =
-      existingMembers.length === 2 &&
-      memberUids.every((uid) => existingMembers.includes(uid));
+    const usernameLower = searchUsername.toLowerCase();
+    gfShowStatus("Searching for user...");
+    gfPrivatePanel.hidden = true;
 
-    if (!sameMembers) {
-      throw new Error("CONVERSATION_MEMBERS_MISMATCH");
+    try {
+      const usernameRef = doc(db, "usernames", usernameLower);
+      const usernameSnapshot = await getDoc(usernameRef);
+
+      if (!usernameSnapshot.exists()) {
+        gfShowStatus("User not found.", true);
+        return;
+      }
+
+      const targetUid = usernameSnapshot.data().uid;
+      if (targetUid === gfCurrentUser.uid) {
+        gfShowStatus("You cannot message yourself.", true);
+        return;
+      }
+
+      const targetProfileSnapshot = await getDoc(doc(db, "publicProfiles", targetUid));
+      const targetProfile = targetProfileSnapshot.exists() ? targetProfileSnapshot.data() : {};
+
+      await gfOpenPrivateChat(targetUid, targetProfile.username || searchUsername);
+      gfShowStatus("");
+    } catch (error) {
+      console.error(error);
+      gfShowStatus("Search failed.", true);
     }
   });
 
-  gfPrivateTarget = {
-    uid: targetUid,
-    username: targetUsername
-  };
+  async function gfOpenPrivateChat(targetUid, targetUsername) {
+    gfStopPrivateListener();
 
-  gfConversationId = conversationId;
+    const memberUids = [gfCurrentUser.uid, targetUid].sort();
+    const conversationId = `${memberUids[0]}_${memberUids[1]}`;
+    const conversationRef = doc(db, "conversations", conversationId);
 
-  gfPrivateTitle.textContent = `Private Chat with ${targetUsername}`;
-  gfPrivatePanel.hidden = false;
+    await runTransaction(db, async (transaction) => {
+      const conversationSnapshot = await transaction.get(conversationRef);
+      if (!conversationSnapshot.exists()) {
+        transaction.set(conversationRef, {
+          memberUids,
+          createdAt: serverTimestamp()
+        });
+      }
+    });
 
-  const privateMessagesQuery = query(
-    collection(
-      db,
-      "conversations",
-      conversationId,
-      "messages"
-    ),
-    orderBy("createdAt", "desc"),
-    limit(50)
-  );
+    gfPrivateTarget = { uid: targetUid, username: targetUsername };
+    gfConversationId = conversationId;
 
-  gfStopPrivate = onSnapshot(
-    privateMessagesQuery,
-    (snapshot) => {
+    gfPrivateTitle.textContent = `Private Chat with @${targetUsername}`;
+    gfPrivatePanel.hidden = false;
+
+    const privateMessagesQuery = query(
+      collection(db, "conversations", conversationId, "messages"),
+      orderBy("createdAt", "desc"),
+      limit(50)
+    );
+
+    gfStopPrivate = onSnapshot(privateMessagesQuery, (snapshot) => {
       const messages = snapshot.docs.slice().reverse();
       gfRenderMessages(gfPrivateMessages, messages);
-    },
-    (error) => {
-      console.error("Private Chat listener error:", error);
+    });
 
-      if (gfPrivateMessages) {
-        gfPrivateMessages.textContent =
-          "Could not load this conversation. Check your Firestore rules.";
-      }
+    gfPrivateInput.focus();
+  }
+
+  gfPrivateForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!gfPrivateTarget || !gfConversationId) {
+      gfShowStatus("Search or select a user first.", true);
+      return;
     }
-  );
+    await gfSendMessage(["conversations", gfConversationId, "messages"], gfPrivateInput);
+  });
 
-  gfPrivateInput.focus();
-}
+  onAuthStateChanged(auth, async (user) => {
+    gfStopWorldListener();
+    gfStopPrivateListener();
 
-// Send a private message
-gfPrivateForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
+    gfCurrentUser = user;
+    gfUsername = "";
+    gfPrivateTarget = null;
+    gfConversationId = null;
 
-  if (!gfPrivateTarget || !gfConversationId) {
-    gfShowStatus("Search for a user first.", true);
-    return;
-  }
+    if (gfWorldMessages) gfWorldMessages.replaceChildren();
+    if (gfPrivateMessages) gfPrivateMessages.replaceChildren();
+    if (gfPrivatePanel) gfPrivatePanel.hidden = true;
+    if (gfPrivateSearchInput) gfPrivateSearchInput.value = "";
 
-  await gfSendMessage(
-    [
-      "conversations",
-      gfConversationId,
-      "messages"
-    ],
-    gfPrivateInput
-  );
-});
+    if (gfChatSection) {
+      gfChatSection.hidden = false;
+    }
 
-// Chat-specific authentication listener.
-// This works alongside your existing GoalFlow auth listener.
-onAuthStateChanged(auth, async (user) => {
-  gfStopWorldListener();
-  gfStopPrivateListener();
+    if (!user) {
+      gfShowStatus("Sign in to use World Chat and Private Chat.");
+      return;
+    }
 
-  gfCurrentUser = user;
-  gfUsername = "";
-  gfPrivateTarget = null;
-  gfConversationId = null;
+    gfShowStatus("Loading chat profile...");
 
-  if (gfWorldMessages) gfWorldMessages.replaceChildren();
-  if (gfPrivateMessages) gfPrivateMessages.replaceChildren();
+    try {
+      await gfEnsureUsername(user);
+      if (!gfCurrentUser || gfCurrentUser.uid !== user.uid) return;
 
-  if (gfPrivatePanel) gfPrivatePanel.hidden = true;
-  if (gfPrivateSearchInput) gfPrivateSearchInput.value = "";
-
-  if (gfChatSection) {
-    gfChatSection.hidden = false;
-  }
-
-  if (!user) {
-    gfShowStatus("Sign in to use World Chat and Private Chat.");
-    return;
-  }
-
-  gfShowStatus("Loading your chat profile...");
-
-  try {
-    await gfEnsureUsername(user);
-
-    // The user may have signed out while the profile was loading.
-    if (!gfCurrentUser || gfCurrentUser.uid !== user.uid) return;
-
-    gfShowStatus(`Signed in as @${gfUsername}`);
-    gfStartWorldListener();
-  } catch (error) {
-    console.error("Chat initialization error:", error);
-
-    gfShowStatus(
-      error.message || "Could not initialize chat. Check Firestore rules.",
-      true
-    );
-  }
-});
+      gfShowStatus(`Signed in as @${gfUsername}`);
+      gfStartWorldListener();
+      loadUserDirectory();
+    } catch (error) {
+      console.error(error);
+      gfShowStatus(error.message || "Could not initialize chat.", true);
+    }
+  });
 </script>
 </body>
-    </html>
-
-  
+</html>
