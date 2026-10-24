@@ -38,12 +38,13 @@
         radial-gradient(ellipse at 95% 15%, rgba(93,226,194,.08), transparent 32%),
         var(--bg);
       color: var(--text);
+      overflow-x: hidden;
     }
 
     .creator-credit {
-      padding: 12px 16px;
+      padding: 10px 16px;
       text-align: center;
-      font-size: 14px;
+      font-size: 13px;
       color: #aab5ca;
       background: #0a1020;
       border-bottom: 1px solid rgba(255,255,255,.09);
@@ -65,44 +66,44 @@
     .app-shell {
       width: min(1180px, 100%);
       margin: 0 auto;
-      padding: 24px;
-      padding-bottom: 100px;
+      padding: 16px;
+      padding-bottom: 90px;
     }
 
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 28px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       min-width: 0;
     }
 
     .brand-icon {
       display: grid;
       place-items: center;
-      width: 46px;
-      height: 46px;
-      flex: 0 0 46px;
-      border-radius: 15px;
+      width: 40px;
+      height: 40px;
+      flex: 0 0 40px;
+      border-radius: 12px;
       background: linear-gradient(135deg, var(--primary), #a77cff);
-      box-shadow: 0 8px 25px rgba(124,131,255,.28);
-      font-size: 23px;
+      box-shadow: 0 6px 20px rgba(124,131,255,.28);
+      font-size: 20px;
     }
 
-    .brand h1 { margin: 0; font-size: clamp(18px, 3vw, 23px); letter-spacing: -.7px; }
-    .brand p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .brand h1 { margin: 0; font-size: 18px; letter-spacing: -.5px; }
+    .brand p { margin: 2px 0 0; color: var(--muted); font-size: 11px; }
 
     .top-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 9px;
+      gap: 6px;
       justify-content: flex-end;
     }
 
@@ -110,17 +111,18 @@
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 14px;
+      border-radius: 10px;
+      padding: 8px 12px;
       color: var(--text);
       background: var(--panel-2);
-      transition: transform .15s ease, opacity .15s ease, border-color .15s ease;
+      font-size: 12px;
+      transition: transform .15s ease, border-color .15s ease;
     }
 
-    .btn:hover { transform: translateY(-1px); border-color: rgba(124,131,255,.6); }
-    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+    .btn:hover { border-color: rgba(124,131,255,.6); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
 
     .btn-primary {
       border-color: transparent;
@@ -130,41 +132,41 @@
     }
 
     .btn-danger { color: var(--danger); }
-    .btn-small { padding: 7px 10px; font-size: 12px; border-radius: 9px; }
+    .btn-small { padding: 6px 10px; font-size: 11px; border-radius: 8px; }
 
     .hero {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
-      padding: clamp(22px, 4vw, 36px);
-      margin-bottom: 22px;
+      gap: 16px;
+      padding: 20px;
+      margin-bottom: 18px;
       border: 1px solid var(--line);
-      border-radius: 26px;
+      border-radius: 20px;
       background: linear-gradient(120deg, rgba(124,131,255,.16), rgba(93,226,194,.055));
       box-shadow: var(--shadow);
     }
 
-    .hero h2 { margin: 0 0 10px; font-size: clamp(24px, 5vw, 38px); line-height: 1.15; letter-spacing: -1.2px; }
-    .hero p { max-width: 570px; margin: 0; color: var(--muted); line-height: 1.7; font-size: 14px; }
+    .hero h2 { margin: 0 0 8px; font-size: 24px; line-height: 1.15; letter-spacing: -1px; }
+    .hero p { max-width: 570px; margin: 0; color: var(--muted); line-height: 1.5; font-size: 13px; }
 
     .hero-mark {
       display: grid;
       place-items: center;
-      width: 94px;
-      height: 94px;
-      flex: 0 0 94px;
-      border-radius: 27px;
+      width: 70px;
+      height: 70px;
+      flex: 0 0 70px;
+      border-radius: 20px;
       border: 1px solid rgba(255,255,255,.12);
       background: rgba(11,16,32,.35);
-      font-size: 43px;
+      font-size: 32px;
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 22px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .stat-card, .panel {
@@ -175,132 +177,132 @@
       box-shadow: var(--shadow);
     }
 
-    .stat-card { padding: 19px; }
+    .stat-card { padding: 14px; }
 
     .stat-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .stat-icon {
       display: grid;
       place-items: center;
-      width: 35px;
-      height: 35px;
-      border-radius: 11px;
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
       background: rgba(124,131,255,.14);
-      font-size: 17px;
+      font-size: 14px;
     }
 
     .stat-value {
-      margin-top: 15px;
-      font-size: clamp(23px, 3vw, 30px);
+      margin-top: 10px;
+      font-size: 22px;
       font-weight: 800;
-      letter-spacing: -1px;
+      letter-spacing: -.5px;
     }
 
-    .stat-note { margin-top: 5px; color: var(--muted); font-size: 11px; }
+    .stat-note { margin-top: 3px; color: var(--muted); font-size: 10px; }
 
     .main-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.55fr) minmax(280px, .85fr);
-      gap: 20px;
+      grid-template-columns: 1fr;
+      gap: 16px;
       align-items: start;
     }
 
-    .panel { padding: 22px; margin-bottom: 20px; }
+    .panel { padding: 16px; margin-bottom: 16px; }
 
     .panel-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
-    .panel-header h3 { margin: 0; font-size: 17px; letter-spacing: -.35px; }
-    .panel-header p { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .panel-header h3 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
+    .panel-header p { margin: 4px 0 0; color: var(--muted); font-size: 11px; line-height: 1.4; }
 
     .form-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
-    .field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-    .field-full { grid-column: 1 / -1; }
-    .field label { color: #c6d0e6; font-size: 12px; font-weight: 600; }
+    .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .field label { color: #c6d0e6; font-size: 11px; font-weight: 600; }
 
     .field input, .field select, .field textarea, .search-input {
       width: 100%;
       min-width: 0;
       border: 1px solid var(--line);
-      border-radius: 11px;
-      padding: 12px 13px;
+      border-radius: 10px;
+      padding: 10px 12px;
       color: var(--text);
       background: #0d1426;
+      font-size: 13px;
     }
 
     .field input::placeholder, .field textarea::placeholder, .search-input::placeholder { color: #66748f; }
     .field select option { background: #121a2e; }
-    .field textarea { min-height: 88px; resize: vertical; line-height: 1.5; }
+    .field textarea { min-height: 75px; resize: vertical; line-height: 1.4; }
 
-    .form-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .form-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
 
     .toolbar {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
     }
 
-    .toolbar .search-input { flex: 1 1 180px; }
+    .toolbar .search-input { width: 100%; }
     .toolbar select {
-      max-width: 100%;
+      width: 100%;
       border: 1px solid var(--line);
       border-radius: 10px;
-      padding: 11px;
+      padding: 10px;
       color: var(--text);
       background: #0d1426;
+      font-size: 12px;
     }
 
-    .task-list { display: grid; gap: 11px; }
+    .task-list { display: grid; gap: 10px; }
 
     .task-card {
-      padding: 15px;
+      padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 12px;
       background: rgba(24,35,59,.62);
     }
 
     .task-card.is-complete { opacity: .68; }
     .task-card.is-complete .task-title { text-decoration: line-through; }
-    .task-main { display: flex; align-items: flex-start; gap: 12px; }
+    .task-main { display: flex; align-items: flex-start; gap: 10px; }
 
     .task-check {
-      width: 19px;
-      height: 19px;
+      width: 18px;
+      height: 18px;
       margin-top: 2px;
       flex: 0 0 auto;
       accent-color: var(--primary-2);
     }
 
     .task-content { flex: 1; min-width: 0; }
-    .task-title { margin: 0; overflow-wrap: anywhere; font-size: 14px; font-weight: 700; }
-    .task-description { margin: 7px 0 0; color: var(--muted); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+    .task-title { margin: 0; overflow-wrap: anywhere; font-size: 13px; font-weight: 700; }
+    .task-description { margin: 5px 0 0; color: var(--muted); font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
 
-    .task-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+    .task-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 5px 8px;
+      gap: 4px;
+      padding: 4px 8px;
       border: 1px solid var(--line);
       border-radius: 999px;
       color: #c2cce2;
@@ -308,27 +310,23 @@
       background: rgba(11,16,32,.45);
     }
 
-    .pill-high { color: #ffb2c0; }
-    .pill-medium { color: #ffd99a; }
-    .pill-low { color: #8debd4; }
-
-    .task-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
+    .task-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 
     .empty-state {
-      padding: 30px 15px;
+      padding: 24px 12px;
       border: 1px dashed rgba(255,255,255,.15);
-      border-radius: 14px;
+      border-radius: 12px;
       color: var(--muted);
       text-align: center;
-      font-size: 13px;
-      line-height: 1.7;
+      font-size: 12px;
+      line-height: 1.5;
     }
 
-    .empty-state .empty-icon { margin-bottom: 9px; font-size: 28px; }
+    .empty-state .empty-icon { margin-bottom: 6px; font-size: 24px; }
 
     .progress-track {
       width: 100%;
-      height: 9px;
+      height: 8px;
       overflow: hidden;
       border-radius: 999px;
       background: #26314b;
@@ -342,35 +340,36 @@
       transition: width .3s ease;
     }
 
-    .progress-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 9px; font-size: 12px; }
+    .progress-row { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; font-size: 11px; }
     .progress-row span:last-child { color: var(--muted); }
 
-    .goal-item { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .goal-item { padding: 10px 0; border-bottom: 1px solid var(--line); }
     .goal-item:last-child { border-bottom: 0; padding-bottom: 0; }
-    .goal-item h4 { margin: 0 0 8px; font-size: 13px; }
-    .goal-item p { margin: 0 0 11px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .goal-item h4 { margin: 0 0 6px; font-size: 12px; }
+    .goal-item p { margin: 0 0 8px; color: var(--muted); font-size: 11px; line-height: 1.4; }
 
-    .chart-wrap { position: relative; width: 100%; min-height: 180px; }
+    .chart-wrap { position: relative; width: 100%; min-height: 160px; }
     .chart-wrap canvas { display: block; width: 100%; max-width: 100%; }
 
-    .profile-row { display: flex; align-items: center; gap: 12px; }
+    .profile-row { display: flex; align-items: center; gap: 10px; }
     .avatar {
       display: grid;
       place-items: center;
-      width: 43px;
-      height: 43px;
-      flex: 0 0 43px;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--primary), #bd7dff);
       color: white;
       font-weight: 800;
+      font-size: 14px;
     }
 
-    .profile-name { font-size: 13px; font-weight: 700; overflow-wrap: anywhere; }
-    .profile-email { margin-top: 5px; color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+    .profile-name { font-size: 12px; font-weight: 700; overflow-wrap: anywhere; }
+    .profile-email { margin-top: 3px; color: var(--muted); font-size: 10px; overflow-wrap: anywhere; }
 
-    .status-line { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #f5c66a; }
+    .status-line { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 10px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #f5c66a; }
     .status-dot.online { background: var(--primary-2); }
 
     .modal-backdrop {
@@ -380,46 +379,46 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 18px;
+      padding: 16px;
       background: rgba(3,6,16,.78);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(6px);
     }
 
     .modal-backdrop.open { display: flex; }
 
     .modal {
-      width: min(520px, 100%);
-      max-height: min(85vh, 720px);
+      width: min(480px, 100%);
+      max-height: min(85vh, 650px);
       overflow-y: auto;
       border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 23px;
+      border-radius: 18px;
+      padding: 20px;
       background: #121a2e;
-      box-shadow: 0 25px 90px rgba(0,0,0,.5);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
     }
 
-    .modal h3 { margin: 0 0 9px; }
-    .modal p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .modal h3 { margin: 0 0 8px; font-size: 16px; }
+    .modal p { color: var(--muted); font-size: 12px; line-height: 1.5; }
 
     .toast-area {
       position: fixed;
-      right: 18px;
-      bottom: 18px;
+      right: 14px;
+      bottom: 14px;
       z-index: 2000;
       display: grid;
-      gap: 8px;
-      width: min(350px, calc(100vw - 36px));
+      gap: 6px;
+      width: min(320px, calc(100vw - 28px));
     }
 
     .toast {
-      padding: 13px 15px;
+      padding: 11px 14px;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 10px;
       background: #18233b;
       color: var(--text);
       box-shadow: var(--shadow);
-      font-size: 12px;
-      line-height: 1.5;
+      font-size: 11px;
+      line-height: 1.4;
       animation: toastIn .2s ease;
     }
 
@@ -427,51 +426,48 @@
     .toast.success { border-color: rgba(93,226,194,.35); }
 
     @keyframes toastIn {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     footer {
-      padding: 14px 0 4px;
+      padding: 12px 0 4px;
       color: #74819b;
       text-align: center;
-      font-size: 11px;
-      line-height: 1.7;
+      font-size: 10px;
+      line-height: 1.5;
     }
 
     /* ========================================= */
-    /* FLOATING CHAT WIDGET STYLES (Bloxtask Style) */
+    /* FLOATING CHAT WIDGET STYLES (Mobile Optimized) */
     /* ========================================= */
     .chat-trigger-btn {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 62px;
-      height: 62px;
-      border-radius: 20px;
+      bottom: 20px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
       background: linear-gradient(135deg, #ff7d29, #e05b00);
       color: white;
       border: none;
-      box-shadow: 0 10px 25px rgba(255, 125, 41, 0.4);
+      box-shadow: 0 8px 22px rgba(255, 125, 41, 0.4);
       display: grid;
       place-items: center;
-      font-size: 26px;
+      font-size: 24px;
       z-index: 9999;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease;
     }
 
-    .chat-trigger-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 30px rgba(255, 125, 41, 0.5);
-    }
+    .chat-trigger-btn:active { transform: scale(0.95); }
 
     .online-indicator {
       position: absolute;
-      top: 6px;
-      right: 6px;
-      width: 12px;
-      height: 12px;
+      top: 5px;
+      right: 5px;
+      width: 10px;
+      height: 10px;
       background: #5de2c2;
       border: 2px solid #0b1020;
       border-radius: 50%;
@@ -479,23 +475,26 @@
 
     .floating-chat-widget {
       position: fixed;
-      bottom: 96px;
-      right: 24px;
-      width: clamp(320px, 92vw, 390px);
-      height: 580px;
-      max-height: calc(100vh - 120px);
+      bottom: 86px;
+      right: 14px;
+      left: 14px;
+      width: auto;
+      max-width: 400px;
+      margin-left: auto;
+      height: 520px;
+      max-height: calc(100vh - 100px);
       background: #111728;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
       z-index: 9998;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       opacity: 0;
       pointer-events: none;
-      transform: translateY(20px) scale(0.95);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(15px) scale(0.97);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .floating-chat-widget.active {
@@ -505,7 +504,7 @@
     }
 
     .widget-header {
-      padding: 16px 18px;
+      padding: 14px 16px;
       background: #182035;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       display: flex;
@@ -516,54 +515,52 @@
     .widget-title {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .widget-title-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
       background: rgba(255, 125, 41, 0.15);
       color: #ff7d29;
       display: grid;
       place-items: center;
-      font-size: 18px;
+      font-size: 16px;
     }
 
-    .widget-title h3 { margin: 0; font-size: 15px; font-weight: 700; color: #fff; }
-    .widget-title p { margin: 2px 0 0; font-size: 11px; color: #5de2c2; font-weight: 600; }
+    .widget-title h3 { margin: 0; font-size: 14px; font-weight: 700; color: #fff; }
+    .widget-title p { margin: 1px 0 0; font-size: 10px; color: #5de2c2; font-weight: 600; }
 
     .widget-close-btn {
       background: transparent;
       border: none;
       color: #9ba9c5;
-      font-size: 20px;
+      font-size: 18px;
       cursor: pointer;
       padding: 4px;
-      border-radius: 8px;
+      border-radius: 6px;
     }
-
-    .widget-close-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
 
     .widget-tabs {
       display: flex;
       background: #0d1322;
-      padding: 6px;
+      padding: 5px;
       gap: 4px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
     .tab-btn {
       flex: 1;
-      padding: 8px 4px;
+      padding: 7px 4px;
       border: none;
       background: transparent;
       color: #8fa0c0;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
-      transition: all 0.2s;
+      text-align: center;
     }
 
     .tab-btn.active {
@@ -574,7 +571,7 @@
     .widget-body {
       flex: 1;
       overflow-y: auto;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
     }
@@ -585,37 +582,37 @@
     .chat-messages-area {
       flex: 1;
       overflow-y: auto;
-      max-height: 380px;
+      max-height: 320px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 12px;
-      padding-right: 4px;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding-right: 2px;
     }
 
     .chat-msg-card {
       background: #182238;
-      border-radius: 14px;
-      padding: 10px 12px;
+      border-radius: 12px;
+      padding: 8px 10px;
       border: 1px solid rgba(255,255,255,0.05);
-      font-size: 12px;
+      font-size: 11px;
     }
 
     .chat-msg-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .chat-msg-author { font-weight: 700; color: #8db8ff; }
-    .chat-msg-text { color: #e2e8f5; margin: 0; line-height: 1.4; word-break: break-word; }
+    .chat-msg-text { color: #e2e8f5; margin: 0; line-height: 1.35; word-break: break-word; }
 
     .widget-input-form {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       background: #0d1322;
-      padding: 8px;
-      border-radius: 14px;
+      padding: 6px 8px;
+      border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.08);
       margin-top: auto;
     }
@@ -625,8 +622,8 @@
       background: transparent;
       border: none;
       color: #fff;
-      font-size: 12px;
-      padding: 6px 8px;
+      font-size: 11px;
+      padding: 4px;
     }
 
     .widget-input-form input:focus { outline: none; }
@@ -635,41 +632,40 @@
       background: #ff7d29;
       color: #fff;
       border: none;
-      padding: 8px 14px;
-      border-radius: 10px;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .user-dir-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px;
+      gap: 8px;
+      padding: 8px;
       background: #182238;
-      border-radius: 12px;
-      margin-bottom: 8px;
+      border-radius: 10px;
+      margin-bottom: 6px;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
     .user-dir-item:hover { background: #202d4a; }
 
-    @media (max-width: 480px) {
-      .floating-chat-widget {
-        right: 12px;
-        left: 12px;
-        width: auto;
-        bottom: 88px;
-      }
-      .chat-trigger-btn { bottom: 16px; right: 16px; }
+    @media (min-width: 640px) {
+      .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .main-grid { grid-template-columns: minmax(0, 1.5fr) minmax(260px, .85fr); }
+      .toolbar { flex-direction: row; }
+      .toolbar select { width: auto; }
+      .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .field-full { grid-column: 1 / -1; }
+      .floating-chat-widget { right: 20px; left: auto; width: 380px; }
     }
   </style>
 </head>
 <body>
 
 <div class="creator-credit">
-  Created By <span>MD. Talha Ibn Hafiz</span>[span_3](start_span)[span_3](end_span)
+  Created By <span>MD. Talha Ibn Hafiz</span>[span_0](start_span)[span_0](end_span)
 </div>
 
 <div class="app-shell">
@@ -683,20 +679,20 @@
     </div>
     <div class="top-actions">
       <button class="btn" id="guideBtn">📘 Guide</button>
-      <button class="btn" id="fullscreenBtn">⛶ Focus mode</button>
-      <button class="btn btn-primary" id="loginBtn">Continue with Google</button>
+      <button class="btn" id="fullscreenBtn">⛶ Focus</button>
+      <button class="btn btn-primary" id="loginBtn">Sign in</button>
       <button class="btn hidden" id="logoutBtn">Sign out</button>
     </div>
   </header>
 
   <section class="hero">
     <div>
-      <p class="section-label">YOUR PERSONAL WORKSPACE</p>
+      <p class="section-label" style="font-size:9px; font-weight:800; letter-spacing:1.2px; color:var(--muted); margin-bottom:6px;">WORKSPACE</p>
       <h2>Small steps.<br>Big achievements.</h2>
-      <p>Plan your day, track your goals, and build consistent habits--one task at a time.</p>
+      <p>Plan your day, track your goals, and build consistent habits.</p>
       <div class="form-actions">
-        <button class="btn btn-primary" id="jumpToTaskBtn">＋ Add a task</button>
-        <button class="btn" id="todayBtn">📅 Today's tasks</button>
+        <button class="btn btn-primary" id="jumpToTaskBtn">＋ Add task</button>
+        <button class="btn" id="todayBtn">📅 Today</button>
       </div>
     </div>
     <div class="hero-mark">🚀</div>
@@ -704,24 +700,24 @@
 
   <section class="stats-grid">
     <article class="stat-card">
-      <div class="stat-top"><span>Total tasks</span><span class="stat-icon">📋</span></div>
+      <div class="stat-top"><span>Total</span><span class="stat-icon">📋</span></div>
       <div class="stat-value" id="totalTasksStat">0</div>
-      <div class="stat-note">Tasks in your workspace</div>
+      <div class="stat-note">Workspace tasks</div>
     </article>
     <article class="stat-card">
       <div class="stat-top"><span>Completed</span><span class="stat-icon">✅</span></div>
       <div class="stat-value" id="completedTasksStat">0</div>
-      <div class="stat-note">Tasks you've finished</div>
+      <div class="stat-note">Finished tasks</div>
     </article>
     <article class="stat-card">
-      <div class="stat-top"><span>Completion</span><span class="stat-icon">📈</span></div>
+      <div class="stat-top"><span>Rate</span><span class="stat-icon">📈</span></div>
       <div class="stat-value" id="completionRateStat">0%</div>
-      <div class="stat-note">Overall completion rate</div>
+      <div class="stat-note">Completion rate</div>
     </article>
     <article class="stat-card">
-      <div class="stat-top"><span>Study time</span><span class="stat-icon">⏱️</span></div>
+      <div class="stat-top"><span>Focus</span><span class="stat-icon">⏱️</span></div>
       <div class="stat-value" id="studyTimeStat">0m</div>
-      <div class="stat-note">Tracked focus time</div>
+      <div class="stat-note">Tracked time</div>
     </article>
   </section>
 
@@ -731,7 +727,7 @@
         <div class="panel-header">
           <div>
             <h3 id="taskFormTitle">Create a task</h3>
-            <p>Turn your next step into something actionable.</p>
+            <p>Turn your next step into action.</p>
           </div>
           <span class="stat-icon">✍️</span>
         </div>
@@ -741,12 +737,12 @@
           <div class="form-grid">
             <div class="field field-full">
               <label for="taskTitle">Task title *</label>
-              <input id="taskTitle" maxlength="120" required placeholder="e.g. Study thermodynamics for 45 minutes">
+              <input id="taskTitle" maxlength="120" required placeholder="e.g. Study thermodynamics">
             </div>
 
             <div class="field field-full">
               <label for="taskDescription">Description (optional)</label>
-              <textarea id="taskDescription" maxlength="1000" placeholder="What do you want to accomplish?"></textarea>
+              <textarea id="taskDescription" maxlength="1000" placeholder="What to accomplish?"></textarea>
             </div>
 
             <div class="field">
@@ -775,14 +771,14 @@
             </div>
 
             <div class="field">
-              <label for="taskDuration">Estimated minutes</label>
+              <label for="taskDuration">Minutes</label>
               <input type="number" id="taskDuration" min="1" max="1440" value="30">
             </div>
           </div>
 
           <div class="form-actions">
             <button class="btn btn-primary" type="submit" id="saveTaskBtn">＋ Save task</button>
-            <button class="btn hidden" type="button" id="cancelEditBtn">Cancel edit</button>
+            <button class="btn hidden" type="button" id="cancelEditBtn">Cancel</button>
           </div>
         </form>
       </section>
@@ -791,7 +787,7 @@
         <div class="panel-header">
           <div>
             <h3>Your tasks</h3>
-            <p>Search, filter, and manage your daily work.</p>
+            <p>Manage daily work.</p>
           </div>
           <span class="pill" id="visibleTaskCount">0 tasks</span>
         </div>
@@ -803,7 +799,7 @@
             <option value="active">Active</option>
             <option value="completed">Completed</option>
           </select>
-          <select id="dateFilter" aria-label="Filter by date">
+          <select id="dateFilter" aria-label="Filter date">
             <option value="all">All dates</option>
             <option value="today">Today</option>
             <option value="upcoming">Upcoming</option>
@@ -824,12 +820,12 @@
         <div class="panel-header">
           <div>
             <h3>Weekly progress</h3>
-            <p>Your completed tasks over the last seven days.</p>
+            <p>Last seven days completion.</p>
           </div>
           <span class="stat-icon">📊</span>
         </div>
         <div class="chart-wrap">
-          <canvas id="weeklyChart" height="180" aria-label="Weekly task completion chart"></canvas>
+          <canvas id="weeklyChart" height="160" aria-label="Weekly chart"></canvas>
         </div>
       </section>
     </main>
@@ -839,7 +835,7 @@
         <div class="panel-header">
           <div>
             <h3>Your profile</h3>
-            <p>Your account and sync status.</p>
+            <p>Account status.</p>
           </div>
           <span class="stat-icon">👤</span>
         </div>
@@ -848,15 +844,15 @@
           <div class="avatar" id="profileAvatar">G</div>
           <div>
             <div class="profile-name" id="profileName">Guest</div>
-            <div class="profile-email" id="profileEmail">Sign in to sync your tasks</div>
+            <div class="profile-email" id="profileEmail">Sign in to sync</div>
           </div>
         </div>
         
-        <div style="margin-top: 12px;">
+        <div style="margin-top: 10px;">
           <button class="btn btn-small" id="editProfileBtn" style="width: 100%;">✏️ Edit Profile</button>
         </div>
 
-        <div class="divider"></div>
+        <div style="height: 1px; margin: 12px 0; background: var(--line);"></div>
         <div class="status-line">
           <span class="status-dot" id="syncDot"></span>
           <span id="syncStatus">Not signed in</span>
@@ -867,20 +863,20 @@
         <div class="panel-header">
           <div>
             <h3>Daily target</h3>
-            <p>Progress on today's tasks.</p>
+            <p>Today's progress.</p>
           </div>
           <span class="stat-icon">🏁</span>
         </div>
 
         <div class="progress-row">
-          <span>Today's completion</span>
+          <span>Completion</span>
           <span id="todayProgressLabel">0%</span>
         </div>
         <div class="progress-track">
           <div class="progress-fill" id="todayProgressBar"></div>
         </div>
-        <p class="muted" id="todayProgressText" style="font-size:12px;line-height:1.7;margin-bottom:0">
-          Add a task to begin tracking your day.
+        <p class="muted" id="todayProgressText" style="font-size:11px;line-height:1.4;margin-top:6px;margin-bottom:0">
+          Add a task to begin.
         </p>
       </section>
 
@@ -888,79 +884,32 @@
         <div class="panel-header">
           <div>
             <h3>Focus timer</h3>
-            <p>Make time for focused work.</p>
+            <p>Structured work.</p>
           </div>
           <span class="stat-icon">⏳</span>
         </div>
 
         <div class="stat-value" id="timerDisplay">25:00</div>
-        <div class="field" style="margin-top:15px">
-          <label for="timerMinutes">Focus duration (minutes)</label>
+        <div class="field" style="margin-top:10px">
+          <label for="timerMinutes">Duration (minutes)</label>
           <input type="number" id="timerMinutes" min="1" max="180" value="25">
         </div>
         <div class="form-actions">
           <button class="btn btn-primary" id="timerStartBtn">▶ Start</button>
-          <button class="btn" id="timerPauseBtn">Ⅱ Pause</button>
-          <button class="btn" id="timerResetBtn">↺ Reset</button>
+          <button class="btn" id="timerPauseBtn">Pause</button>
+          <button class="btn" id="timerResetBtn">Reset</button>
         </div>
-        <p class="muted" id="timerStatus" style="font-size:11px;line-height:1.6">Your focus session is ready.</p>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h3>Study goals</h3>
-            <p>Keep your bigger picture in sight.</p>
-          </div>
-          <span class="stat-icon">🌟</span>
-        </div>
-
-        <div id="goalList">
-          <div class="goal-item">
-            <h4>🎓 Learning</h4>
-            <p>Make steady progress through daily learning sessions.</p>
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-          </div>
-          <div class="goal-item">
-            <h4>🛠️ Projects</h4>
-            <p>Turn ideas into practical projects, one step at a time.</p>
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-          </div>
-          <div class="goal-item">
-            <h4>🌱 Healthy habits</h4>
-            <p>Build a sustainable routine for study and rest.</p>
-            <div class="progress-track"><div class="progress-fill" style="width:0%"></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h3>Quick notes</h3>
-            <p>Keep a reminder for yourself.</p>
-          </div>
-          <span class="stat-icon">🗒️</span>
-        </div>
-        <div class="field">
-          <label for="quickNotes">Your note</label>
-          <textarea id="quickNotes" maxlength="2000" placeholder="Write a reminder..."></textarea>
-        </div>
-        <div class="form-actions">
-          <button class="btn" id="saveNotesBtn">Save note</button>
-        </div>
-        <p class="muted" id="notesStatus" style="font-size:11px"></p>
+        <p class="muted" id="timerStatus" style="font-size:10px;margin-top:6px">Ready.</p>
       </section>
     </aside>
   </div>
 
   <footer>
-    GoalFlow · Build consistency, celebrate progress.<br>
-    Your personal productivity workspace.
+    GoalFlow · Build consistency, celebrate progress.[span_1](start_span)[span_1](end_span)
   </footer>
 </div>
 
-<!-- FLOATING CHAT WIDGET TRIGGER BUTTON -->
+<!-- FLOATING CHAT WIDGET TRIGGER -->
 <button class="chat-trigger-btn" id="toggleChatWidgetBtn" aria-label="Toggle Chat">
   <span class="online-indicator"></span>
   💬
@@ -973,14 +922,14 @@
       <div class="widget-title-icon">🌍</div>
       <div>
         <h3>GoalFlow Chat</h3>
-        <p>🟢 Online & Connected</p>
+        <p>🟢 Online</p>
       </div>
     </div>
     <button class="widget-close-btn" id="closeChatWidgetBtn">✕</button>
   </div>
 
   <div class="widget-tabs">
-    <button class="tab-btn active" data-tab="tab-world">🌍 World Chat</button>
+    <button class="tab-btn active" data-tab="tab-world">🌍 World</button>
     <button class="tab-btn" data-tab="tab-directory">👥 Directory</button>
     <button class="tab-btn" data-tab="tab-private">🔒 Private</button>
   </div>
@@ -990,29 +939,29 @@
     <div class="tab-content active" id="tab-world">
       <div class="chat-messages-area" id="worldChatMessages"></div>
       <form class="widget-input-form" id="worldChatForm">
-        <input id="worldChatInput" type="text" placeholder="Message Global Chat..." autocomplete="off" required>
+        <input id="worldChatInput" type="text" placeholder="Message World Chat..." autocomplete="off" required>
         <button type="submit" class="widget-send-btn">➔</button>
       </form>
     </div>
 
-    <!-- User Directory Tab -->
+    <!-- User Directory Tab with live friend search -->
     <div class="tab-content" id="tab-directory">
-      <input class="search-input" id="userDirectorySearch" placeholder="🔍 Search members..." style="margin-bottom: 10px;">
+      <input class="search-input" id="userDirectorySearch" placeholder="🔍 Search friend/username..." style="margin-bottom: 8px;">
       <div class="chat-messages-area" id="userDirectoryList"></div>
     </div>
 
     <!-- Private Chat Tab -->
     <div class="tab-content" id="tab-private">
       <div id="privateSearchArea">
-        <form class="widget-input-form" id="privateUserSearchForm" style="margin-bottom: 8px;">
+        <form class="widget-input-form" id="privateUserSearchForm" style="margin-bottom: 6px;">
           <input id="privateUserSearch" type="text" placeholder="Enter @username..." required>
           <button type="submit" class="widget-send-btn">Search</button>
         </form>
-        <p id="privateSearchStatus" style="font-size: 11px; color: #aab5ca; margin: 0 0 8px;"></p>
+        <p id="privateSearchStatus" style="font-size: 10px; color: #aab5ca; margin: 0 0 6px;"></p>
       </div>
 
       <div id="privateChatPanel" style="display: none; flex-direction: column; flex: 1;">
-        <div style="font-size: 12px; font-weight: 700; color: #ff7d29; margin-bottom: 8px;" id="privateChatTitle">Private Chat</div>
+        <div style="font-size: 11px; font-weight: 700; color: #ff7d29; margin-bottom: 6px;" id="privateChatTitle">Private Chat</div>
         <div class="chat-messages-area" id="privateChatMessages"></div>
         <form class="widget-input-form" id="privateChatForm">
           <input id="privateChatInput" type="text" placeholder="Private message..." autocomplete="off" required>
@@ -1028,16 +977,14 @@
   <div class="modal">
     <div class="panel-header">
       <div>
-        <h3 id="guideTitle">Welcome to GoalFlow</h3>
-        <p>A quick guide to using your tracker.</p>
+        <h3 id="guideTitle">Guide</h3>
+        <p>GoalFlow Quick Guide</p>
       </div>
-      <button class="btn btn-small" id="closeGuideBtn" aria-label="Close guide">✕</button>
+      <button class="btn btn-small" id="closeGuideBtn">✕</button>
     </div>
-    <p><strong>1. Sign in:</strong> Use Google sign-in to connect your account.</p>
-    <p><strong>2. Create tasks:</strong> Add a title, date, category, priority, and estimated duration.</p>
-    <p><strong>3. Track progress:</strong> Mark tasks complete and review your weekly progress chart.</p>
-    <p><strong>4. Focus:</strong> Use the timer to structure a focused study session.</p>
-    <p><strong>5. Floating Chat:</strong> Click bottom-right chat button to chat live with others!</p>
+    <p>1. Sign in with Google account.</p>
+    <p>2. Create tasks with priorities and dates.</p>
+    <p>3. Use Floating Chat button at bottom-right to chat and search friends.</p>
     <div class="form-actions">
       <button class="btn btn-primary" id="guideDoneBtn">Got it!</button>
     </div>
@@ -1050,29 +997,29 @@
     <div class="panel-header">
       <div>
         <h3>Edit Profile</h3>
-        <p>Update your public profile details.</p>
+        <p>Update your public details.</p>
       </div>
       <button class="btn btn-small" id="closeProfileModalBtn">✕</button>
     </div>
     <form id="profileEditForm">
-      <div class="field" style="margin-bottom: 12px;">
+      <div class="field" style="margin-bottom: 10px;">
         <label for="editDisplayName">Display Name</label>
         <input type="text" id="editDisplayName" maxlength="50" required>
       </div>
-      <div class="field" style="margin-bottom: 12px;">
+      <div class="field" style="margin-bottom: 10px;">
         <label for="editUsername">Username (Unique)</label>
-        <input type="text" id="editUsername" maxlength="20" required placeholder="e.g. talha_hafiz">
+        <input type="text" id="editUsername" maxlength="20" required placeholder="talha_hafiz">
       </div>
-      <div class="field" style="margin-bottom: 12px;">
+      <div class="field" style="margin-bottom: 10px;">
         <label for="editBio">Bio</label>
-        <textarea id="editBio" maxlength="200" placeholder="A short bio about yourself..."></textarea>
+        <textarea id="editBio" maxlength="200" placeholder="Short bio..."></textarea>
       </div>
-      <div class="field" style="margin-bottom: 12px;">
-        <label for="editPhotoURL">Profile Photo URL</label>
-        <input type="url" id="editPhotoURL" placeholder="https://example.com/photo.jpg">
+      <div class="field" style="margin-bottom: 10px;">
+        <label for="editPhotoURL">Photo URL</label>
+        <input type="url" id="editPhotoURL" placeholder="https://...">
       </div>
       <div class="form-actions">
-        <button class="btn btn-primary" type="submit">Save Changes</button>
+        <button class="btn btn-primary" type="submit">Save</button>
       </div>
     </form>
   </div>
@@ -1131,7 +1078,7 @@
     toast.className = `toast ${type}`;
     toast.textContent = message;
     $("toastArea").appendChild(toast);
-    setTimeout(() => toast.remove(), 3500);
+    setTimeout(() => toast.remove(), 3200);
   }
 
   function setSyncStatus(message, online = false) {
@@ -1146,7 +1093,7 @@
 
   $("logoutBtn").addEventListener("click", async () => {
     try { await signOut(auth); showToast("Signed out.", "success"); } 
-    catch (error) { showToast("Could not sign out.", "error"); }
+    catch (error) { showToast("Sign out failed.", "error"); }
   });
 
   onAuthStateChanged(auth, async (user) => {
@@ -1158,7 +1105,7 @@
       $("loginBtn").classList.remove("hidden");
       $("logoutBtn").classList.add("hidden");
       $("profileName").textContent = "Guest";
-      $("profileEmail").textContent = "Sign in to sync your tasks";
+      $("profileEmail").textContent = "Sign in to sync tasks";
       $("profileAvatar").textContent = "G";
       setSyncStatus("Not signed in", false);
       renderTasks();
@@ -1172,7 +1119,7 @@
     $("profileEmail").textContent = user.email || "";
     $("profileAvatar").textContent = (user.displayName || user.email || "U").charAt(0).toUpperCase();
 
-    setSyncStatus("Connecting to Firestore…", false);
+    setSyncStatus("Connecting...", false);
 
     try {
       await setDoc(doc(db, "users", user.uid), {
@@ -1186,12 +1133,12 @@
       unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
         tasks = snapshot.docs.map((t) => ({ id: t.id, ...t.data() }));
         tasks.sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")));
-        setSyncStatus("Synced with Firebase", true);
+        setSyncStatus("Synced", true);
         renderTasks();
         updateDashboard();
       });
     } catch (error) {
-      setSyncStatus("Firebase setup error", false);
+      setSyncStatus("Sync error", false);
     }
   });
 
@@ -1200,7 +1147,7 @@
     if (!currentUser) return showToast("Please sign in first.", "error");
 
     const title = $("taskTitle").value.trim();
-    if (!title) return showToast("Enter a task title.", "error");
+    if (!title) return showToast("Enter title.", "error");
 
     const taskData = {
       title,
@@ -1259,15 +1206,15 @@
       return matchesSearch && matchesStatus && matchesDate;
     });
 
-    $("visibleTaskCount").textContent = `${visibleTasks.length} task${visibleTasks.length === 1 ? "" : "s"}`;
+    $("visibleTaskCount").textContent = `${visibleTasks.length} tasks`;
 
     if (!currentUser) {
-      $("taskList").innerHTML = `<div class="empty-state">🔐 Sign in to get started</div>`;
+      $("taskList").innerHTML = `<div class="empty-state">🔐 Sign in to start</div>`;
       return;
     }
 
     if (!visibleTasks.length) {
-      $("taskList").innerHTML = `<div class="empty-state">📝 No matching tasks</div>`;
+      $("taskList").innerHTML = `<div class="empty-state">📝 No tasks found</div>`;
       return;
     }
 
@@ -1303,13 +1250,13 @@
       $("taskDescription").value = task.description || "";
       $("taskDate").value = task.date;
       $("taskFormTitle").textContent = "Edit task";
-      $("saveTaskBtn").textContent = "💾 Update task";
+      $("saveTaskBtn").textContent = "💾 Update";
       $("cancelEditBtn").classList.remove("hidden");
       $("taskFormPanel").scrollIntoView({ behavior: "smooth" });
     }
 
     if (action === "delete") {
-      if (confirm("Delete this task?")) {
+      if (confirm("Delete task?")) {
         await deleteDoc(doc(db, "tasks", id));
         showToast("Deleted.", "success");
       }
@@ -1340,8 +1287,8 @@
     const canvas = $("weeklyChart");
     if (!canvas) return;
     const context = canvas.getContext("2d");
-    const width = Math.max(canvas.clientWidth, 260);
-    const height = 180;
+    const width = Math.max(canvas.clientWidth, 240);
+    const height = 150;
     canvas.width = width; canvas.height = height;
     context.clearRect(0, 0, width, height);
 
@@ -1357,16 +1304,16 @@
     }
 
     const max = Math.max(4, ...days.map((d) => d.count));
-    const slot = (width - 20) / days.length;
+    const slot = (width - 16) / days.length;
 
     days.forEach((day, i) => {
-      const barHeight = (day.count / max) * 120;
-      const x = 10 + i * slot + slot / 4;
+      const barHeight = (day.count / max) * 100;
+      const x = 8 + i * slot + slot / 4;
       context.fillStyle = "#7c83ff";
-      context.fillRect(x, 150 - barHeight, slot / 2, barHeight);
+      context.fillRect(x, 125 - barHeight, slot / 2, barHeight);
       context.fillStyle = "#9ba9c5";
-      context.font = "10px Inter";
-      context.fillText(day.label, x, 168);
+      context.font = "9px Inter";
+      context.fillText(day.label, x, 142);
     });
   }
 
@@ -1374,7 +1321,6 @@
   $("closeGuideBtn").addEventListener("click", () => $("guideModal").classList.remove("open"));
   $("guideDoneBtn").addEventListener("click", () => $("guideModal").classList.remove("open"));
 
-  // Profile Modal Logic
   $("editProfileBtn").addEventListener("click", async () => {
     if (!currentUser) return showToast("Sign in first.", "error");
     $("profileModal").classList.add("open");
@@ -1400,7 +1346,7 @@
       const usernameRef = doc(db, "usernames", newUsername);
       const usernameSnap = await getDoc(usernameRef);
       if (usernameSnap.exists() && usernameSnap.data().uid !== currentUser.uid) {
-        alert("Username is taken.");
+        alert("Username taken.");
         return;
       }
 
@@ -1420,12 +1366,10 @@
       $("profileName").textContent = newName;
       $("profileModal").classList.remove("open");
       showToast("Profile updated!", "success");
-    } catch (err) { showToast("Failed to update.", "error"); }
+    } catch (err) { showToast("Update failed.", "error"); }
   });
 
-  // ==========================================
-  // FLOATING CHAT WIDGET JAVASCRIPT LOGIC
-  // ==========================================
+  // FLOATING CHAT WIDGET & FRIEND SEARCH LOGIC
   const widget = $("floatingChatWidget");
   const toggleBtn = $("toggleChatWidgetBtn");
   const closeBtn = $("closeChatWidgetBtn");
@@ -1433,7 +1377,6 @@
   toggleBtn.addEventListener("click", () => widget.classList.toggle("active"));
   closeBtn.addEventListener("click", () => widget.classList.remove("active"));
 
-  // Tab Switching
   document.querySelectorAll(".tab-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -1444,8 +1387,8 @@
   });
 
   let gfUsername = "";
-  let gfPrivateTarget = null;
   let gfConversationId = null;
+  let allDirectoryUsers = [];
 
   async function ensureChatUsername(user) {
     const profileRef = doc(db, "publicProfiles", user.uid);
@@ -1459,9 +1402,8 @@
     }
   }
 
-  // World Chat
   function loadWorldChat() {
-    const q = query(collection(db, "worldMessages"), orderBy("createdAt", "desc"), limit(40));
+    const q = query(collection(db, "worldMessages"), orderBy("createdAt", "desc"), limit(30));
     onSnapshot(q, (snap) => {
       const messages = snap.docs.slice().reverse();
       $("worldChatMessages").innerHTML = messages.map(d => {
@@ -1477,7 +1419,7 @@
 
   $("worldChatForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (!currentUser) return alert("Please sign in first.");
+    if (!currentUser) return alert("Sign in first.");
     const input = $("worldChatInput");
     if (!input.value.trim()) return;
 
@@ -1490,27 +1432,42 @@
     input.value = "";
   });
 
-  // User Directory
+  // Directory and Live Friend Search
   function loadDirectory() {
     const q = query(collection(db, "publicProfiles"), limit(30));
     onSnapshot(q, (snap) => {
-      const users = [];
-      snap.forEach(d => { if (currentUser && d.data().uid !== currentUser.uid) users.push(d.data()); });
-      renderDirectory(users);
+      allDirectoryUsers = [];
+      snap.forEach(d => { if (currentUser && d.data().uid !== currentUser.uid) allDirectoryUsers.push(d.data()); });
+      renderDirectory(allDirectoryUsers);
     });
   }
 
   function renderDirectory(users) {
-    $("userDirectoryList").innerHTML = users.map(u => `
+    const listEl = $("userDirectoryList");
+    if (!listEl) return;
+    if (users.length === 0) {
+      listEl.innerHTML = `<p style="font-size:11px; color:var(--muted); text-align:center; padding:10px;">No friends found.</p>`;
+      return;
+    }
+    listEl.innerHTML = users.map(u => `
       <div class="user-dir-item" onclick="openPrivateChatWith('${u.uid}', '${escapeHTML(u.username)}')">
-        <div class="avatar" style="width:30px;height:30px;font-size:12px;">${(u.username||"U").charAt(0).toUpperCase()}</div>
+        <div class="avatar" style="width:28px;height:28px;font-size:11px;">${(u.username||"U").charAt(0).toUpperCase()}</div>
         <div>
-          <div style="font-weight:700;font-size:12px;">@${escapeHTML(u.username)}</div>
-          <div style="font-size:10px;color:#9ba9c5;">${escapeHTML(u.displayName||"")}</div>
+          <div style="font-weight:700;font-size:11px;">@${escapeHTML(u.username)}</div>
+          <div style="font-size:9px;color:#9ba9c5;">${escapeHTML(u.displayName||"")}</div>
         </div>
       </div>
     `).join("");
   }
+
+  $("userDirectorySearch")?.addEventListener("input", (e) => {
+    const term = e.target.value.toLowerCase().trim();
+    const filtered = allDirectoryUsers.filter(u => 
+      (u.username && u.username.toLowerCase().includes(term)) ||
+      (u.displayName && u.displayName.toLowerCase().includes(term))
+    );
+    renderDirectory(filtered);
+  });
 
   window.openPrivateChatWith = async function(targetUid, targetUsername) {
     if (!currentUser) return alert("Sign in first.");
@@ -1519,19 +1476,16 @@
 
     await setDoc(doc(db, "conversations", gfConversationId), { memberUids, createdAt: serverTimestamp() }, { merge: true });
 
-    gfPrivateTarget = { uid: targetUid, username: targetUsername };
     $("privateChatTitle").textContent = `Chat with @${targetUsername}`;
     $("privateChatPanel").style.display = "flex";
     $("privateSearchArea").style.display = "none";
 
-    // Switch to private tab
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
     document.querySelector('[data-tab="tab-private"]').classList.add("active");
     $("tab-private").classList.add("active");
 
-    // Listen to private messages
-    const q = query(collection(db, "conversations", gfConversationId, "messages"), orderBy("createdAt", "desc"), limit(40));
+    const q = query(collection(db, "conversations", gfConversationId, "messages"), orderBy("createdAt", "desc"), limit(30));
     onSnapshot(q, (snap) => {
       const messages = snap.docs.slice().reverse();
       $("privateChatMessages").innerHTML = messages.map(d => `
