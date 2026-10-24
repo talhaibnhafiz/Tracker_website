@@ -433,7 +433,7 @@
       line-height: 1.5;
     }
 
-    /* Floating Chat Widget */
+    /* Floating Chat Widget & Running Box */
     .chat-trigger-btn {
       position: fixed;
       bottom: 20px;
@@ -634,6 +634,7 @@
       background: #182238;
       border-radius: 10px;
       margin-bottom: 6px;
+      cursor: pointer;
     }
 
     .lb-rank {
@@ -873,7 +874,6 @@
         <p class="muted" id="timerStatus" style="font-size:10px;margin-top:6px">Ready.</p>
       </section>
 
-      <!-- Leaderboard Panel -->
       <section class="panel">
         <div class="panel-header">
           <div>
@@ -974,8 +974,8 @@
       <button class="btn btn-small" id="closeGuideBtn">✕</button>
     </div>
     <p>1. Sign in with Google account.</p>
-    <p>2. Complete tasks to increase your Leaderboard points!</p>
-    <p>3. Use Focus Timer to track your study sessions.</p>
+    <p>2. Complete tasks to increase leaderboard score.</p>
+    <p>3. Use Floating Chat button at bottom-right for live chat & friend search.</p>
     <div class="form-actions">
       <button class="btn btn-primary" id="guideDoneBtn">Got it!</button>
     </div>
@@ -1039,6 +1039,8 @@
   let unsubscribeTasks = null;
   let editingTaskId = null;
   let gfUsername = "";
+  let worldUnsubscribe = null;
+  let directoryUnsubscribe = null;
 
   const $ = (id) => document.getElementById(id);
 
@@ -1084,7 +1086,7 @@
     catch (error) { showToast("Sign out failed.", "error"); }
   });
 
-  // FOCUS TIMER WORKING LOGIC
+  // FOCUS TIMER LOGIC
   let timerRemaining = 25 * 60;
   let timerInterval = null;
   let timerRunning = false;
@@ -1121,7 +1123,7 @@
         }
       } else {
         stopTimer();
-        $("timerStatus").textContent = "Finished! Great job. 🎉";
+        $("timerStatus").textContent = "Finished! 🎉";
         showToast("Focus time completed!", "success");
       }
     }, 1000);
@@ -1148,7 +1150,7 @@
     }
   });
 
-  // LEADERBOARD UPDATES & LISTENERS
+  // LEADERBOARD LOGIC
   async function updateLeaderboardPoints(tasksDoneAdd = 0, focusMinsAdd = 0) {
     if (!currentUser) return;
     const lbRef = doc(db, "leaderboard", currentUser.uid);
@@ -1173,7 +1175,7 @@
         updatedAt: serverTimestamp()
       }, { merge: true });
     } catch (e) {
-      console.error("Leaderboard update error:", e);
+      console.error("Leaderboard error:", e);
     }
   }
 
@@ -1185,7 +1187,6 @@
       snap.forEach(docSnap => {
         items.push({ rank: rank++, ...docSnap.data() });
       });
-
       renderLeaderboard(items);
     });
   }
@@ -1205,9 +1206,12 @@
     $("widgetLeaderboardList").innerHTML = html || `<p style="font-size:11px; color:var(--muted); text-align:center;">No data yet.</p>`;
   }
 
+  // AUTH STATE
   onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     if (unsubscribeTasks) { unsubscribeTasks(); unsubscribeTasks = null; }
+    if (worldUnsubscribe) { worldUnsubscribe(); worldUnsubscribe = null; }
+    if (directoryUnsubscribe) { directoryUnsubscribe(); directoryUnsubscribe = null; }
 
     if (!user) {
       tasks = [];
@@ -1240,6 +1244,8 @@
 
       await ensureChatUsername(user);
       listenLeaderboard();
+      loadWorldChat();
+      loadDirectory();
 
       const tasksQuery = query(collection(db, "tasks"), where("userId", "==", user.uid));
       unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
@@ -1254,6 +1260,7 @@
     }
   });
 
+  // TASK MANAGEMENT
   $("taskForm").addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!currentUser) return showToast("Please sign in first.", "error");
@@ -1485,7 +1492,7 @@
     } catch (err) { showToast("Update failed.", "error"); }
   });
 
-  // WIDGET & CHAT CONTROLS
+  // FLOATING CHAT & RUNNING CHATBOX LOGIC
   const widget = $("floatingChatWidget");
   const toggleBtn = $("toggleChatWidgetBtn");
   const closeBtn = $("closeChatWidgetBtn");
@@ -1518,8 +1525,9 @@
   }
 
   function loadWorldChat() {
+    if (worldUnsubscribe) worldUnsubscribe();
     const q = query(collection(db, "worldMessages"), orderBy("createdAt", "desc"), limit(30));
-    onSnapshot(q, (snap) => {
+    worldUnsubscribe = onSnapshot(q, (snap) => {
       const messages = snap.docs.slice().reverse();
       $("worldChatMessages").innerHTML = messages.map(d => {
         const data = d.data();
@@ -1529,7 +1537,7 @@
         </div>`;
       }).join("");
       $("worldChatMessages").scrollTop = $("worldChatMessages").scrollHeight;
-    });
+    }, (err) => console.error("World chat error:", err));
   }
 
   $("worldChatForm").addEventListener("submit", async (e) => {
@@ -1538,22 +1546,27 @@
     const input = $("worldChatInput");
     if (!input.value.trim()) return;
 
-    await addDoc(collection(db, "worldMessages"), {
-      senderUid: currentUser.uid,
-      username: gfUsername,
-      text: input.value.trim(),
-      createdAt: serverTimestamp()
-    });
-    input.value = "";
+    try {
+      await addDoc(collection(db, "worldMessages"), {
+        senderUid: currentUser.uid,
+        username: gfUsername,
+        text: input.value.trim(),
+        createdAt: serverTimestamp()
+      });
+      input.value = "";
+    } catch (err) {
+      alert("Failed to send message. Check Firestore rules.");
+    }
   });
 
   function loadDirectory() {
+    if (directoryUnsubscribe) directoryUnsubscribe();
     const q = query(collection(db, "publicProfiles"), limit(30));
-    onSnapshot(q, (snap) => {
+    directoryUnsubscribe = onSnapshot(q, (snap) => {
       allDirectoryUsers = [];
       snap.forEach(d => { if (currentUser && d.data().uid !== currentUser.uid) allDirectoryUsers.push(d.data()); });
       renderDirectory(allDirectoryUsers);
-    });
+    }, (err) => console.error("Directory error:", err));
   }
 
   function renderDirectory(users) {
