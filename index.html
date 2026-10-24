@@ -343,11 +343,6 @@
     .progress-row { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; font-size: 11px; }
     .progress-row span:last-child { color: var(--muted); }
 
-    .goal-item { padding: 10px 0; border-bottom: 1px solid var(--line); }
-    .goal-item:last-child { border-bottom: 0; padding-bottom: 0; }
-    .goal-item h4 { margin: 0 0 6px; font-size: 12px; }
-    .goal-item p { margin: 0 0 8px; color: var(--muted); font-size: 11px; line-height: 1.4; }
-
     .chart-wrap { position: relative; width: 100%; min-height: 160px; }
     .chart-wrap canvas { display: block; width: 100%; max-width: 100%; }
 
@@ -438,9 +433,7 @@
       line-height: 1.5;
     }
 
-    /* ========================================= */
-    /* FLOATING CHAT WIDGET STYLES (Mobile Optimized) */
-    /* ========================================= */
+    /* Floating Chat Widget */
     .chat-trigger-btn {
       position: fixed;
       bottom: 20px;
@@ -457,10 +450,7 @@
       font-size: 24px;
       z-index: 9999;
       cursor: pointer;
-      transition: transform 0.2s ease;
     }
-
-    .chat-trigger-btn:active { transform: scale(0.95); }
 
     .online-indicator {
       position: absolute;
@@ -538,8 +528,6 @@
       color: #9ba9c5;
       font-size: 18px;
       cursor: pointer;
-      padding: 4px;
-      border-radius: 6px;
     }
 
     .widget-tabs {
@@ -587,7 +575,6 @@
       flex-direction: column;
       gap: 8px;
       margin-bottom: 10px;
-      padding-right: 2px;
     }
 
     .chat-msg-card {
@@ -638,18 +625,23 @@
       font-size: 12px;
     }
 
-    .user-dir-item {
+    .user-dir-item, .lb-item {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
-      padding: 8px;
+      padding: 8px 10px;
       background: #182238;
       border-radius: 10px;
       margin-bottom: 6px;
-      cursor: pointer;
     }
 
-    .user-dir-item:hover { background: #202d4a; }
+    .lb-rank {
+      font-weight: 800;
+      font-size: 12px;
+      width: 20px;
+      color: #ff7d29;
+    }
 
     @media (min-width: 640px) {
       .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -687,7 +679,7 @@
 
   <section class="hero">
     <div>
-      <p class="section-label" style="font-size:9px; font-weight:800; letter-spacing:1.2px; color:var(--muted); margin-bottom:6px;">WORKSPACE</p>
+      <p style="font-size:9px; font-weight:800; letter-spacing:1.2px; color:var(--muted); margin-bottom:6px;">WORKSPACE</p>
       <h2>Small steps.<br>Big achievements.</h2>
       <p>Plan your day, track your goals, and build consistent habits.</p>
       <div class="form-actions">
@@ -862,27 +854,6 @@
       <section class="panel">
         <div class="panel-header">
           <div>
-            <h3>Daily target</h3>
-            <p>Today's progress.</p>
-          </div>
-          <span class="stat-icon">🏁</span>
-        </div>
-
-        <div class="progress-row">
-          <span>Completion</span>
-          <span id="todayProgressLabel">0%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="todayProgressBar"></div>
-        </div>
-        <p class="muted" id="todayProgressText" style="font-size:11px;line-height:1.4;margin-top:6px;margin-bottom:0">
-          Add a task to begin.
-        </p>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
             <h3>Focus timer</h3>
             <p>Structured work.</p>
           </div>
@@ -900,6 +871,20 @@
           <button class="btn" id="timerResetBtn">Reset</button>
         </div>
         <p class="muted" id="timerStatus" style="font-size:10px;margin-top:6px">Ready.</p>
+      </section>
+
+      <!-- Leaderboard Panel -->
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>Leaderboard</h3>
+            <p>Top Achievers</p>
+          </div>
+          <span class="stat-icon">🏆</span>
+        </div>
+        <div id="leaderboardList" style="display:flex; flex-direction:column; gap:6px;">
+          <p style="font-size:11px; color:var(--muted); text-align:center;">Loading leaderboard...</p>
+        </div>
       </section>
     </aside>
   </div>
@@ -932,6 +917,7 @@
     <button class="tab-btn active" data-tab="tab-world">🌍 World</button>
     <button class="tab-btn" data-tab="tab-directory">👥 Directory</button>
     <button class="tab-btn" data-tab="tab-private">🔒 Private</button>
+    <button class="tab-btn" data-tab="tab-leaderboard">🏆 Top</button>
   </div>
 
   <div class="widget-body">
@@ -944,7 +930,7 @@
       </form>
     </div>
 
-    <!-- User Directory Tab with live friend search -->
+    <!-- User Directory Tab -->
     <div class="tab-content" id="tab-directory">
       <input class="search-input" id="userDirectorySearch" placeholder="🔍 Search friend/username..." style="margin-bottom: 8px;">
       <div class="chat-messages-area" id="userDirectoryList"></div>
@@ -969,6 +955,11 @@
         </form>
       </div>
     </div>
+
+    <!-- Leaderboard Tab -->
+    <div class="tab-content" id="tab-leaderboard">
+      <div class="chat-messages-area" id="widgetLeaderboardList"></div>
+    </div>
   </div>
 </div>
 
@@ -983,8 +974,8 @@
       <button class="btn btn-small" id="closeGuideBtn">✕</button>
     </div>
     <p>1. Sign in with Google account.</p>
-    <p>2. Create tasks with priorities and dates.</p>
-    <p>3. Use Floating Chat button at bottom-right to chat and search friends.</p>
+    <p>2. Complete tasks to increase your Leaderboard points!</p>
+    <p>3. Use Focus Timer to track your study sessions.</p>
     <div class="form-actions">
       <button class="btn btn-primary" id="guideDoneBtn">Got it!</button>
     </div>
@@ -997,7 +988,7 @@
     <div class="panel-header">
       <div>
         <h3>Edit Profile</h3>
-        <p>Update your public details.</p>
+        <p>Update public details.</p>
       </div>
       <button class="btn btn-small" id="closeProfileModalBtn">✕</button>
     </div>
@@ -1013,10 +1004,6 @@
       <div class="field" style="margin-bottom: 10px;">
         <label for="editBio">Bio</label>
         <textarea id="editBio" maxlength="200" placeholder="Short bio..."></textarea>
-      </div>
-      <div class="field" style="margin-bottom: 10px;">
-        <label for="editPhotoURL">Photo URL</label>
-        <input type="url" id="editPhotoURL" placeholder="https://...">
       </div>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit">Save</button>
@@ -1051,6 +1038,7 @@
   let tasks = [];
   let unsubscribeTasks = null;
   let editingTaskId = null;
+  let gfUsername = "";
 
   const $ = (id) => document.getElementById(id);
 
@@ -1096,6 +1084,127 @@
     catch (error) { showToast("Sign out failed.", "error"); }
   });
 
+  // FOCUS TIMER WORKING LOGIC
+  let timerRemaining = 25 * 60;
+  let timerInterval = null;
+  let timerRunning = false;
+  let focusSeconds = 0;
+
+  function updateTimerDisplay() {
+    const mins = Math.floor(timerRemaining / 60);
+    const secs = timerRemaining % 60;
+    $("timerDisplay").textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+    $("studyTimeStat").textContent = `${Math.floor(focusSeconds / 60)}m`;
+  }
+
+  function stopTimer() {
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+    timerRunning = false;
+  }
+
+  $("timerStartBtn").addEventListener("click", () => {
+    if (timerRunning) return;
+    const mins = Number($("timerMinutes").value) || 25;
+    if (timerRemaining <= 0) timerRemaining = mins * 60;
+
+    timerRunning = true;
+    $("timerStatus").textContent = "Session active...";
+
+    timerInterval = setInterval(() => {
+      if (timerRemaining > 0) {
+        timerRemaining--;
+        focusSeconds++;
+        updateTimerDisplay();
+
+        if (focusSeconds % 60 === 0) {
+          updateLeaderboardPoints(0, 1);
+        }
+      } else {
+        stopTimer();
+        $("timerStatus").textContent = "Finished! Great job. 🎉";
+        showToast("Focus time completed!", "success");
+      }
+    }, 1000);
+  });
+
+  $("timerPauseBtn").addEventListener("click", () => {
+    stopTimer();
+    $("timerStatus").textContent = "Paused.";
+  });
+
+  $("timerResetBtn").addEventListener("click", () => {
+    stopTimer();
+    const mins = Number($("timerMinutes").value) || 25;
+    timerRemaining = mins * 60;
+    updateTimerDisplay();
+    $("timerStatus").textContent = "Reset.";
+  });
+
+  $("timerMinutes").addEventListener("change", () => {
+    if (!timerRunning) {
+      const mins = Number($("timerMinutes").value) || 25;
+      timerRemaining = mins * 60;
+      updateTimerDisplay();
+    }
+  });
+
+  // LEADERBOARD UPDATES & LISTENERS
+  async function updateLeaderboardPoints(tasksDoneAdd = 0, focusMinsAdd = 0) {
+    if (!currentUser) return;
+    const lbRef = doc(db, "leaderboard", currentUser.uid);
+    try {
+      const snap = await getDoc(lbRef);
+      let currentTasks = 0;
+      let currentMins = 0;
+      if (snap.exists()) {
+        currentTasks = snap.data().completedTasks || 0;
+        currentMins = snap.data().focusMinutes || 0;
+      }
+      const newTasks = currentTasks + tasksDoneAdd;
+      const newMins = currentMins + focusMinsAdd;
+      const score = (newTasks * 10) + newMins;
+
+      await setDoc(lbRef, {
+        userId: currentUser.uid,
+        username: gfUsername || currentUser.displayName || "User",
+        completedTasks: newTasks,
+        focusMinutes: newMins,
+        score: score,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+    } catch (e) {
+      console.error("Leaderboard update error:", e);
+    }
+  }
+
+  function listenLeaderboard() {
+    const q = query(collection(db, "leaderboard"), orderBy("score", "desc"), limit(10));
+    onSnapshot(q, (snap) => {
+      const items = [];
+      let rank = 1;
+      snap.forEach(docSnap => {
+        items.push({ rank: rank++, ...docSnap.data() });
+      });
+
+      renderLeaderboard(items);
+    });
+  }
+
+  function renderLeaderboard(items) {
+    const html = items.map(item => `
+      <div class="lb-item">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span class="lb-rank">#${item.rank}</span>
+          <span style="font-weight:700; font-size:11px;">@${escapeHTML(item.username || "User")}</span>
+        </div>
+        <span style="font-size:11px; font-weight:800; color:#5de2c2;">${item.score || 0} pts</span>
+      </div>
+    `).join("");
+
+    $("leaderboardList").innerHTML = html || `<p style="font-size:11px; color:var(--muted); text-align:center;">No data yet.</p>`;
+    $("widgetLeaderboardList").innerHTML = html || `<p style="font-size:11px; color:var(--muted); text-align:center;">No data yet.</p>`;
+  }
+
   onAuthStateChanged(auth, async (user) => {
     currentUser = user;
     if (unsubscribeTasks) { unsubscribeTasks(); unsubscribeTasks = null; }
@@ -1128,6 +1237,9 @@
         photoURL: user.photoURL || "",
         lastLogin: serverTimestamp()
       }, { merge: true });
+
+      await ensureChatUsername(user);
+      listenLeaderboard();
 
       const tasksQuery = query(collection(db, "tasks"), where("userId", "==", user.uid));
       unsubscribeTasks = onSnapshot(tasksQuery, (snapshot) => {
@@ -1266,7 +1378,11 @@
   $("taskList").addEventListener("change", async (e) => {
     const checkbox = e.target.closest('input[data-action="toggle"]');
     if (!checkbox) return;
-    await updateDoc(doc(db, "tasks", checkbox.dataset.id), { completed: checkbox.checked });
+    const isChecked = checkbox.checked;
+    await updateDoc(doc(db, "tasks", checkbox.dataset.id), { completed: isChecked });
+    if (isChecked) {
+      updateLeaderboardPoints(1, 0);
+    }
   });
 
   $("taskSearch").addEventListener("input", renderTasks);
@@ -1330,7 +1446,6 @@
       $("editDisplayName").value = data.displayName || currentUser.displayName || "";
       $("editUsername").value = data.username || "";
       $("editBio").value = data.bio || "";
-      $("editPhotoURL").value = data.photoURL || "";
     }
   });
 
@@ -1358,18 +1473,19 @@
           usernameLower: newUsername,
           displayName: newName,
           bio: $("editBio").value.trim(),
-          photoURL: $("editPhotoURL").value.trim(),
           createdAt: serverTimestamp()
         }, { merge: true });
       });
 
+      gfUsername = newUsername;
       $("profileName").textContent = newName;
       $("profileModal").classList.remove("open");
       showToast("Profile updated!", "success");
+      updateLeaderboardPoints(0, 0);
     } catch (err) { showToast("Update failed.", "error"); }
   });
 
-  // FLOATING CHAT WIDGET & FRIEND SEARCH LOGIC
+  // WIDGET & CHAT CONTROLS
   const widget = $("floatingChatWidget");
   const toggleBtn = $("toggleChatWidgetBtn");
   const closeBtn = $("closeChatWidgetBtn");
@@ -1386,7 +1502,6 @@
     });
   });
 
-  let gfUsername = "";
   let gfConversationId = null;
   let allDirectoryUsers = [];
 
@@ -1432,7 +1547,6 @@
     input.value = "";
   });
 
-  // Directory and Live Friend Search
   function loadDirectory() {
     const q = query(collection(db, "publicProfiles"), limit(30));
     onSnapshot(q, (snap) => {
@@ -1451,10 +1565,12 @@
     }
     listEl.innerHTML = users.map(u => `
       <div class="user-dir-item" onclick="openPrivateChatWith('${u.uid}', '${escapeHTML(u.username)}')">
-        <div class="avatar" style="width:28px;height:28px;font-size:11px;">${(u.username||"U").charAt(0).toUpperCase()}</div>
-        <div>
-          <div style="font-weight:700;font-size:11px;">@${escapeHTML(u.username)}</div>
-          <div style="font-size:9px;color:#9ba9c5;">${escapeHTML(u.displayName||"")}</div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <div class="avatar" style="width:28px;height:28px;font-size:11px;">${(u.username||"U").charAt(0).toUpperCase()}</div>
+          <div>
+            <div style="font-weight:700;font-size:11px;">@${escapeHTML(u.username)}</div>
+            <div style="font-size:9px;color:#9ba9c5;">${escapeHTML(u.displayName||"")}</div>
+          </div>
         </div>
       </div>
     `).join("");
@@ -1512,13 +1628,7 @@
     input.value = "";
   });
 
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      await ensureChatUsername(user);
-      loadWorldChat();
-      loadDirectory();
-    }
-  });
+  updateTimerDisplay();
 </script>
 </body>
   </html>
